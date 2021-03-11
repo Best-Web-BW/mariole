@@ -1,5 +1,5 @@
 {
-  "name": "plug",
+  "name": "mariole",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
@@ -33,11 +33,11 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OcelotJungle/plug.git"
+    "url": "git+https://github.com/OcelotJungle/mariole.git"
   },
   "bugs": {
-    "url": "https://github.com/OcelotJungle/plug/issues"
+    "url": "https://github.com/OcelotJungle/mariole/issues"
   },
-  "homepage": "https://github.com/OcelotJungle/plug#readme",
+  "homepage": "https://github.com/OcelotJungle/mariole#readme",
   "description": ""
 }

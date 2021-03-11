@@ -39,7 +39,7 @@ export default class MyDocument extends Document {
                     <meta name="msapplication-starturl" content="/" />
                     <meta name="msapplication-config" content="/browserconfig.xml" />
 
-                    <meta name="application-name" content="Plug" />
+                    <meta name="application-name" content="Mariole" />
                     <meta name="mobile-web-app-capable" content="yes" />
                     <meta name="apple-mobile-web-app-title" content="MD" />
                     <meta name="apple-mobile-web-app-capable" content="yes" />
