@@ -2,19 +2,29 @@
 
 @font-face {
     font-family: "Сomfortaa";
-    src: url("../public/fonts/Comfortaa//Comfortaa-Regular.ttf");
+    src: url("../public/fonts/Comfortaa/Comfortaa-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Oswald";
+    src: url("../public/fonts/Oswald/Oswald-SemiBold.ttf");
+}
+
+@font-face {
+    font-family: "Oswald-light";
+    src: url("../public/fonts/Oswald/Oswald-Light.ttf");
 }
 
 *{
-    font-family: "Oswald";
+    font-family: "Comfortaa";
     font-style: normal;
     margin: 0;
     padding: 0;
 }
 
 body {
-    // @extend %light-background;
-    @extend %main-text
+    @extend %main_text;
+    background-color: $white;
 }
 
 button {

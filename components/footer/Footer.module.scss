@@ -1,0 +1,97 @@
+@import "/scss/main_settings.scss";
+
+.footer {
+    width: 100%;
+    height: 400px;
+    background-color: $milk;
+    border-top: 1px solid $light-color;
+    @extend %relative;
+    .logo_block {
+        height: 400px;
+        width: 400px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        .logo_wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            img {
+                width: 100px;
+                position: absolute;
+                top: 30%;
+                left: 50%;
+                transform: translate(-50%, -70%);
+            }
+        }
+        .changeLang_wrapper {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translate(-50%, -80%);
+            p {
+                font-size: 18px;
+                text-align: center;
+                color: $lighter-gray;
+                padding-bottom: 20px
+            }
+            .changeLang_container {
+                @extend %flex_nowrap, %flex_middle, %overflow_hidden;
+                border: 2px solid $black;
+                border-radius: 10px;
+                width: 150px;
+                margin: auto;
+                .changeLangBtn {
+                    @extend %main_text, %flex_nowrap, %flex_middle;
+                    width: 50%;
+                    height: 25px;
+                    &:hover {
+                        @extend %light_gray_background, %light_color;
+                    }
+                }
+                .changeLangBtn.active {
+                    @extend %gray_background, %light_color;
+                }
+                .left {
+                    border-right: 1px solid $black;
+                }
+                .right {
+                    border-left: 1px solid $black;
+                }
+            }
+
+        }
+    }
+    .row {
+        height: 80%;
+        width: 50%;
+        margin: auto;
+        @extend %flex_nowrap, %flex_middle;
+        .column {
+            @extend %flex_nowrap, %flex_vert_center;
+            justify-content: flex-start;
+            height: calc(100% - 85px);
+            width: 50%;
+            padding: 70px 0 15px 0;
+            ul {
+                li {
+                    padding: 10px 0;
+                    .menu_elem {
+                        @extend %main_text;
+                    }
+                }
+            }
+        }
+    }
+    .copyright_block {
+        width: 100%;
+        height: 20%;
+        @extend %flex_nowrap, %flex_middle;
+        .copyright_text {
+            @extend %main_text;
+            a {
+                @extend %main_text;
+            }
+        }
+    }
+}

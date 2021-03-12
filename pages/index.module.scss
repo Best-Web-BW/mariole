@@ -1,0 +1,103 @@
+@import "../scss/main_settings.scss";
+
+.first_block {
+    @extend %flex_nowrap, %flex_hor_center, %relative, %overflow_hidden;
+    background-color: #e7e7e7;
+    img {
+        width: 75%;
+        height: max-content;
+        @extend %animaton_scale;
+    }
+}
+
+.about_area {
+    width: 65%;
+    margin: auto;
+    @extend %flex_wrap;
+    .row {
+        width: 100%;
+        text-align: center;
+    }
+    .column {
+        padding: 30px;
+        @extend %flex_wrap;
+    }
+    .column:nth-child(2) {
+        width: calc(40% - 60px);
+        img {
+            width: 100%;
+        }
+    }
+    .column:nth-child(3) {
+        width: calc(60% - 150px);
+        @extend %flex_middle;
+        font-size: 20px;
+        gap: 30px;
+        padding-left: 150px;
+        padding-right: 0;
+    }
+}
+
+.showall {
+    width: 150px;
+    font-size: 20px;
+    padding: 6px;
+    @extend %flex_nowrap, %flex_middle, %main_text;
+    border: 1px solid $lighter-gray;
+}
+
+.title_row {
+    @extend %flex_wrap, %flex_middle;
+    gap: 20px;
+}
+.product_row {
+    width: 100%;
+    margin: auto;
+    margin-top: 60px;
+    gap: 20px;
+    @extend %flex_nowrap, %flex_middle;
+}
+
+.photo_link_wrapper {
+    width: 100%;
+    padding: 0;
+    height: 750px;
+    overflow: hidden;
+    margin: 60px 0 40px 0;
+    .photo_link {
+        width: 100%;
+        height: 100%;
+        display: block;
+        @extend %light_color;
+        position: relative;
+        .photo_link_title {
+            font-size:46px;
+            font-family: 'Oswald-light';
+            letter-spacing: 6px;
+            position: absolute;
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            font-weight: 600;
+            transform: translate(-50%, -50%);
+        }
+        img {
+            width: 100%;
+            @extend %animaton_scale;
+        }
+    }
+}
+
+.press {
+    width: 100%;
+    gap: 30px;
+    @extend %flex_nowrap, %flex_middle;
+    margin: 60px 0 30px 0;
+    .press_elem {
+        width: 320px;
+        height: 90px;
+        img {
+            width: 100%;
+        }
+    }
+}
