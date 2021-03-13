@@ -5,8 +5,10 @@ import { useState } from "react";
 
 export default function Header() {
 
-    const [opened, menuOpen] = useState(false);
-    const [active, addActive] = useState(false);
+    
+    const [opened, menuOpen] = useState(false); {/*Opening menu*/}
+    
+    const [active, addActive] = useState(false); {/*Opening submenu*/}
 
     return (
         <div className={styles.header}>

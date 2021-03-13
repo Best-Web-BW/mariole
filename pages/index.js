@@ -2,16 +2,11 @@ import Head from "next/head";
 import Link from "next/link";
 import cn from "classnames";
 import { useState } from "react";
-import Header from "../components/header/Header";
-import Footer from "../components/footer/Footer";
 import blocks from "../scss/blocks.module.scss";
 import styles from "./index.module.scss";
 import Product from "../components/product_card";
 
 export default function Index() {
-    
-    const [opened, menuOpen] = useState(false);
-    const [active, addActive] = useState(false);
 
     return (<>
         <Head>
@@ -33,11 +28,10 @@ export default function Index() {
             <meta name="keywords" content="mariole, mariole, mariole" />
         </Head>
         <div className={blocks.content_body}>
-            {/* header */}
-            {/* <Header/> */}
-            {/* header end */}
+            
             <div className={cn(blocks.main_block, styles.first_block)}>
-                <img src="/images/blocks/FullSizeRender1.jpg" alt=""/>
+                <img src="/images/blocks/FullSizeRender1.jpg" alt="" className={blocks.desktop}/>
+                <img src="/images/blocks/mario_le-1817.jpg" alt="" className={blocks.mobile} width="100%"/>
                 <Link href="#">
                     <a className={blocks.absolute_link}>
                         <button>НАЧАТЬ ШОПИНГ</button>
@@ -66,13 +60,13 @@ export default function Index() {
                 </div>
             </div>
             <div className={blocks.content_block}>
+                <div className={cn(blocks.row, styles.title_row)}>
+                    <h2 className={blocks.block_title}>ЛИМИТИРОВАННАЯ КОЛЛЕКЦИЯ</h2>
+                    <Link href="">
+                        <a className={styles.showall}>Смотреть всё</a>
+                    </Link>
+                </div>
                 <div className={styles.products_block}>
-                    <div className={blocks.row, styles.title_row}>
-                        <h2 className={blocks.block_title}>ЛИМИТИРОВАННАЯ КОЛЛЕКЦИЯ</h2>
-                        <Link href="">
-                            <a className={styles.showall}>Смотреть всё</a>
-                        </Link>
-                    </div>
                     <div className={cn(blocks.row, styles.product_row)}>
                         <Product/>
                         <Product/>
@@ -85,18 +79,19 @@ export default function Index() {
                 <Link href="">
                     <a className={styles.photo_link}>
                         <p className={styles.photo_link_title}>ТРИКОТАЖ</p>
-                        <img src="/images/blocks/FullSizeRender.jpg" alt=""/>
+                        <img src="/images/blocks/FullSizeRender.jpg" alt="" className={styles.desktop}/>
+                        <img src="/images/blocks/mario_le-1684.jpg" alt="" className={styles.mobile}/>
                     </a>
                 </Link>
             </div>
             <div className={blocks.content_block}>
+                <div className={cn(blocks.row, styles.title_row)}>
+                    <h2 className={blocks.block_title}>БЕСТСЕЛЛЕРЫ</h2>
+                    <Link href="">
+                        <a className={styles.showall}>Смотреть всё</a>
+                    </Link>
+                </div>
                 <div className={styles.products_block}>
-                    <div className={blocks.row, styles.title_row}>
-                        <h2 className={blocks.block_title}>БЕСТСЕЛЛЕРЫ</h2>
-                        <Link href="">
-                            <a className={styles.showall}>Смотреть всё</a>
-                        </Link>
-                    </div>
                     <div className={cn(blocks.row, styles.product_row)}>
                         <Product/>
                         <Product/>
@@ -106,10 +101,10 @@ export default function Index() {
                 </div>
             </div>
             <div className={blocks.content_block}>
-                <div className={blocks.row, styles.title_row}>
+                <div className={cn(blocks.row, styles.title_row)}>
                     <h2 className={blocks.block_title}>О НАС ПИШУТ:</h2>
                 </div>
-                <div className={blocks.row, styles.press}>
+                <div className={cn(blocks.row, styles.press)}>
                     <Link href="">
                         <a className={styles.press_elem}>
                             <img src="/images/press/aeroflot.png" alt=""/>

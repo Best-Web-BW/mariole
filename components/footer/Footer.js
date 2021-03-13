@@ -7,7 +7,7 @@ import { useState } from "react";
 export default function Footer() {
     return (
         <div className={styles.footer}>
-            <div className={styles.logo_block}>
+            <div className={cn(styles.logo_block, styles.desktop)}>
                 <div className={styles.logo_wrapper}>
                     <img src="/images/blocks/logo.png" alt=""/>
                 </div>

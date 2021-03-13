@@ -189,3 +189,20 @@
 .menu.opened {
     left: 0;
 }
+
+@media screen and (min-width:0px) and (max-width:1024px) {
+    .header {
+        .header_container {
+            width: 95%;
+        }
+    }
+
+    .menu {
+        width: calc(100% - 3%);
+        min-height: 100%;
+    }
+
+    @media screen and (min-width:768px) and (max-width:1024px) {
+        
+    }
+}

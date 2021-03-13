@@ -95,3 +95,54 @@
         }
     }
 }
+
+.desktop {
+    @extend %desktop;
+}
+
+@media screen and (min-width:0px) and (max-width:1024px) {
+    .footer {
+        .logo_block {
+            .logo_wrapper {
+                img {
+                }
+            }
+            .changeLang_wrapper {
+                p {
+                }
+                .changeLang_container {
+                    .changeLangBtn {
+                        &:hover {
+                        }
+                    }
+                    .changeLangBtn.active {
+                    }
+                    .left {
+                    }
+                    .right {
+                    }
+                }
+    
+            }
+        }
+        .row {
+            height: 80%;
+            width: 100%;
+            .column {
+                ul {
+                    li {
+                        .menu_elem {
+                        }
+                    }
+                }
+            }
+        }
+        .copyright_block {
+            .copyright_text {
+                text-align: center;
+                a {
+                }
+            }
+        }
+    }
+}

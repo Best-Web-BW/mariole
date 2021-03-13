@@ -48,3 +48,29 @@
     font-weight: 100;
     font-size: 29px;
 }
+
+.desktop {
+    @extend %desktop;
+}
+
+.mobile {
+    @extend %mobile;
+}
+
+@media screen and (min-width:0px) and (max-width:1024px) {
+
+    .content_block {
+        padding: 40px 0 40px 0;
+        width: 100%;
+        font-size: 20px;
+        overflow: hidden;
+    }
+
+    .main_block {
+        height: max-content;
+    }
+
+    @media screen and (min-width:768px) and (max-width:1024px) {
+        
+    }
+}
