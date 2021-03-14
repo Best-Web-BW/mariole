@@ -9,7 +9,7 @@ export default function ProductCard() {
             <div className={styles.outofstock}>
                  нет в наличии
             </div>
-            <Link href="">
+            <Link href="/product">
                 <a className={styles.content}>
                     <div className={styles.image}>
                         <img src="/images/products/mario_le-1817.jpg" alt=""/>

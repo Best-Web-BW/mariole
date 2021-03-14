@@ -102,12 +102,35 @@
 
 @media screen and (min-width:0px) and (max-width:1024px) {
     .footer {
-        .logo_block {
+        height: max-content;
+        justify-content: center;
+        .logo_block {   
+            position: relative;
+            height: max-content;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0;
             .logo_wrapper {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
                 img {
+                    position: relative;
+                    top: auto;
+                    left: auto;
+                    transform: none;
                 }
             }
             .changeLang_wrapper {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
                 p {
                 }
                 .changeLang_container {
@@ -128,7 +151,14 @@
         .row {
             height: 80%;
             width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
             .column {
+                width: 100%;
+                padding-top: 30px;
+                justify-content: center;
+                text-align: center;
+                border: 1px solid $light-color;
                 ul {
                     li {
                         .menu_elem {
@@ -139,6 +169,7 @@
         }
         .copyright_block {
             .copyright_text {
+                padding: 10px;
                 text-align: center;
                 a {
                 }

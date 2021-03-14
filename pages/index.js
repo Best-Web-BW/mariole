@@ -32,7 +32,7 @@ export default function Index() {
             <div className={cn(blocks.main_block, styles.first_block)}>
                 <img src="/images/blocks/FullSizeRender1.jpg" alt="" className={blocks.desktop}/>
                 <img src="/images/blocks/mario_le-1817.jpg" alt="" className={blocks.mobile} width="100%"/>
-                <Link href="#">
+                <Link href="/shop">
                     <a className={blocks.absolute_link}>
                         <button>НАЧАТЬ ШОПИНГ</button>
                     </a>
@@ -41,28 +41,34 @@ export default function Index() {
             <div className={blocks.content_block}>
                 <div className={styles.about_area}>
                     <div className={cn(blocks.row, styles.row)}>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus laboriosam consequatur 
-                            molestiae suscipit accusantium excepturi! Doloremque officiis ullam unde perferendis!</p>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus laboriosam consequatur 
-                            molestiae suscipit accusantium excepturi! Doloremque officiis ullam unde perferendis!</p>
+                        <p>
+                            Ремесло, история которого в России насчитывает более 250 лет, с помощью современных технологий, обретает новую жизнь.
+                        </p>
                     </div>
                     <div className={cn(blocks.column, styles.column)}>
                         <img src="/images/blocks/mario_le-1684.jpg" alt=""/>
                     </div>
                     <div className={cn(blocks.column, styles.column)}>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus laboriosam consequatur 
-                            molestiae suscipit accusantium excepturi! Doloremque officiis ullam unde perferendis!</p>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus laboriosam consequatur 
-                            molestiae suscipit accusantium excepturi! Doloremque officiis ullam unde perferendis!</p>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus laboriosam consequatur 
-                            molestiae suscipit accusantium excepturi! Doloremque officiis ullam unde perferendis!</p>
+                        <p>
+                            Mario’le - это эксклюзивная вязаная одежда и аксессуары ручной работы из пуха знаменитых Оренбургских коз.
+                            <br/>
+                            <br/>
+                            Секрет Mario’le - уникальные свойства используемого сырья.На своих фермах в Оренбургской области мы разводим коз реликтовой породы, пух которых удивительно тонок и эластичен.
+                            <br/>
+                            <br/>
+                            Именно его неповторимые  свойства, позволяют нам изготавливать превосходную пряжу ручного прядения,
+                            лёгкую и невесомую  словно кружево.
+                            <br/>
+                            <br/>⠀
+                            Опираясь на вековые традиции и следуя тенденциям современного дизайна, мы гарантируем исключительно высокое качество наших изделий.
+                        </p>
                     </div>
                 </div>
             </div>
             <div className={blocks.content_block}>
                 <div className={cn(blocks.row, styles.title_row)}>
                     <h2 className={blocks.block_title}>ЛИМИТИРОВАННАЯ КОЛЛЕКЦИЯ</h2>
-                    <Link href="">
+                    <Link href="/shop">
                         <a className={styles.showall}>Смотреть всё</a>
                     </Link>
                 </div>
@@ -76,7 +82,7 @@ export default function Index() {
                 </div>
             </div>
             <div className={cn(blocks.content_block, styles.photo_link_wrapper)}>
-                <Link href="">
+                <Link href="/shop">
                     <a className={styles.photo_link}>
                         <p className={styles.photo_link_title}>ТРИКОТАЖ</p>
                         <img src="/images/blocks/FullSizeRender.jpg" alt="" className={styles.desktop}/>
@@ -87,7 +93,7 @@ export default function Index() {
             <div className={blocks.content_block}>
                 <div className={cn(blocks.row, styles.title_row)}>
                     <h2 className={blocks.block_title}>БЕСТСЕЛЛЕРЫ</h2>
-                    <Link href="">
+                    <Link href="/shop">
                         <a className={styles.showall}>Смотреть всё</a>
                     </Link>
                 </div>
@@ -105,12 +111,12 @@ export default function Index() {
                     <h2 className={blocks.block_title}>О НАС ПИШУТ:</h2>
                 </div>
                 <div className={cn(blocks.row, styles.press)}>
-                    <Link href="">
+                    <Link href="#">
                         <a className={styles.press_elem}>
                             <img src="/images/press/aeroflot.png" alt=""/>
                         </a>
                     </Link>
-                    <Link href="">
+                    <Link href="#">
                         <a className={styles.press_elem}>
                             <img src="/images/press/elle_decoration.png" alt=""/>
                         </a>
