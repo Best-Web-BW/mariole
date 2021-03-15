@@ -9,7 +9,25 @@ import FeedbackForm from "../components/feedbackForm";
 import Product from "../components/product_card";
 
 export default function ProductPage() {
-    return (
+    return ( <>
+        <Head>
+            <title>Mariole</title>
+            <meta name="description" content={`
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                In blandit turpis non tincidunt semper. Nulla ut lorem fringilla, 
+                accumsan dolor non, luctus lacus. Aliquam a tempor arcu. 
+                Sed auctor, ex vel interdum consectetur, justo nisl malesuada 
+                mauris, at cursus tortor nulla ut mi. Suspendisse convallis, 
+                diam a lobortis tempus, lectus nunc laoreet metus, vel dignissim 
+                nibh arcu in ligula. Aenean ac aliquet tellus, eget vestibulum neque. 
+                Mauris dui tortor, lobortis at leo eu, gravida pellentesque tellus. 
+                In iaculis nunc interdum sagittis hendrerit. Etiam faucibus dui et sapien 
+                dictum, nec aliquam nibh pulvinar. Donec vehicula sem dolor, a ornare dui eleifend.
+            `} />
+            <meta name="keywords" content="mariole, mariole, mariole" />
+            <meta name="keywords" content="mariole, mariole, mariole" />
+            <meta name="keywords" content="mariole, mariole, mariole" />
+        </Head>
         <div className={blocks.content_body}>
             <div className={styles.product_page}>
                 <div className={styles.column}>
@@ -164,7 +182,7 @@ export default function ProductPage() {
                     </div>
                 </div>
             </div>
-            <div className={styles.photo_modal}>
+            <div className={cn(styles.photo_modal)}>
                 <div className={styles.photo_modal_content}>
                     <div className={styles.img_wrapper}>
                         <img src="/images/products/p1.2.jpg" alt="" width="100%"/>
@@ -183,12 +201,12 @@ export default function ProductPage() {
                 </div>
             </div>
             <div className={blocks.content_block}>
-                <div className={styles.sow_before_title}>
+                <div className={styles.saw_before_title}>
                     <h2>ВЫ СМОТРЕЛИ:</h2>
                 </div>
-                <div className={styles.sow_before_wrapper}>
+                <div className={styles.saw_before_wrapper}>
                     
-                    <div className={styles.sow_before_row}>
+                    <div className={styles.saw_before_row}>
                         <Product/>
                         <Product/>
                         <Product/>
@@ -197,5 +215,5 @@ export default function ProductPage() {
                 </div>
             </div>
         </div>
-    )
+    </>)
 }
