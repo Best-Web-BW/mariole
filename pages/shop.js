@@ -77,7 +77,7 @@ export default function Shop() {
                         <ul>
                             <li>
                                 <div className={styles.menu_elem}>
-                                <span className={cn(styles.submenu_icn)}/>
+                                <span className={cn(styles.submenu_icn, styles.active)}/>
                                 КАТЕГОРИЯ
                                 </div>
                                 <div className={cn(styles.submenu_container, styles.opened)}>
