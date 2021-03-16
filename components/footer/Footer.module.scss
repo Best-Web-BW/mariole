@@ -1,4 +1,4 @@
-@import "/scss/main_settings.scss";
+@import "../../scss/main_settings.scss";
 
 .footer {
     width: 100%;
@@ -131,20 +131,15 @@
                 top: auto;
                 left: auto;
                 transform: none;
-                p {
-                }
-                .changeLang_container {
-                    .changeLangBtn {
-                        &:hover {
-                        }
-                    }
-                    .changeLangBtn.active {
-                    }
-                    .left {
-                    }
-                    .right {
-                    }
-                }
+                // p {}
+                // .changeLang_container {
+                    // .changeLangBtn {
+                        // &:hover {}
+                    // }
+                    // .changeLangBtn.active {}
+                    // .left {}
+                    // .right {}
+                // }
     
             }
         }
@@ -159,20 +154,19 @@
                 justify-content: center;
                 text-align: center;
                 border: 1px solid $light-color;
-                ul {
-                    li {
-                        .menu_elem {
-                        }
-                    }
-                }
+                // ul {
+                //     li {
+                //         .menu_elem {
+                //         }
+                //     }
+                // }
             }
         }
         .copyright_block {
             .copyright_text {
                 padding: 10px;
                 text-align: center;
-                a {
-                }
+                // a {}
             }
         }
     }

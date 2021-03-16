@@ -1,18 +1,14 @@
-import styles from "./product_block.module.scss";
+import styles from "./ProductCard.module.scss";
 import Link from "next/link";
-import cn from "classnames";
-import { useState } from "react";
 
-export default function ProductCard() {
-	return (<>
+export default function ProductCard({ id = 0 }) {
+	return (
 		<div className={styles.product_card}>
-            <div className={styles.outofstock}>
-                 нет в наличии
-            </div>
-            <Link href="/product">
+            <div className={styles.outofstock}>нет в наличии</div>
+            <Link href="/shop/[id]" as={`/shop/${id}`}>
                 <a className={styles.content}>
                     <div className={styles.image}>
-                        <img src="/images/products/mario_le-1817.jpg" alt=""/>
+                        <img src="/images/products/mario_le-1817.jpg" alt="" />
                     </div>
                     <div className={styles.data_wrapper}>
                         <p className={styles.data}>Название продукта</p>
@@ -21,5 +17,5 @@ export default function ProductCard() {
                 </a>
             </Link>
         </div>
-    </>);
+    );
 }

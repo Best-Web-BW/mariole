@@ -1,4 +1,4 @@
-@import "/scss/main_settings.scss";
+@import "../../scss/main_settings.scss";
 
 .header {
     @extend %transparent_background, %fixed;
@@ -37,8 +37,7 @@
                     .menu_icon {
                         @extend %gray_background;
                     }
-                    .menu_icon:nth-child(1) {
-                    }
+                    // .menu_icon:nth-child(1) {}
                     .menu_icon:nth-child(2) {
                         width: 30px;
                     }
