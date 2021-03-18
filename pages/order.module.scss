@@ -1,0 +1,170 @@
+@import "../scss/main_settings.scss";
+
+
+.page {
+    width: 60%;
+    @extend %flex_wrap;
+    gap: 40px;
+}
+
+.form {
+    margin: 20px 0;
+}
+
+.column {
+    width: calc(50% - 20px);
+    position: relative;
+    input {
+        width: calc(100% - 20px);
+        height: 15px;
+        padding: 10px;
+        font-size: 16px;
+        background-color: transparent;
+        border: 1px solid $light-color;
+        &:hover, &:focus {
+            border-color: black;
+        }
+    }
+}
+
+.form_block {
+    width: 100%;
+    @extend %flex_wrap, %flex_middle;
+    gap: 20px;
+    font-size: 20px;
+    margin: 40px 0;
+    label {
+        @extend %flex_wrap;
+        align-items: center;
+        gap: 20px;
+        position: relative;
+    }
+    .form_block_title {
+        width: 100%;
+        gap: 5px;
+    }
+    .full_width_label {
+        width: 100%;
+        gap: 5px;
+        .confidantial {
+            width: max-content;
+        }
+    }
+    .half_width_label {
+        gap: 5px;
+        width: calc(50% - 10px);
+    }
+
+    .label_1_3 {
+        gap: 5px;
+        width: calc(33.33% - 14px);
+    }
+}
+
+.delivery {
+    width: calc(100% - 20px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    border: 1px solid $light-color;
+    padding: 0 10px;
+    border-radius: 5px;
+    label {
+        width: max-content;
+    }
+    input {
+        width: max-content;
+    }
+    .price {
+        font-weight: 600;
+    }
+}
+
+.payment {
+    width: 100%;
+    display: block !important;
+    input {
+        width: max-content;
+        margin: 10px 0;
+    }
+}
+
+.pay_button {
+    height: 40px;
+    padding: 10px;
+    font-size: 18px;
+    letter-spacing: 3px;
+    @extend %black_button;
+}
+
+.order_preview {
+    position: sticky;
+    top: 80px;
+    .product_row {
+        @extend %flex_nowrap, %flex_middle;
+        border-bottom: 1px solid $light-color;
+        .col_1 {
+            width: 20%;
+            position: relative;
+            .quantity {
+                position: absolute;
+                top: 0;
+                right: 0;
+                background-color: $light-color;
+                border-radius: 50%;
+                height: 20px;
+                width: 20px;
+                font-size: 16px;
+                @extend %flex_nowrap, %flex_middle;
+            }
+        }
+        .col_2 {
+            width: calc(40% - 20px);
+            padding-left: 20px;
+            font-size: 16px;
+        }
+        .col_3 {
+            width: 40%;
+            @extend %flex_nowrap;
+            justify-content: flex-end;
+            font-size: 16px;
+        }
+    }
+    .data_row {
+        @extend %flex_nowrap;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px 0;
+        p {
+            font-size: 16px;
+        }
+        
+    }
+    .ammount {
+        border-top: 1px solid $light-color;
+        padding-top: 10px;
+        .ammount_text {
+            font-size: 20px;
+            font-weight: 600;
+        }
+    }
+}
+
+
+@media screen and (min-width:0px) and (max-width:1024px) { 
+
+    .page  {
+        width: 95%;
+    }
+
+    .column {
+        width: 100%;
+    }
+
+    .order_preview {
+        position: relative;
+        top: 0;
+    }
+    
+}

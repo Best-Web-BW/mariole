@@ -1,0 +1,233 @@
+@import "../scss/main_settings.scss";
+
+.saw_before_wrapper {
+    .saw_before_row {
+        @extend %flex_nowrap, %flex_middle;
+        gap: 20px;
+    }
+}
+
+.saw_before_title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    h2 {
+        text-align: center;
+        font-weight: 100;
+        font-size: 30px;
+        letter-spacing: 3px;
+    }
+}
+
+.content {
+    width: 80%;
+    margin: auto;
+    display: flow-root;
+    h2 {
+        @extend %page_title;
+    }
+    .empty_cart {
+        text-align: center;
+        font-size: 20px;
+        margin-top: 60px;
+        margin-bottom: 60px;
+        a {
+            @extend %main_text;
+        }
+    }
+}
+
+.data_row {
+    font-size: 20px;
+    @extend %flex_nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    height: 40px;
+    width: 100%;
+    border-bottom: 1px solid $light-color;
+    .col_2 {
+        width: 10%;
+        text-align: center;
+    }
+    .col_3 {
+        width: 10%;
+        text-align: center;
+    }
+    .col_4 {
+        width: 10%;
+        text-align: right;
+    }
+}
+
+.product_row {
+    font-size: 20px;
+    @extend %flex_nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    height: 300px;
+    width: 100%;
+    border-bottom: 1px solid $light-color;
+    .product_photo {
+        width: 15%
+    }
+    .product_name {
+        width: calc(55% - 20px);
+        @extend %flex_wrap;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+        padding-left: 20px;
+        a {
+            width: 50%;
+            margin-right: 50%;
+            @extend %main_text;
+        }
+        .size {
+            width: 100%;
+            text-align: left;
+        }
+        .delete_button {
+            width: 20%;
+            font-size: 100%;
+            border: 1px solid $light-color;
+            padding: 5px;
+            background-color: transparent;
+        }
+    }
+    .col_2 {
+        width: 10%;
+        text-align: center;
+    }
+    .col_3 {
+        width: 10%;
+    }
+    .col_4 {
+        width: 10%;
+        text-align: right;
+    }
+}
+
+.choose_quantity {
+    @extend %flex_nowrap, %flex_middle;
+    input {
+        width: 50%;
+        height: 15px;
+        border: 1px solid $light-color;
+        background-color: transparent;
+        border-radius: 0;
+        padding: 10px;
+        font-size: 100%;
+        text-align: center;
+    }
+}
+
+.ammount_row {
+    width: 100%;
+    @extend %flex_wrap;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 16px;
+    padding: 20px 0;
+    gap: 10px;
+    .col_1 {
+        width: 20%;
+        text-align: center;
+    }
+    .col_2 {
+        width: 10%;
+        text-align: right;
+    }
+    .col_3 {
+        width: 100%;
+        text-align: right;
+    }
+}
+
+.order_button {
+    height: 40px;
+    padding: 10px;
+    font-size: 18px;
+    letter-spacing: 3px;
+    @extend %black_button;
+    float: right;
+}
+
+.desktop {
+    @extend %desktop;
+}
+
+@media screen and (min-width:0px) and (max-width:1024px) { 
+
+    .saw_before_wrapper {
+        overflow: scroll;
+        .saw_before_row {
+            width: max-content;
+            overflow: scroll;
+        }
+    }
+
+    .content {
+        width: 95%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .product_row {
+        flex-wrap: wrap;
+        height: max-content;
+        gap: 20px;
+        .product_photo {
+            width: 100%
+        }
+        .product_name {
+            width: 100%;
+            padding: 0;
+            a {
+                width: 100%;
+                @extend %main_text;
+                text-align: center;
+                margin: 0;
+            }
+            .size {
+                width: 100%;
+                text-align: center;
+            }
+            .delete_button {
+                width: 100%;
+                font-size: 100%;
+                border: 1px solid $light-color;
+                padding: 5px;
+                background-color: transparent;
+            }
+        }
+        .col_2 {
+            width: 100%;
+        }
+        .col_3 {
+            width: 100%;
+        }
+        .col_4 {
+            width: 100%;
+        }
+    }
+
+    .ammount_row {
+        justify-content: center;
+        .col_1 {
+            width: 100%;
+        }
+        .col_2 {
+            width: 100%;
+            text-align: center;
+        }
+        .col_3 {
+            width: 100%;
+            text-align: center;
+        }
+    }
+    .order_button {
+        float: none;
+        margin: auto;
+    }
+}
