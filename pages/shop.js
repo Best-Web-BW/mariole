@@ -65,6 +65,9 @@ export default function Shop() {
             </div>
             <div className={cn(blocks.content_block, styles.shop_page)}>
                 <div className={cn(styles.menu_wrapper, { [styles.opened]: mobileMenuOpened })}>
+                    <div className={cn(styles.menu_cross_wrapper)}>
+                        <span className={cn(styles.menu_cross)} />
+                    </div>
                     <div className={styles.menu_container}>
                         <ul>
                             <MenuFilterFunction title="КАТЕГОРИЯ">

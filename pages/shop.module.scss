@@ -138,6 +138,21 @@
     @extend %desktop;
 }
 
+.menu_cross_wrapper {
+    @extend %flex_nowrap, %flex_vert_center, %relative;
+    justify-content: flex-end;
+    width: calc(100% - 40px);
+    padding: 20px;
+    display: none;
+    .menu_cross {
+        @extend %cursor_pointer;
+        font-family: "Fontello";
+        &::before {
+            content: '\e805';
+        }
+    }
+}
+
 .mobile {
     @extend %mobile;
 }
@@ -151,6 +166,8 @@
         }
     }
 }
+
+
 
 @media screen and (min-width:0px) and (max-width:1024px) {
     .menu_wrapper {
@@ -189,5 +206,9 @@
 
     .shop_page {
         position: relative;
+    }
+
+    .menu_cross_wrapper {
+        display: flex;
     }
 }
