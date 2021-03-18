@@ -1,0 +1,62 @@
+@import "../scss/main_settings.scss";
+
+.page {
+    width: 60%;
+    margin: auto;
+}
+
+.row {
+    width: 100%;
+    margin: 20px 0;
+    img {
+        width: 30%;
+        float: right;
+    }
+}
+
+.title {
+    @extend %main_text;
+    font-family: 'Oswald-light';
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.data_wrapper {
+    width: 400px;
+    line-height: 1.3;
+    letter-spacing: 1px;
+    border-bottom: 1px solid $light-color;
+    padding: 10px 0
+}
+
+.data {
+    @extend %main_text;
+    font-family: 'Oswald-light';
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.contact_form_wrapper {
+
+}
+
+.desktop {
+    @extend %desktop;
+}
+
+
+@media screen and (min-width:0px) and (max-width:1024px) {
+
+    .page {
+        width: calc(95% - 20px);
+        padding: 10px;
+    }
+    
+    .data_wrapper {
+        width: 100%;
+    }
+
+    @media screen and (min-width:768px) and (max-width:1024px) {
+        
+    }
+}

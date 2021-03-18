@@ -66,7 +66,7 @@ export default function Header() {
                                 <MenuItem href="/shop" title="Смотреть всё" />
                             </ul>
                         </div>
-                        <MenuItem href="/about" title="О НАС" />
+                        <MenuItem href="/index" title="О НАС" />
                         <MenuItem href="/media" title="ПРЕССА" />
                         <MenuItem href="/contacts" title="КОНТАКТЫ" />
                         <li>
