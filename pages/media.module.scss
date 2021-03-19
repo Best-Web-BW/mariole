@@ -1,0 +1,62 @@
+@import "../scss/main_settings.scss"; 
+
+.page {
+    width: 60%;
+    margin: auto;
+    @extend %main_text;
+    font-family: 'Oswald-light';
+    margin-bottom: 60px;
+}
+
+.page_title {
+    text-align: center;
+    font-weight: 100;
+    font-family: 'Oswald-light';
+    letter-spacing: 4px;
+    margin: 30px 0
+}
+
+.row {
+    @extend %flex_nowrap, %flex_middle;
+    gap: 40px;
+    .elem {
+        width: 500px;
+        height: 700px;
+        .elem_row_1 {
+            height: 650px;
+            img {
+                width: 100%;
+            }
+        }
+        .elem_row_2 {
+            height: 50px;
+            @extend %flex_nowrap, %flex_middle;
+            .read {
+                width: 50%;
+                @extend %flex_nowrap, %flex_middle, %main_text;
+                height: 40px;
+                margin: auto;
+                border: 1px solid $light-color;
+            }
+        }
+    }
+}
+
+@media screen and (min-width:0px) and (max-width:1024px) {
+
+    .page {
+        width: 95%;
+    }
+
+    .row {
+        flex-wrap: wrap;
+        .elem {
+            width: 100%;
+            height: max-content;
+            .elem_row_1 {
+                height: max-content;
+            }
+        }
+    }
+
+}

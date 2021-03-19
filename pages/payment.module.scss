@@ -1,0 +1,41 @@
+@import "../scss/main_settings.scss";
+
+.page {
+    width: 40%;
+    margin: auto;
+    @extend %main_text;
+    font-family: 'Oswald-light';
+}
+
+.data {
+    font-size: 16px;
+    margin: 40px 0;
+    li {
+        list-style-type: circle;
+        padding-bottom: 10px;
+    }
+}
+
+.attention {
+    font-weight: 600;
+}
+
+.page_title {
+    text-align: center;
+    font-weight: 100;
+    font-family: 'Oswald-light';
+    letter-spacing: 4px;
+    margin: 30px 0
+}
+
+.link {
+    @extend %main_text;
+}
+
+@media screen and (min-width:0px) and (max-width:1024px) {
+
+    .page {
+        width: 95%;
+    }
+
+}

@@ -1,0 +1,50 @@
+@import "../scss/main_settings.scss";
+
+.page {
+    width: 40%;
+    margin: auto;
+    @extend %main_text;
+    font-family: 'Oswald-light';
+    margin-bottom: 60px;
+}
+
+.page_title {
+    text-align: center;
+    font-weight: 100;
+    font-family: 'Oswald-light';
+    letter-spacing: 4px;
+    margin: 30px 0
+}
+
+.table_wrapper {
+    table {
+        border: 1px solid black;
+        border-collapse: collapse;
+        width: 100%;
+        margin: auto;
+        font-size: 16px;
+        tr {
+            td {
+                padding: 5px;
+                border: 1px solid black;
+                text-align: center;
+            }
+            .row_title {
+                width: 100px;
+                font-weight: 600;
+                text-align: left;
+            }
+            .col_title {
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+@media screen and (min-width:0px) and (max-width:1024px) {
+
+    .page {
+        width: 95%;
+    }
+
+}

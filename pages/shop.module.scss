@@ -88,7 +88,7 @@
     font-family: "Fontello";
     font-size: 16px;
     margin-right: 10px;
-    display: inline-block;
+    display: inline-flex;
     &::before {
         transition: 0.6s ease-in-out;
         content: '\e809';
@@ -102,6 +102,7 @@
 }
 
 .menu_elem {
+    cursor: pointer;
     .size_elem {
         width: 20px;
         height: 20px;

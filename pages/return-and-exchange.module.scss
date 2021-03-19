@@ -1,0 +1,78 @@
+@import "../scss/main_settings.scss";
+
+.page {
+    width: 40%;
+    margin: auto;
+    @extend %main_text;
+    font-family: 'Oswald-light';
+    margin-bottom: 60px;
+}
+
+.page_title {
+    text-align: center;
+    font-weight: 100;
+    font-family: 'Oswald-light';
+    letter-spacing: 4px;
+    margin: 30px 0
+}
+
+.data {
+    font-size: 16px;
+    .show_more_btn {
+        cursor: pointer;
+        @extend %flex_nowrap, %flex_vert_center;
+        height: 80px;
+        .show_more_icn {
+            margin-right: 20px;
+            font-size: 40px;
+            height: 60px;
+            &::before {
+                @extend %flex_nowrap, %flex_middle;
+                content: "+";
+            }
+        }
+    }
+    .info_container {
+        max-height: 0;
+        padding: 0;
+        overflow: hidden;
+        transition: 0.6s ease-in-out;
+        .title {
+            @extend %main_text;
+            font-family: 'Oswald-light';
+            font-size: 20px;
+            font-weight: 600;
+        }
+        ul {
+            li {
+                list-style-type: circle;
+                padding-bottom: 10px;
+            }
+        }
+        p {
+            margin: 20px 0;
+            a {
+                @extend %main_text;
+            }
+        }
+    }
+}
+
+.data.active {
+    .show_more_icn {
+        &::before {
+            content: "-";
+        }
+    }
+    .info_container {
+        max-height: 1000px;
+    }
+}
+
+@media screen and (min-width:0px) and (max-width:1024px) {
+
+    .page {
+        width: 95%;
+    }
+
+}
