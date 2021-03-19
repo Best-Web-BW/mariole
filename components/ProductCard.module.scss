@@ -89,4 +89,17 @@
             }
         }
     }
+
+    
+}
+
+@media screen and (min-width:1024px) and (max-width:1366px) {
+    .product_card {
+        width: 200px;
+        .content {
+            .image {
+                height: 300px;
+            }
+        }
+    }
 }
