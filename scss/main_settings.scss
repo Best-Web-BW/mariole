@@ -156,6 +156,13 @@ $transparent: transparent;
 	100% {transform:translateX(100%);}
 }
 
+%page_title {
+    text-align: center;
+    font-weight: 100;
+    font-size: 30px;
+    letter-spacing: 3px;
+}
+
 %desktop {
     display: block;
     @media screen and (min-width:0px) and (max-width:1024px) {
