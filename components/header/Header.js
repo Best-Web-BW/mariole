@@ -33,10 +33,14 @@ export default function Header() {
                 </div>
                 <div className={styles.icon_container}>
                     <Link href="#">
-                        <a className={cn(styles.icon, styles.favorite_icon)} />
+                        <a className={cn(styles.icon, styles.favorite_icon)}>
+                            <div className={cn(styles.icon_indicator, styles.active)}></div>
+                        </a>
                     </Link>
                     <Link href="#">
-                        <a className={cn(styles.icon, styles.cart_icon)} />
+                        <a className={cn(styles.icon, styles.cart_icon)}>
+                            <div className={styles.icon_indicator}></div>
+                        </a>
                     </Link>
                 </div>
             </div>
