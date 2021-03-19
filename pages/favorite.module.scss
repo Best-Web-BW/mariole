@@ -1,0 +1,42 @@
+@import "../scss/main_settings.scss";
+
+.page {
+    padding-top: 60px;
+}
+
+.title {
+    font-family: "Oswald-light";
+    letter-spacing: 5px;
+}
+
+.favorite_row {
+    width: 80%;
+    @extend %flex_nowrap, %flex_vert_center;
+    justify-content: flex-start;
+    gap: 40px;
+    margin: 20px auto;
+}
+
+.favorite_elem {
+    @extend %flex_wrap, %flex_middle;
+}
+
+.delete_button {
+    padding: 15px 30px;
+    border: 1px solid $light-color;
+    background-color: transparent;
+    font-size: 16px;
+}
+
+@media screen and (min-width:0px) and (max-width:1024px) { 
+
+    .page {
+        overflow: hidden;
+    }
+
+    .favorite_row {
+        width: 100%;
+        overflow: scroll;
+    }
+
+}
