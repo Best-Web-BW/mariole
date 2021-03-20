@@ -4,7 +4,6 @@ import styles from "./cart.module.scss";
 import Link from "next/link";
 import cn from "classnames";
 
-
 export default function Cart() {
     return (
         <div className={blocks.content_block}>
