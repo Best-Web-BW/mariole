@@ -33,20 +33,23 @@ export default function Order() {
     return (
         <div className={cn(blocks.content_block, styles.page)}>            
             <div className={styles.column}>
-                <form className={styles.form} onSubmit={e => e.preventDefault()}>
+                <form className={styles.form} onSubmit={e => {
+                    e.preventDefault();
+                    console.log(e);
+                }}>
                     <div className={styles.form_block}>
                         <p className={styles.form_block_title}>1. Адрес доставки</p>
                         <label className={styles.full_width_label}>
                             Адрес электронной почты
-                            <input type="text" name="" />
+                            <input type="text" name="email" autoComplete="email" />
                         </label>
                         <label className={styles.half_width_label}>
                             Имя
-                            <input type="text" name="" />
+                            <input type="text" name="name.first" autoComplete="given-name" />
                         </label>
                         <label className={styles.half_width_label}>
                             Фамилия
-                            <input type="text" name="" />
+                            <input type="text" name="name.last" autoComplete="family-name" />
                         </label>
                         <label className={styles.full_width_label}>
                             Адрес
@@ -59,6 +62,7 @@ export default function Order() {
                         <label className={styles.label_1_3}>
                             Страна
                             <Select
+                                instanceId="country_select"
                                 styles={selectStyles}
                                 theme={selectTheme}
                             />
@@ -66,6 +70,7 @@ export default function Order() {
                         <label className={styles.label_1_3}>
                             Регион
                             <Select
+                                instanceId="region_select"
                                 styles={selectStyles}
                                 theme={selectTheme}
                             />
@@ -76,14 +81,14 @@ export default function Order() {
                         </label>
                         <label className={styles.full_width_label}>
                             Телефон
-                            <input type="text" name="" />
+                            <input type="text" name="phone" autoComplete="phone" />
                         </label>
                         <label className={styles.full_width_label}>
-                            <input className={styles.confidantial} type="checkbox" name="" />
+                            <input className={styles.confidantial} type="checkbox" name="only_email" />
                             <p className={styles.confidantial}>Адрес электронной почты</p>
                         </label>
                         <label className={styles.full_width_label}>
-                            <input className={styles.confidantial} type="checkbox" name="" />
+                            <input className={styles.confidantial} type="checkbox" name="subscribe" />
                             <p className={styles.confidantial}>
                                 Да, я хочу получать новости и эксклюзивные предложения
                             </p>
@@ -93,14 +98,14 @@ export default function Order() {
                         <p className={styles.form_block_title}>2. Способ доставки</p>
                         <div className={cn(styles.full_width_label, styles.delivery)}>
                             <label>
-                                <input type="checkbox" name="" />
+                                <input type="radio" name="delivery" />
                                 СDEK
                             </label>
                             <p className={styles.price}>Бесплатно</p>
                         </div>
                         <div className={cn(styles.full_width_label, styles.delivery)}>
                             <label>
-                                <input type="checkbox" name="" />
+                                <input type="radio" name="delivery" />
                                 Курьер
                             </label>
                             <p className={styles.price}>500р</p>
@@ -109,9 +114,9 @@ export default function Order() {
                     <div className={styles.form_block}>
                         <p className={styles.form_block_title}>3. Оплата</p>
                         <label className={cn(styles.full_width_label, styles.payment)}>
-                            <input type="radio" name="" /> Онлайн
+                            <input type="radio" name="payment" /> Онлайн
                             <br />
-                            <input type="radio" name="" /> Наличными курьеру
+                            <input type="radio" name="payment" /> Наличными курьеру
                         </label>
                     </div>
                     <div className={styles.form_block}>
