@@ -16,7 +16,7 @@ export default function Cart() {
                     <br/>
                     <Link href="/shop"><a>Продолжить покупки</a></Link>
                 </div> */}
-                <div className={cn(styles.data_row, styles.desktop)}>
+                <div className={cn(styles.data_row, styles.desktop_flex)}>
                     <p className={styles.col_2}>Цена</p>
                     <p className={styles.col_3}>Количество</p>
                     <p className={styles.col_4}>Итого</p>

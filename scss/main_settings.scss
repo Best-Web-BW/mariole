@@ -163,6 +163,13 @@ $transparent: transparent;
     letter-spacing: 3px;
 }
 
+%desktop_flex {
+    display: flex;
+    @media screen and (min-width:0px) and (max-width:1024px) {
+        display: none;
+    }
+}
+
 %desktop {
     display: block;
     @media screen and (min-width:0px) and (max-width:1024px) {
