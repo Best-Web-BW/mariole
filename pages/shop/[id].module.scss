@@ -219,7 +219,7 @@
 }
 
 .info {
-    height: 0;
+    max-height: 0px;
     padding: 0;
     overflow: hidden;
     transition: 0.6s ease-in-out;
@@ -227,7 +227,7 @@
 
 .info.opened {
     padding: 15px 5px 15px 5px;
-    height: 100%;
+    max-height: 1000px;
 }
 
 .show_more {

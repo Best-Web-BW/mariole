@@ -1,6 +1,7 @@
 import { getMenuItem } from "../components/MenuItemGenerator";
 import ProductCard from "../components/ProductCard";
 import blocks from "../scss/blocks.module.scss";
+import admin from "../scss/adminButtons.module.scss";
 import styles from "./shop.module.scss";
 import lorem from "../utils/lorem";
 import Select from "react-select";
@@ -103,6 +104,7 @@ export default function Shop() {
                             onClick={() => setMobileMenuOpened(true)}
                         />
                     </div>
+                    <button className={admin.button}>Создать товар</button>
                     <div className={styles.select_wrapper}>
                         <Select
                             instanceId="sorting_select"
