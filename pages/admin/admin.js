@@ -1,5 +1,5 @@
 import blocks from "../../scss/blocks.module.scss";
-import styles from "../../scss/adminButtons.module.scss";
+import styles from "./admin.module.scss";
 import lorem from "../../utils/lorem";
 import Select from "react-select";
 import { useState } from "react";
@@ -19,7 +19,17 @@ export default function Admin() {
         </Head>
         <div className={blocks.content_body}>
             <div className={styles.page}>
-                
+                <form action="" className={styles.enter_form}>
+                    <label htmlFor="">
+                        логин
+                        <input type="text"/>
+                    </label>
+                    <label htmlFor="">
+                        пароль
+                        <input type="text"/>
+                    </label>
+                    <button>Войти</button>
+                </form>
             </div>
         </div>
     </>);

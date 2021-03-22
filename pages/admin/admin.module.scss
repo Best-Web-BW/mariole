@@ -1,0 +1,33 @@
+@import "../../scss/main_settings.scss"; 
+
+.page {
+    min-height: 100vh;
+    padding-top: 80px;
+    width: 40%;
+    margin: auto;
+    @extend %flex_nowrap, %flex_middle;
+}
+
+.enter_form {
+    width: 50%;
+    label {
+        width: 100%;
+        @extend %flex_nowrap, %flex_middle;
+        justify-content: space-between;
+        gap: 20px;
+        margin: 20px 0;
+        font-size: 20px;
+        input {
+            width: 70%;
+            @extend %input;
+        }
+    }
+    button {
+        @extend %black_button;
+        margin: auto;
+        display: block;
+        width: 200px;
+        height: 40px;
+        font-size: 20px;
+    }
+}
