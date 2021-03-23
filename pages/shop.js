@@ -55,6 +55,15 @@ export default function Shop() {
                 <p>ВСЕ ТОВАРЫ</p>
             </div>
         </div>
+        <div className={styles.search_results}>
+            <div className={styles.search_title}>
+                <h2>Результаты поиска</h2>
+            </div>
+            <form action="" className={styles.search_form}>
+                <input type="text"/>
+                <button type="submit" className={styles.search_button}><span className={styles.search_icn}/></button>
+            </form>
+        </div>
         <div className={cn(blocks.content_block, styles.shop_page)}>
             <div className={cn(styles.menu_wrapper, { [styles.opened]: mobileMenuOpened })}>
                 <div className={cn(styles.menu_cross_wrapper)}>
