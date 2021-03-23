@@ -183,3 +183,14 @@ $transparent: transparent;
         display: block;
     }
 }
+
+%input {
+    height: 20px;
+    padding: 5px 10px;
+    border: 1px solid $light-color;
+    font-size: 16px;
+    background-color: $transparent;
+    &:hover, &:focus {
+        border-color: $black;
+    }
+}

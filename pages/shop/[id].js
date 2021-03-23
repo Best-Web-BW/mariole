@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import FeedbackForm from "../../components/FeedbackForm";
 import ProductCard from "../../components/ProductCard";
 import blocks from "../../scss/blocks.module.scss";
+import admin from "../../scss/adminButtons.module.scss";
 import { cycle } from "../../utils/common";
 import styles from "./[id].module.scss";
 import lorem from "../../utils/lorem";
@@ -48,6 +49,7 @@ export default function ProductPage() {
                     <div className={styles.product_data}>
                         <div className={styles.data_row}>
                             <h2>НАЗВАНИЕ ТОВАРА / { selectedColor.name }</h2>
+                            <button className={admin.button}>Изменить товар</button>
                         </div>
                         <div className={styles.data_row}>
                             <p className={styles.price}>32.000,00 &#8381;</p>
