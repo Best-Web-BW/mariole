@@ -28,31 +28,37 @@ export default function Menu({ opened, close }) {
                     <div className={cn(styles.submenu, { [styles.active]: submenuOpened })}>
                         <ul>
                             <MenuItem href="/shop" title="Новинки" />
-                            <MenuItem href="/shop" title="Лимитированная коллекция" />
-                            <MenuItem href="/shop" title="Трикотаж" />
-                            <MenuItem href="/shop" title="Бестселлеры" />
-                            <MenuItem href="/shop" title="Украшения" />
+                            <MenuItem href="/shop?limited=1" title="Лимитированная коллекция" />
+                            <MenuItem href="/shop?category=knitwear" title="Трикотаж" />
+                            <MenuItem href="/shop?bestseller=1" title="Бестселлеры" />
+                            <MenuItem href="/shop?category=jewelry" title="Украшения" />
                             <MenuItem href="/shop" title="Смотреть всё" />
                         </ul>
                     </div>
-                    <MenuItem href="/index" title="О НАС" />
+                    <MenuItem href="/" title="О НАС" />
                     <MenuItem href="/media" title="ПРЕССА" />
                     <MenuItem href="/contacts" title="КОНТАКТЫ" />
                     <li>
                         <Link href="#">
-                            <a className={styles.social_link}></a>
+                            <a className={styles.social_link} />
                         </Link>
                     </li>
-                    <div className={styles.changeLang_container}>
-                        <Link href="#">
-                            <a className={cn(styles.changeLangBtn, styles.left, styles.active)}>RU</a>
-                        </Link>
-                        <Link href="#">
-                            <a className={cn(styles.changeLangBtn, styles.right)}>EN</a>
-                        </Link>
-                    </div>
+                    <LanguageBlock />
                 </ul>
             </div>
+        </div>
+    );
+}
+
+function LanguageBlock() {
+    return (
+        <div className={styles.changeLang_container}>
+            <Link href="#">
+                <a className={cn(styles.changeLangBtn, styles.left, styles.active)}>RU</a>
+            </Link>
+            <Link href="#">
+                <a className={cn(styles.changeLangBtn, styles.right)}>EN</a>
+            </Link>
         </div>
     );
 }
