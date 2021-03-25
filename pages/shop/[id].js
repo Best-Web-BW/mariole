@@ -11,6 +11,7 @@ import cycle from "../../utils/math/cycle";
 import styles from "./[id].module.scss";
 import Link from "next/link";
 import cn from "classnames";
+import { inject, observer } from "mobx-react";
 
 const existingSizes = ["S", "M", "L"];
 
@@ -52,10 +53,8 @@ export default function ProductPage({ product }) {
                             <SizeSelectionBlock sizes={product.sizes} {...{ selectedSize, setSelectedSize }} />
                         </div>
                         <div className={styles.data_row}>
-                            <button className={styles.add_to_cart}>ДОБАВИТЬ В КОРЗИНУ</button>
-                            <button className={cn(styles.add_to_favorite, styles.active)}>
-                                <span className={styles.favorite_icon} /> ДОБАВИТЬ В ИЗБРАННОЕ
-                            </button>
+                            <CartButton id={product.id} />
+                            <FavoriteButton id={product.id} />
                         </div>
                         <div className={cn(styles.data_row, styles.padding)}>
                             <p>{ product.locale.description }</p>
@@ -104,6 +103,21 @@ export default function ProductPage({ product }) {
         </div>
     </>);
 }
+
+const CartButton = inject("store")(observer(({ store, id }) => (
+    <button className={styles.add_to_cart} onClick={() => store.addToCart(id)}>
+        ДОБАВИТЬ В КОРЗИНУ
+    </button>
+)));
+
+const FavoriteButton = inject("store")(observer(({ store, id }) => (
+    <button
+        className={cn(styles.add_to_favorite, { [styles.active]: store.favorite.includes(id) })}
+        onClick={() => store.toggleFavorite(id)}
+    >
+        <span className={styles.favorite_icon} /> ДОБАВИТЬ В ИЗБРАННОЕ
+    </button>
+)));
 
 function ImagePreviewBlock({ images, selectedImage, setSelectedImage, openSlider }) {
     const Preview = useCallback(({ active, image, toggle }) => (

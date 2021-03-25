@@ -1,6 +1,7 @@
 import styles from "../Header.module.scss";
 import Link from "next/link";
 import cn from "classnames";
+import { inject, observer } from "mobx-react";
 
 export default function Controls({ openMenu, toggleSearch }) {
     return (
@@ -19,17 +20,31 @@ export default function Controls({ openMenu, toggleSearch }) {
                 </Link>
             </div>
             <div className={styles.icon_container}>
-                <Link href="/favorite">
-                    <a className={cn(styles.icon, styles.favorite_icon)}>
-                        <div className={cn(styles.icon_indicator, styles.active)}></div>
-                    </a>
-                </Link>
-                <Link href="/cart">
-                    <a className={cn(styles.icon, styles.cart_icon)}>
-                        <div className={styles.icon_indicator}></div>
-                    </a>
-                </Link>
+                <FavoriteIcon />
+                <CartIcon />
             </div>
         </div>
     );
 }
+
+const FavoriteIcon = inject("store")(observer(({ store }) => (
+    <Link href="/favorite">
+        <a className={cn(styles.icon, styles.favorite_icon)}>
+            <div className={cn(
+                styles.icon_indicator,
+                { [styles.active]: store.favorite.length }
+            )} />
+        </a>
+    </Link>
+)));
+
+const CartIcon = inject("store")(observer(({ store }) => (
+    <Link href="/cart">
+        <a className={cn(styles.icon, styles.cart_icon)}>
+            <div className={cn(
+                styles.icon_indicator,
+                { [styles.active]: store.cart.length }
+            )} />
+        </a>
+    </Link>
+)));
