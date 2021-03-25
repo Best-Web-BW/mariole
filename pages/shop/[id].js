@@ -1,40 +1,29 @@
+import deleteFalsyValues from "../../utils/common/deleteFalsyValues";
+import StylableSizeTable from "../../components/StylableSizeTable";
 import { useCallback, useEffect, useState } from "react";
 import FeedbackForm from "../../components/FeedbackForm";
+import formatPrice from "../../utils/common/formatPrice";
+import admin from "../../scss/adminButtons.module.scss";
 import ProductCard from "../../components/ProductCard";
 import blocks from "../../scss/blocks.module.scss";
-import admin from "../../scss/adminButtons.module.scss";
-import { cycle } from "../../utils/common";
+import { _get } from "../api/products/[id]";
+import cycle from "../../utils/math/cycle";
 import styles from "./[id].module.scss";
-import lorem from "../../utils/lorem";
-import Head from "next/head";
+import Link from "next/link";
 import cn from "classnames";
 
-const images = ["/images/products/p1.1.jpg", "/images/products/p1.2.jpg"];
-const colors = [
-    { id: "green", name: "зелёный", image: "/images/products/p1.1.jpg", available: true },
-    { id: "black", name: "чёрный", image: "/images/products/black.jpg", available: true },
-    { id: "red", name: "красный", image: "/images/products/red.jpg", available: true }
-];
-const sizes = [
-    { id: "M", available: true },
-    { id: "S", available: true },
-    { id: "L", available: false }
-]
+const existingSizes = ["S", "M", "L"];
 
-export default function ProductPage() {
+export default function ProductPage({ product }) {
     const [sliderOpened, setSliderOpened] = useState(false);
-    const [selectedImage, setSelectedImage] = useState(images[0]);
-    const [selectedColor, setSelectedColor] = useState(colors[0]);
-    const [selectedSize, setSelectedSize] = useState(sizes[0]);
+    const [selectedQuantity, setSelectedQuantity] = useState(1);
+    const [selectedImage, setSelectedImage] = useState();
+    const [selectedSize, setSelectedSize] = useState();
+
+    useEffect(() => setSelectedImage(product.images[0]), [product.images]);
+    useEffect(() => setSelectedSize(product.sizes.find(size => existingSizes.includes(size))), [product.sizes]);
 
     return (<>
-        <Head>
-            <title>Mariole</title>
-            <meta name="description" content={lorem(100)} />
-            <meta name="keywords" content="mariole, mariole, mariole" />
-            <meta name="keywords" content="mariole, mariole, mariole" />
-            <meta name="keywords" content="mariole, mariole, mariole" />
-        </Head>
         <div className={blocks.content_body}>
             <div className={styles.product_page}>
                 <div className={styles.column}>
@@ -42,29 +31,25 @@ export default function ProductPage() {
                         openSlider={() => setSliderOpened(true)}
                         setSelectedImage={setSelectedImage}
                         selectedImage={selectedImage}
-                        images={images}
+                        images={product.images}
                     />
                 </div>
                 <div className={styles.column}>
                     <div className={styles.product_data}>
                         <div className={styles.data_row}>
-                            <h2>НАЗВАНИЕ ТОВАРА / { selectedColor.name }</h2>
+                            <h2>{ product.locale.name }</h2>
                             <button className={admin.button}>Изменить товар</button>
                         </div>
                         <div className={styles.data_row}>
-                            <p className={styles.price}>32.000,00 &#8381;</p>
+                            <p className={styles.price}>{ formatPrice(product.price) } &#8381;</p>
                         </div>
                         <div className={styles.data_row}>
                             <p>Количество</p>
-                            <div className={styles.choose_quantity}>
-                                <button>-</button>
-                                <span>26</span>
-                                <button>+</button>
-                            </div>
+                            <QuantitySelectionBlock {...{ selectedQuantity, setSelectedQuantity }} />
                             <p>Цвет</p>
-                            <ColorSelectionBlock {...{ colors, selectedColor, setSelectedColor }} />
+                            <ColorSelectionBlock links={product.links} currentId={product.id} />
                             <p>Размер</p>
-                            <SizeSelectionBlock {...{ sizes, selectedSize, setSelectedSize }} />
+                            <SizeSelectionBlock sizes={product.sizes} {...{ selectedSize, setSelectedSize }} />
                         </div>
                         <div className={styles.data_row}>
                             <button className={styles.add_to_cart}>ДОБАВИТЬ В КОРЗИНУ</button>
@@ -73,68 +58,23 @@ export default function ProductPage() {
                             </button>
                         </div>
                         <div className={cn(styles.data_row, styles.padding)}>
-                            <p>Небольшое описание товара словами</p>
+                            <p>{ product.locale.description }</p>
                         </div>
                         <div className={cn(styles.data_row, styles.padding)}>
-                            <p>Цвет: Розовый</p>
+                            <p>Цвет: Розовый (???)</p>
                         </div>
                         <InfoBlock title="Состав">
-                            Основа: 100% вискоза. Подклад: 100% вискоза.
+                            {/* Основа: 100% вискоза. Подклад: 100% вискоза. */}
+                            { product.locale.composition }
                         </InfoBlock>
                         <InfoBlock title="Детали и уход">
-                            Рост модели 173 см, размер XS (40 RUS). 
+                            {/* Рост модели 173 см, размер XS (40 RUS). 
                             На модели: жакет размера S (42 RUS). 
-                            Рекомендуется только сухая чистка.
+                            Рекомендуется только сухая чистка. */}
+                            { product.locale.details }
                         </InfoBlock>
                         <InfoBlock title="Таблица размеров">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <td className={styles.row_title}>Mario'le</td>
-                                        <td className={styles.col_title}>XS</td>
-                                        <td className={styles.col_title}>S</td>
-                                        <td className={styles.col_title}>M</td>
-                                        <td className={styles.col_title}>L</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className={styles.row_title}>Объем груди (см)</td>
-                                        <td>84</td>
-                                        <td>88</td>
-                                        <td>92</td>
-                                        <td>96</td>
-                                    </tr>
-                                    <tr>
-                                        <td className={styles.row_title}>Объем талии (см)</td>
-                                        <td>64</td>
-                                        <td>68</td>
-                                        <td>72</td>
-                                        <td>76</td>
-                                    </tr>
-                                    <tr>
-                                        <td className={styles.row_title}>Объем бедер (см)</td>
-                                        <td>88</td>
-                                        <td>92</td>
-                                        <td>96</td>
-                                        <td>100</td>
-                                    </tr>
-                                    <tr>
-                                        <td className={styles.row_title}>Италия</td>
-                                        <td>38</td>
-                                        <td>40</td>
-                                        <td>42</td>
-                                        <td>44</td>
-                                    </tr>
-                                    <tr>
-                                        <td className={styles.row_title}>Франция</td>
-                                        <td>36</td>
-                                        <td>38</td>
-                                        <td>40</td>
-                                        <td>42</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <StylableSizeTable styles={styles} />
                         </InfoBlock>
                         <InfoBlock title="Задать вопрос">
                             <FeedbackForm />
@@ -145,8 +85,8 @@ export default function ProductPage() {
             <ImageSlider
                 close={() => setSliderOpened(false)}
                 defaultImage={selectedImage}
+                images={product.images}
                 opened={sliderOpened}
-                images={images}
             />
             <div className={blocks.content_block}>
                 <div className={styles.saw_before_title}>
@@ -223,54 +163,64 @@ function ImageSlider({ opened, images, defaultImage, close }) {
     );
 }
 
-function ColorBlock({ selectedColor, color: { id, name, image, available }, onClick }) {
+function QuantitySelectionBlock({ selectedQuantity, setSelectedQuantity }) {
     return (
-        <div
-            className={cn(styles.choose_color_elem, {
-                [styles.active]: selectedColor.id === id,
-                [styles.disabled]: !available
-            })} onClick={onClick}
-        >
-            <div className={styles.img_wrapper}>
-                <img src={image} alt="" width="100%" />
-            </div>
-            <div className={styles.popup}>{ name }</div>
+        <div className={styles.choose_quantity}>
+            <button onClick={() => setSelectedQuantity(prev => Math.max(prev - 1, 1))}>-</button>
+            <span>{ selectedQuantity }</span>
+            <button onClick={() => setSelectedQuantity(prev => prev + 1)}>+</button>
         </div>
     );
 }
 
-function ColorSelectionBlock({ colors, selectedColor, setSelectedColor }) {
+function ColorBlock({ active, link: { id, name, image } }) {
     return (
-        <div className={styles.choose_color_wrapper}>{colors.map(color => (
-            <ColorBlock
-                onClick={color.available ? () => setSelectedColor(color) : null}
-                selectedColor={selectedColor}
-                key={color.id} color={color}
-            />
-        ))}</div>
+        <Link href={`/shop/${id}`}>
+            <a>
+                <div className={cn(styles.choose_color_elem, { [styles.active]: active })} >
+                    <div className={styles.img_wrapper}>
+                        <img src={image} alt="" width="100%" />
+                    </div>
+                    <div className={styles.popup}>{ name }</div>
+                </div>
+            </a>
+        </Link>
     );
 }
 
-function SizeBlock({ selectedSize, size: { id, available }, onClick }) {
+function ColorSelectionBlock({ links, currentId }) {
+    return (
+        <div className={styles.choose_color_wrapper}>{
+            links.map(link => <ColorBlock key={link.id} active={link.id === currentId} link={link} />)
+        }</div>
+    );
+}
+
+function SizeBlock({ active, disabled, size, onClick }) {
     return (
         <div
             className={cn(styles.choose_size_elem, {
-                [styles.active]: id === selectedSize.id,
-                [styles.disabled]: !available
+                [styles.active]: active,
+                [styles.disabled]: disabled
             })} onClick={onClick}
-        >{ id }</div>
+        >{ size }</div>
     );
 }
 
 function SizeSelectionBlock({ sizes, selectedSize, setSelectedSize }) {
     return (
-        <div className={styles.choose_size_wrapper}>{sizes.map(size => (
-            <SizeBlock
-                onClick={size.available ? () => setSelectedSize(size) : null}
-                selectedSize={selectedSize}
-                key={size.id} size={size}
-            />
-        ))}</div>
+        <div className={styles.choose_size_wrapper}>{
+            existingSizes.map(size => {
+                const active = selectedSize === size;
+                const available = sizes.includes(size);
+                return (
+                    <SizeBlock 
+                        key={size} active={active} disabled={!available} size={size}
+                        onClick={available ? () => setSelectedSize(size) : null}
+                    />
+                );
+            })
+        }</div>
     );
 }
 
@@ -290,4 +240,10 @@ function InfoBlock({ title, children }) {
             </div>
         </div>
     );
+}
+
+export async function getServerSideProps({ params: { id } }) {
+    const product = _get({ locale: "ru", id: +id });
+    if(product) return { props: { product: deleteFalsyValues(product) } };
+    else return { notFound: true };
 }
