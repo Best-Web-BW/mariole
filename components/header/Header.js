@@ -92,11 +92,11 @@ export default function Header() {
             {/* menu end */}
             {/* search */}
             <div className={cn(styles.search_wrapper, styles.opened)}>
-                <form action="" className={styles.form}>
-                    <span className={styles.close}/>
-                    <input type="text" className={styles.input}/>
+                <form className={styles.form} onSubmit={e => e.preventDefault()}>
+                    <span className={styles.close} />
+                    <input type="text" className={styles.input} />
                     <label htmlFor="">
-                        <button type="submit" className={styles.submite}/>
+                        <button type="submit" className={styles.submite} />
                     </label>
                     <div className={cn(styles.results_container, styles.active)}>
                         <div className={styles.results_list}>
@@ -127,7 +127,7 @@ export default function Header() {
                                         <Link href="#">
                                             <div className={styles.results_product}>
                                                 <div className={styles.img}>
-                                                    <img src="/images/products/p1.1.jpg" alt=""/>
+                                                    <img src="/images/products/p1.1.jpg" alt="" />
                                                 </div>
                                                 <div className={styles.product_param}>
                                                     <p>Название товара</p>

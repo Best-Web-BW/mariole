@@ -26,7 +26,6 @@ export default function Index() {
             <meta name="keywords" content="mariole, mariole, mariole" />
         </Head>
         <div className={blocks.content_body}>
-            
             <div className={cn(blocks.main_block, styles.first_block)}>
                 <img className={blocks.desktop} src="/images/blocks/FullSizeRender1.jpg" alt="" />
                 <img className={blocks.mobile} src="/images/blocks/mario_le-1817.jpg" alt="" width="100%" />

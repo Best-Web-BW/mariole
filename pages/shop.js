@@ -127,9 +127,11 @@ export default function Shop({ defaultProducts }) {
             <div className={styles.search_title}>
                 <h2>Результаты поиска</h2>
             </div>
-            <form action="" className={styles.search_form}>
-                <input type="text"/>
-                <button type="submit" className={styles.search_button}><span className={styles.search_icn}/></button>
+            <form className={styles.search_form} onSubmit={e => e.preventDefault()}>
+                <input type="text" />
+                <button type="submit" className={styles.search_button}>
+                    <span className={styles.search_icn} />
+                </button>
             </form>
         </div>
         <div className={cn(blocks.content_block, styles.shop_page)}>
