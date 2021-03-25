@@ -1,3 +1,4 @@
+import collectFormData from "../utils/common/collectFormData";
 import styles from "./FeedbackForm.module.scss";
 
 export default function FeedbackForm() {
@@ -5,28 +6,28 @@ export default function FeedbackForm() {
 		<div className={styles.form}>
             <form onSubmit={e => {
                 e.preventDefault();
-                console.log("Submitted!");
+                console.log(collectFormData(e.target));
             }}>
                 <div className={styles.form_row}>
                     <label className={styles.name}>
                         ИМЯ
-                        <input type="text" className={styles.input} />
+                        <input className={styles.input} type="text" name="name" autoComplete="name" />
                     </label>
                     <label className={styles.email}>
                         EMAIL
-                        <input type="text" className={styles.input} />
+                        <input className={styles.input} type="text" name="email" autoComplete="email" />
                     </label>
                 </div>
                 <div className={styles.form_row}>
                     <label className={styles.phone}>
                         ТЕЛЕФОН
-                        <input type="text" className={styles.input} />
+                        <input className={styles.input} type="text" name="phone" autoComplete="tel" />
                     </label>
                 </div>
                 <div className={styles.form_row}>
                     <label className={styles.comment}>
                         СООБЩЕНИЕ
-                        <textarea type="text" className={styles.input} />
+                        <textarea className={styles.input} type="text" name="message" autoComplete="off" />
                     </label>
                 </div>
                 <div className={styles.form_row}>
