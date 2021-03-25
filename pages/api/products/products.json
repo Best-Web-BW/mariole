@@ -1,0 +1,98 @@
+[
+    {
+        "id": 0,
+        "price": 32010,
+        "locales": {
+            "ru": {
+                "name": "Название продукта 0",
+                "description": "Описание продукта 0",
+                "composition": "Состав товара 0",
+                "details": "Детали и уход за продуктом 0"
+            },
+            "en": {
+                "name": "Название продукта 0 (EN)",
+                "description": "Описание продукта 0 (EN)",
+                "composition": "Состав товара 0 (EN)",
+                "details": "Детали и уход за продуктом 0 (EN)"
+            }
+        },
+        "color": "green",
+        "sizes": ["M", "L"],
+        "images": [
+            "/images/products/p1.1.webp",
+            "/images/products/p1.2.webp",
+            "/images/products/p1.3.webp",
+            "/images/products/p1.4.webp"
+        ],
+        "category": "knitwear",
+        "subcategory": "suit",
+        "limited": false,
+        "bestseller": false,
+        "available": true,
+        "space": "a1c93d33-c128-4656-adab-dffed62fe900"
+    },
+    {
+        "id": 1,
+        "price": 32011,
+        "locales": {
+            "ru": {
+                "name": "Название продукта 1",
+                "description": "Описание продукта 1",
+                "composition": "Состав товара 1",
+                "details": "Детали и уход за продуктом 1"
+            },
+            "en": {
+                "name": "Название продукта 1 (EN)",
+                "description": "Описание продукта 1 (EN)",
+                "composition": "Состав товара 1 (EN)",
+                "details": "Детали и уход за продуктом 1 (EN)"
+            }
+        },
+        "color": "black",
+        "sizes": ["S", "L"],
+        "images": [
+            "/images/products/black.webp",
+            "/images/products/p1.2.webp",
+            "/images/products/p1.3.webp",
+            "/images/products/p1.4.webp"
+        ],
+        "category": "knitwear",
+        "subcategory": "turtleneck",
+        "limited": false,
+        "bestseller": true,
+        "available": true,
+        "space": "a1c93d33-c128-4656-adab-dffed62fe900"
+    },
+    {
+        "id": 2,
+        "price": 32012,
+        "locales": {
+            "ru": {
+                "name": "Название продукта 2",
+                "description": "Описание продукта 2",
+                "composition": "Состав товара 2",
+                "details": "Детали и уход за продуктом 2"
+            },
+            "en": {
+                "name": "Название продукта 2 (EN)",
+                "description": "Описание продукта 2 (EN)",
+                "composition": "Состав товара 2 (EN)",
+                "details": "Детали и уход за продуктом 2 (EN)"
+            }
+        },
+        "color": "red",
+        "sizes": ["S", "M"],
+        "images": [
+            "/images/products/red.webp",
+            "/images/products/p1.2.webp",
+            "/images/products/p1.3.webp",
+            "/images/products/p1.4.webp"
+        ],
+        "category": "accessories",
+        "subcategory": "mittens",
+        "limited": true,
+        "bestseller": false,
+        "available": false,
+        "space": "a1c93d33-c128-4656-adab-dffed62fe900"
+    }
+]
