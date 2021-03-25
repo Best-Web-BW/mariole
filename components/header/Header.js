@@ -125,15 +125,17 @@ export default function Header() {
                                 <ul>
                                     <li>
                                         <Link href="#">
-                                            <div className={styles.results_product}>
-                                                <div className={styles.img}>
-                                                    <img src="/images/products/p1.1.jpg" alt="" />
+                                            <a>
+                                                <div className={styles.results_product}>
+                                                    <div className={styles.img}>
+                                                        <img src="/images/products/p1.1.jpg" alt="" />
+                                                    </div>
+                                                    <div className={styles.product_param}>
+                                                        <p>Название товара</p>
+                                                        <p>32.000 &#8381;</p>
+                                                    </div>
                                                 </div>
-                                                <div className={styles.product_param}>
-                                                    <p>Название товара</p>
-                                                    <p>32.000 &#8381;</p>
-                                                </div>
-                                            </div>
+                                            </a>
                                         </Link>
                                     </li>
                                 </ul>

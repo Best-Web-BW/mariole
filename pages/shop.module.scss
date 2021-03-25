@@ -27,9 +27,7 @@
                 padding: 15px 0;
                 border-bottom: 1px solid $light-color;
                 transition: 0.6s ease-in-out;
-                .menu_elem {
-
-                }
+                // .menu_elem {}
                 .submenu_container {
                     ul {
                         li {
@@ -38,17 +36,13 @@
                             }
                             border-bottom: none;
                             padding: 5px 0 5px 5px;
-                            .menu_elem {
-    
-                            }
+                            // .menu_elem {}
                             .submenu_container {
                                 ul {
                                     li {
                                         border-bottom: none;
                                         padding: 5px 0 5px 10px;
-                                        .menu_elem {
-            
-                                        }
+                                        // .menu_elem {}
                                     }
                                 }
                             }
