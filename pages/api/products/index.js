@@ -17,8 +17,9 @@ function findInLocalesName(locales, text) {
     return false;
 }
 
-function matchesRequest(product, { category, subcategory, limited, bestseller, sizes, search }) {
+function matchesRequest(product, { ids, category, subcategory, limited, bestseller, sizes, search }) {
     return !Boolean(
+        (ids && !ids.includes(product.id)) ||
         (category && product.category !== category) ||
         (subcategory && product.subcategory !== subcategory) ||
         (+limited === 1 && !product.limited) ||
@@ -42,8 +43,9 @@ export function _get({ locale = "ru", ...params }) {
 
 function GET(req, res) {
     const { locale, category, subcategory, limited, bestseller } = req.query;
+    const ids = req.query.ids?.split(",").map(id => id ? +id : undefined);
     const sizes = req.query.sizes?.split(",");
     const search = decodeURIComponent(req.query.search ?? "");
-    const products = _get({ locale, category, subcategory, limited, bestseller, sizes, search });
+    const products = _get({ locale, ids, category, subcategory, limited, bestseller, sizes, search });
     res.status(200).json(products);
 }
