@@ -1,5 +1,9 @@
 @import "/scss/main_settings.scss";
 
+.hidden {
+    display: none;
+}
+
 .product_card {
     width: 340px;
     overflow: hidden;
