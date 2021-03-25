@@ -1,6 +1,6 @@
 import blocks from "../../scss/blocks.module.scss";
 import styles from "./edit.module.scss";
-import lorem from "../../utils/lorem";
+import lorem from "../../utils/common/lorem";
 import Select from "react-select";
 import { useState } from "react";
 import Head from "next/head";
