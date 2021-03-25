@@ -21,6 +21,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-force-ssl": "^0.3.2",
+    "mobx": "^6.1.8",
+    "mobx-react": "^7.1.0",
     "mongodb": "^3.6.4",
     "next": "^10.0.6",
     "nodemon": "^2.0.7",
@@ -30,7 +32,11 @@
     "sass": "^1.32.8",
     "spdy": "^4.0.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-decorators": "^7.13.5"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OcelotJungle/mariole.git"

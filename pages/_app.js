@@ -3,23 +3,31 @@ import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import Head from "next/head";
 import "../scss/main.scss";
+import { Provider } from "mobx-react";
+import { useStore } from "../store";
+import { useEffect } from "react";
 
 export default function MyApp({ Component, pageProps }) {
+    const store = useStore(pageProps.initialState);
+    useEffect(() => store.initClientStore(), []);
+
 	return (<>
         <Head>
             <meta charSet="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         </Head>
-        <header>
-		    <Header />
-        </header>
-        <main>
-            <div className={content_body}>
-			    <Component { ...pageProps } />
-            </div>
-        </main>
-        <footer>
-            <Footer />
-        </footer>
+        <Provider store={store}>
+            <header>
+                <Header />
+            </header>
+            <main>
+                <div className={content_body}>
+                    <Component { ...pageProps } />
+                </div>
+            </main>
+            <footer>
+                <Footer />
+            </footer>
+        </Provider>
 	</>);
 }
