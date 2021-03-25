@@ -81,7 +81,7 @@ export default function Order() {
                         </label>
                         <label className={styles.full_width_label}>
                             Телефон
-                            <input type="text" name="phone" autoComplete="phone" />
+                            <input type="text" name="phone" autoComplete="tel" />
                         </label>
                         <label className={styles.full_width_label}>
                             <input className={styles.confidantial} type="checkbox" name="only_email" />
