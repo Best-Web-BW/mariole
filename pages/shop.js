@@ -71,12 +71,13 @@ const uri = {
     }
 }
 
-export default function Shop({ defaultProducts }) {
+export default function Shop({ enabledSearch, defaultProducts }) {
     const [mobileMenuOpened, setMobileMenuOpened] = useState(false);
 
     const [products, setProducts] = useState(defaultProducts);
     const router = useRouter();
     const [filter, setFilter] = useState(parseQuery(router.query));
+    const [search, setSearch] = useState(filter.search ?? "");
     // useEffect(() => console.log({ filter }), [filter]);
 
     useEffect(async () => {
@@ -123,7 +124,11 @@ export default function Shop({ defaultProducts }) {
                 <p>ВСЕ ТОВАРЫ</p>
             </div>
         </div>
-        <div className={styles.search_results}>
+        <Search
+            enabled={enabledSearch} submit={() => toggle.search(search)}
+            text={search} setText={setSearch}
+        />
+        {/* <div className={cn(styles.search_results, { [styles.hidden]: !filter.search?.length })}>
             <div className={styles.search_title}>
                 <h2>Результаты поиска</h2>
             </div>
@@ -133,7 +138,7 @@ export default function Shop({ defaultProducts }) {
                     <span className={styles.search_icn} />
                 </button>
             </form>
-        </div>
+        </div> */}
         <div className={cn(blocks.content_block, styles.shop_page)}>
             <div className={cn(styles.menu_wrapper, { [styles.opened]: mobileMenuOpened })}>
                 <div className={cn(styles.menu_cross_wrapper)}>
@@ -172,6 +177,25 @@ export default function Shop({ defaultProducts }) {
             </div>
         </div>
     </>);
+}
+
+function Search({ enabled, text, setText, submit }) {
+    return (
+        <div className={cn(styles.search_results, { [styles.hidden]: !enabled })}>
+            <div className={styles.search_title}>
+                <h2>Результаты поиска</h2>
+            </div>
+            <form className={styles.search_form} onSubmit={evt => {
+                evt.preventDefault();
+                submit();
+            }}>
+                <input type="text" value={text} onChange={e => setText(e.target.value)} />
+                <button type="submit" className={styles.search_button}>
+                    <span className={styles.search_icn} />
+                </button>
+            </form>
+        </div>
+    );
 }
 
 function CategoryMenu({ toggle, filter }) {
@@ -311,7 +335,7 @@ export async function getServerSideProps({ query }) {
     const parsedQuery = { ...parseQuery(query), locale: "ru" };
     if(!parsedQuery.sizes.length) parsedQuery.sizes = undefined;
     const defaultProducts = _get(parsedQuery);
-    return { props: { defaultProducts } };
+    return { props: { enabledSearch: !!parsedQuery.search, defaultProducts } };
 }
 
 function ProductList({ products }) {

@@ -1,5 +1,9 @@
 @import "../scss/main_settings.scss";
 
+.hidden {
+    display: none;
+}
+
 .first_block {
     @extend %flex_nowrap, %flex_middle, %relative, %overflow_hidden;
     background-color: #e7e7e7;
