@@ -1,9 +1,9 @@
+import formatPrice from "../../../utils/common/formatPrice";
+import { useEffect, useState } from "react";
 import styles from "../Header.module.scss";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import cn from "classnames";
-import { useEffect, useState } from "react";
-import formatPrice from "../../../utils/common/formatPrice";
-import { useRouter } from "next/router";
 
 export default function Search({ opened, close }) {
     const [text, setText] = useState("");
@@ -11,7 +11,7 @@ export default function Search({ opened, close }) {
 
     useEffect(async () => {
         if(text.length > 0) {
-            const response = await fetch(`/api/products?search=${text}`);
+            const response = await fetch(`/api/products?search=${encodeURIComponent(text)}`);
             const json = await response.json();
             setProducts(json.slice(0, 5));
         }
@@ -25,7 +25,7 @@ export default function Search({ opened, close }) {
                 evt.preventDefault();
                 if(text.length > 0) {
                     close();
-                    router.push(({ pathname: "/shop", query: { search: text } }));
+                    router.push(({ pathname: "/shop", query: { search: encodeURIComponent(text) } }));
                 }
             }}>
                 <span className={styles.close} onClick={close} />
