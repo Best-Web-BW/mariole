@@ -1,16 +1,14 @@
 import divideArrayToSubarrays from "../utils/arrays/divideToSubarrays";
-import { getMenuItem } from "../components/MenuItemGenerator";
-import admin from "../scss/adminButtons.module.scss";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import admin from "../scss/adminButtons.module.scss";
 import ProductCard from "../components/ProductCard";
+import { joinQuery } from "../utils/common/network";
 import blocks from "../scss/blocks.module.scss";
 import styles from "./shop.module.scss";
-import Select from "react-select";
-import Link from "next/link";
-import cn from "classnames";
-import { _get } from "./api/products";
 import { useRouter } from "next/router";
-import { joinQuery } from "../utils/common/network";
+import { _get } from "./api/products";
+import Select from "react-select";
+import cn from "classnames";
 
 const sortingOptions = [
     { value: "price_0-1", label: "Цена по возрастанию" },
@@ -77,8 +75,8 @@ export default function Shop({ enabledSearch, defaultProducts }) {
     const [products, setProducts] = useState(defaultProducts);
     const router = useRouter();
     const [filter, setFilter] = useState(parseQuery(router.query));
-    const [search, setSearch] = useState(filter.search ?? "");
-    // useEffect(() => console.log({ filter }), [filter]);
+    const [search, setSearch] = useState(filter.search);
+    useEffect(() => setSearch(filter.search), [filter.search]);
 
     useEffect(async () => {
         const response = await fetch(`/api/products?${joinQuery(filter)}`);
@@ -189,7 +187,7 @@ function Search({ enabled, text, setText, submit }) {
                 evt.preventDefault();
                 submit();
             }}>
-                <input type="text" value={text} onChange={e => setText(e.target.value)} />
+                <input type="text" value={text ?? ""} onChange={e => setText(e.target.value)} />
                 <button type="submit" className={styles.search_button}>
                     <span className={styles.search_icn} />
                 </button>
