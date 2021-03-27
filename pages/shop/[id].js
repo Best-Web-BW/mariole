@@ -4,18 +4,18 @@ import { useCallback, useEffect, useState } from "react";
 import FeedbackForm from "../../components/FeedbackForm";
 import formatPrice from "../../utils/common/formatPrice";
 import admin from "../../scss/adminButtons.module.scss";
-import ProductCard from "../../components/ProductCard";
+import RecentBlock from "../../components/RecentBlock";
 import blocks from "../../scss/blocks.module.scss";
+import { inject, observer } from "mobx-react";
 import { _get } from "../api/products/[id]";
 import cycle from "../../utils/math/cycle";
 import styles from "./[id].module.scss";
 import Link from "next/link";
 import cn from "classnames";
-import { inject, observer } from "mobx-react";
 
 const existingSizes = ["S", "M", "L"];
 
-export default function ProductPage({ product }) {
+export default inject("store")(observer(function ProductPage({ store, product }) {
     const [sliderOpened, setSliderOpened] = useState(false);
     const [selectedQuantity, setSelectedQuantity] = useState(1);
     const [selectedImage, setSelectedImage] = useState();
@@ -23,6 +23,8 @@ export default function ProductPage({ product }) {
 
     useEffect(() => setSelectedImage(product.images[0]), [product.images]);
     useEffect(() => setSelectedSize(product.sizes.find(size => existingSizes.includes(size))), [product.sizes]);
+
+    useEffect(() => store.addToRecent(product.id), [product.id]);
 
     return (<>
         <div className={blocks.content_body}>
@@ -53,7 +55,7 @@ export default function ProductPage({ product }) {
                             <SizeSelectionBlock sizes={product.sizes} {...{ selectedSize, setSelectedSize }} />
                         </div>
                         <div className={styles.data_row}>
-                            <CartButton id={product.id} />
+                            <CartButton id={product.id} size={selectedSize} quantity={selectedQuantity} />
                             <FavoriteButton id={product.id} />
                         </div>
                         <div className={cn(styles.data_row, styles.padding)}>
@@ -88,24 +90,14 @@ export default function ProductPage({ product }) {
                 opened={sliderOpened}
             />
             <div className={blocks.content_block}>
-                <div className={styles.saw_before_title}>
-                    <h2>ВЫ СМОТРЕЛИ:</h2>
-                </div>
-                <div className={styles.saw_before_wrapper}>
-                    <div className={styles.saw_before_row}>
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                    </div>
-                </div>
+                <RecentBlock styles={styles} />
             </div>
         </div>
     </>);
-}
+}));
 
-const CartButton = inject("store")(observer(({ store, id }) => (
-    <button className={styles.add_to_cart} onClick={() => store.addToCart(id)}>
+const CartButton = inject("store")(observer(({ store, id, size, quantity }) => (
+    <button className={styles.add_to_cart} onClick={() => store.addToCart(id, size, quantity)}>
         ДОБАВИТЬ В КОРЗИНУ
     </button>
 )));
