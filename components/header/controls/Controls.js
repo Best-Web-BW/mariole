@@ -1,7 +1,7 @@
+import { inject, observer } from "mobx-react";
 import styles from "../Header.module.scss";
 import Link from "next/link";
 import cn from "classnames";
-import { inject, observer } from "mobx-react";
 
 export default function Controls({ openMenu, toggleSearch }) {
     return (

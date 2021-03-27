@@ -1,7 +1,7 @@
 import blocks from "../scss/blocks.module.scss";
 import styles from "./order.module.scss";
-import cn from "classnames";
 import Select from "react-select";
+import cn from "classnames";
 
 const selectTheme = theme => ({
     ...theme, borderRadius: 0,

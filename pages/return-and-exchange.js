@@ -1,7 +1,7 @@
-import blocks from "../scss/blocks.module.scss";
 import styles from "./return-and-exchange.module.scss";
-import cn from "classnames";
+import blocks from "../scss/blocks.module.scss";
 import { useState } from "react";
+import cn from "classnames";
 
 export default function ReturnAndExchange() {
     return (

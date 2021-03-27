@@ -1,11 +1,11 @@
 import { content_body } from "../scss/blocks.module.scss";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
-import Head from "next/head";
-import "../scss/main.scss";
 import { Provider } from "mobx-react";
 import { useStore } from "../store";
 import { useEffect } from "react";
+import Head from "next/head";
+import "../scss/main.scss";
 
 export default function MyApp({ Component, pageProps }) {
     const store = useStore(pageProps.initialState);

@@ -1,5 +1,5 @@
-import blocks from "../scss/blocks.module.scss";
 import styles from "./privacy-policy.module.scss";
+import blocks from "../scss/blocks.module.scss";
 import cn from "classnames";
 
 // I dont want to die

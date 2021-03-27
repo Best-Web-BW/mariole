@@ -1,9 +1,9 @@
 import ProductCard from "../components/ProductCard";
 import blocks from "../scss/blocks.module.scss";
-import styles from "./favorite.module.scss";
-import cn from "classnames";
 import { inject, observer } from "mobx-react";
+import styles from "./favorite.module.scss";
 import { useEffect, useState } from "react";
+import cn from "classnames";
 
 export default inject("store")(observer(function Favorite({ store }) {
     const [products, setProducts] = useState([]);
