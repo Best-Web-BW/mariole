@@ -64,12 +64,13 @@
 }
 
 .add_photo_button {
-    @extend %black_button;
+    @extend %black_button, %flex_nowrap, %flex_middle;
     margin: auto;
-    display: block;
     width: 200px;
     height: 40px;
     font-size: 20px;
+    text-align: center;
+    cursor: pointer;
 }
 
 .delete_button {
