@@ -17,7 +17,7 @@ const HTTPS_PORT = process.env.HTTPS_PORT ?? 443;
 const HTTP_PORT = process.env.HTTP_PORT ?? 80;
 
 const seo = require("./routes/seo.js");
-const api = require("./routes/api.js");
+// const api = require("./routes/api.js");
 
 (async () => {
     try {
@@ -38,8 +38,9 @@ const api = require("./routes/api.js");
 
         express.use("/sitemap.xml", seo.sitemap);
         express.use("/robots.txt", seo.robots);
-		express.use("/api", api);
+		// express.use("/api", api);
         
+        express.all("/api/*", nextHandler);
 		express.get("*", nextHandler);
 
         console.log(`--> Process environment: '${process.env.NODE_ENV}'`);
