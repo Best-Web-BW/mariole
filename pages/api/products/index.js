@@ -29,8 +29,8 @@ function matchesRequest(product, { ids, category, subcategory, limited, bestsell
     );
 }
 
-function cut({ id, price, images: [image], locales, available }, locale) {
-    return { id, price, image, name: locales[locale].name, available };
+function cut({ id, price, images: [image], locales, available, color }, locale) {
+    return { id, price, image, name: locales[locale].name, available, color };
 }
 
 export function _get({ locale = "ru", ...params }) {
