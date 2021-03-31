@@ -6,8 +6,9 @@ export default function handler(req, res) {
     switch(req.method) {
         case "GET": return GET(req, res);
         case "POST": return POST(req, res);
+        case "PATCH": return PATCH(req, res);
         case "DELETE": return DELETE(req, res);
-        default: return methodNotAllowed(req, res);
+        default: return methodNotAllowed(req, res, ["GET", "POST", "PATCH", "DELETE"]);
     }
 }
 
@@ -27,10 +28,108 @@ function GET(req, res) {
     else res.status(404).end();
 }
 
+export function _post(data) {
+    console.log({ action: "_post", data });
+    return { success: 1 };
+}
+
 function POST(req, res) {
-    res.status(200).end("post");
+    const {
+        price, locales: {
+            ru: {
+                name: ruName,
+                description: ruDescription,
+                composition: ruComposition,
+                details: ruDetails
+            },
+            en: {
+                name: enName,
+                description: enDescription,
+                composition: enComposition,
+                details: enDetails
+            }
+        }, color, sizes, /* images, */
+        category, subcategory,
+        limited, bestseller,
+        available, parent
+    } = req.body;
+    const result = _post({
+        price, locales: {
+            ru: {
+                name: ruName,
+                description: ruDescription,
+                composition: ruComposition,
+                details: ruDetails
+            },
+            en: {
+                name: enName,
+                description: enDescription,
+                composition: enComposition,
+                details: enDetails
+            }
+        }, color, sizes, /* images, */
+        category, subcategory,
+        limited, bestseller,
+        available, parent
+    });
+    res.status(200).json(result);
+}
+
+export function _patch(data) {
+    console.log({ action: "_patch", data });
+    return { success: 1 };
+}
+
+function PATCH(req, res) {
+    const { id } = req.query;
+    const {
+        price, locales: {
+            ru: {
+                name: ruName,
+                description: ruDescription,
+                composition: ruComposition,
+                details: ruDetails
+            },
+            en: {
+                name: enName,
+                description: enDescription,
+                composition: enComposition,
+                details: enDetails
+            }
+        }, color, sizes, /* images, */
+        category, subcategory,
+        limited, bestseller,
+        available, parent
+    } = req.body;
+    const result = _patch({
+        id: +id, price, locales: {
+            ru: {
+                name: ruName,
+                description: ruDescription,
+                composition: ruComposition,
+                details: ruDetails
+            },
+            en: {
+                name: enName,
+                description: enDescription,
+                composition: enComposition,
+                details: enDetails
+            }
+        }, color, sizes, /* images, */
+        category, subcategory,
+        limited, bestseller,
+        available, parent
+    });
+    res.status(200).json(result);
+}
+
+function _delete({ id }) {
+    console.log({ action: "_delete", id });
+    return { success: 1 };
 }
 
 function DELETE(req, res) {
-    res.status(200).end("delete");
+    const { id } = req.query;
+    const result = _delete({ id: +id });
+    res.status(200).json(result);
 }
