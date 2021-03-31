@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard";
 export default inject("store")(observer(function RecentBlock({ store, styles }) {
     const [products, setProducts] = useState([]);
     useEffect(async () => {
-        const response = await fetch(`/api/products?ids=${store.recent.toString()}`);
+        const response = await fetch(`/api/products/cart?ids=${store.recent.toString()}`);
         const json = await response.json();
         setProducts(json);
     }, [store.recent]);

@@ -11,15 +11,22 @@ export default inject("store")(observer(function Cart({ store }) {
     const [products, setProducts] = useState([]);
     const [fetched, setFetched] = useState(false);
     useEffect(async () => {
-        if(!fetched) {
-            const products = await Promise.all(store.cart.map(async product => {
-                const response = await fetch(`/api/products/${product.id}`);
-                const { images: [image], locale: { name }, color, price } = await response.json();
-                return { ...product, image, name, color, price };
-            }));
-            setProducts(products);
-            setFetched(true);
-        }
+        const ids = store.cart.map(({ id }) => id);
+        const response = await fetch(`/api/products/cart?ids=${ids.toString()}`);
+        const json = await response.json();
+
+        const products = json.reduce((products, product) => {
+            const cartProduct = store.cart.find(({ id }) => id === product.id);
+            if(cartProduct) products.push({
+                ...product,
+                quantity: cartProduct.quantity,
+                size: cartProduct.size
+            });
+            return products;
+        }, []);
+
+        setProducts(products);
+        setFetched(true);
     }, [store.cart.length]);
     useEffect(() => {
         if(fetched) {
