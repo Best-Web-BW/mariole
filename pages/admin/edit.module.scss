@@ -141,3 +141,22 @@
 .parameters.active {
     max-height: 2000px;
 }
+
+@media screen and (min-width:0px) and (max-width:1024px) { 
+    .parameters {
+        width: 100%;
+        label {
+            width: 90%;
+            input {
+                width: calc(50% - 20px);
+                @extend %input;
+            }
+            textarea {
+                width: calc(50% - 20px);
+                height: 100px;
+                resize: none;
+                @extend %input;
+            }
+        }
+    }
+}
