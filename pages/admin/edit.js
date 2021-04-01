@@ -4,6 +4,7 @@ import styles from "./edit.module.scss";
 import Select from "react-select";
 import { useState } from "react";
 import cn from "classnames";
+import deserializeForm from "../../utils/common/deserializeForm";
 
 const select = {
     theme: theme => ({
@@ -107,7 +108,7 @@ const select = {
 export default function Edit() {
     const [language, setLanguage] = useState("RU");
     const [color, setColor] = useState();
-    const [sizes, setSizes] = useState();
+    const [sizes, setSizes] = useState([]);
     const [category, setCategory] = useState();
     const changeCategory = category => {
         setCategory(category);
@@ -125,8 +126,8 @@ export default function Edit() {
 
         const response = await fetch("/api/products/4", {
             method: "POST",
-            // headers: { "Content-Type": "application/json;charset=utf-8" },
-            // body: JSON.stringify(formData)
+            headers: { "Content-Type": "application/json;charset=utf-8" },
+            body: JSON.stringify(formData)
         });
         const json = await response.json();
         console.log({ json });
