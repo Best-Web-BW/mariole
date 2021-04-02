@@ -2,6 +2,7 @@ const forceSSL = require("express-force-ssl");
 const express = require("express")();
 const http = require("http");
 const next = require("next");
+const path = require("path");
 const fs = require("fs");
 
 const spdy = require("spdy");
@@ -17,7 +18,6 @@ const HTTPS_PORT = process.env.HTTPS_PORT ?? 443;
 const HTTP_PORT = process.env.HTTP_PORT ?? 80;
 
 const seo = require("./routes/seo.js");
-// const api = require("./routes/api.js");
 
 (async () => {
     try {
@@ -30,15 +30,17 @@ const seo = require("./routes/seo.js");
         http.createServer(express).listen(HTTP_PORT);
         express.use(forceSSL);
         
-        // const dynamicFileHandler = (req, res) => res.sendFile(__dirname + path.normalize(decodeURI(req.path)));
-        // express.post("/documents/*", dynamicFileHandler);
-        // express.get("/documents/*", dynamicFileHandler);
-        // express.post("/images/*", dynamicFileHandler);
-        // express.get("/images/*", dynamicFileHandler);
+        const dynamicFileHandler = async (req, res, next) => {
+            try {
+                const filePath = path.join(process.cwd() + decodeURIComponent(req.baseUrl));
+                await fs.promises.access(filePath);
+                res.sendFile(filePath);
+            } catch(e) { next(); }
+        }
+        express.use("/images/*", dynamicFileHandler);
 
         express.use("/sitemap.xml", seo.sitemap);
         express.use("/robots.txt", seo.robots);
-		// express.use("/api", api);
         
         express.all("/api/*", nextHandler);
 		express.get("*", nextHandler);
