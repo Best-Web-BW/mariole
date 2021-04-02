@@ -1,10 +1,13 @@
+import deserializeForm from "../../utils/common/deserializeForm";
 import serializeForm from "../../utils/common/serializeForm";
+import { _get as getParents } from "../api/products/parents";
+import { _get as getProduct } from "../api/products/[id]";
+import { _get as authorize } from "../api/auth/authorize";
+import { useEffect, useRef, useState } from "react";
 import blocks from "../../scss/blocks.module.scss";
 import styles from "./edit.module.scss";
 import Select from "react-select";
-import { useState } from "react";
 import cn from "classnames";
-import deserializeForm from "../../utils/common/deserializeForm";
 
 const select = {
     theme: theme => ({
@@ -47,48 +50,48 @@ const select = {
         })
     },
     colors: [
-        {      value: "white", label: "белый" },
-        {      value: "beige", label: "бежевый" },
-        { value: "light_blue", label: "голубой" },
-        {     value: "yellow", label: "жёлтый" },
-        {      value: "green", label: "зелёный" },
-        {      value: "brown", label: "коричневый" },
-        {        value: "red", label: "красный" },
+        {      value: "white", label: "белый"       },
+        {      value: "beige", label: "бежевый"     },
+        { value: "light_blue", label: "голубой"     },
+        {     value: "yellow", label: "жёлтый"      },
+        {      value: "green", label: "зелёный"     },
+        {      value: "brown", label: "коричневый"  },
+        {        value: "red", label: "красный"     },
         {  value: "red_poppy", label: "красный мак" },
-        {      value: "milky", label: "молочный" },
-        {       value: "sand", label: "песочный" },
-        {       value: "grey", label: "серый" },
-        {       value: "blue", label: "синий" },
-        {      value: "taiga", label: "тайга" },
-        { value: "terracotta", label: "терракот" },
-        {      value: "black", label: "чёрный" }
+        {      value: "milky", label: "молочный"    },
+        {       value: "sand", label: "песочный"    },
+        {       value: "grey", label: "серый"       },
+        {       value: "blue", label: "синий"       },
+        {      value: "taiga", label: "тайга"       },
+        { value: "terracotta", label: "терракот"    },
+        {      value: "black", label: "чёрный"      }
     ],
     sizes: [
         { value: "XS", label: "XS" },
-        {  value: "S", label: "S" },
-        {  value: "M", label: "M" },
-        {  value: "L", label: "L" }
+        {  value: "S", label: "S"  },
+        {  value: "M", label: "M"  },
+        {  value: "L", label: "L"  }
     ],
     categories: [
         {
             value: "knitwear",
             label: "Трикотаж",
             subcategories: [
-                {       value: "suit", label: "Костюмы" },
-                { value: "turtleneck", label: "Водолазки" },
-                {  value: "cardigans", label: "Кардиганы" }
+                {       value: "suits", label: "Костюмы"   },
+                { value: "turtlenecks", label: "Водолазки" },
+                {   value: "cardigans", label: "Кардиганы" }
             ]
         },
         {
             value: "accessories",
             label: "Аксессуары",
             subcategories: [
-                {     value: "mittens", label: "Варежки" },
-                {      value: "gloves", label: "Перчатки" },
-                {       value: "socks", label: "Носки" },
-                { value: "headscarves", label: "Косынки" },
-                {      value: "shawls", label: "Платки" },
-                {      value: "stoles", label: "Палантины" },
+                {     value: "mittens", label: "Варежки"        },
+                {      value: "gloves", label: "Перчатки"       },
+                {       value: "socks", label: "Носки"          },
+                { value: "headscarves", label: "Косынки"        },
+                {      value: "shawls", label: "Платки"         },
+                {      value: "stoles", label: "Палантины"      },
                 {    value: "headwear", label: "Головные уборы" }
             ]
         },
@@ -96,41 +99,85 @@ const select = {
             value: "jewelry",
             label: "Украшения",
             subcategories: [
-                { value: "necklaces", label: "Колье" },
-                {  value: "earrings", label: "Серьги" },
+                { value: "necklaces", label: "Колье"    },
+                {  value: "earrings", label: "Серьги"   },
                 { value: "bracelets", label: "Браслеты" },
-                {  value: "brooches", label: "Броши" }
+                {  value: "brooches", label: "Броши"    }
             ]
         }
     ]
 };
 
-export default function Edit() {
+export async function getServerSideProps({ req: { cookies }, query: { id } }) {
+    const authorization = authorize({ uuid: cookies.uuid, accessKey: cookies.access_key });
+    if(authorization.success) {
+        const product = getProduct({ id: +id, full: true }) ?? null;
+        const parents = getParents().map(({ id, name }) => ({ value: id, label: name }));
+        return { props: { product, parents } };
+    } else return {
+        redirect: {
+            destination: "/admin/login",
+            permanent: false
+        }
+    }
+
+}
+
+export default function Edit({ product, parents }) {
+    const [parent, setParent] = useState();
+    const form = useRef();
+    useEffect(async () => {
+        if(parent || product) {
+            let data;
+            if(parent) {
+                const response = await fetch(`/api/products/${parent.value}?full=1`);
+                data = await response.json();
+            } else data = product;
+
+            deserializeForm(form.current, {
+                locales: data.locales,
+                price: data.price,
+                out_of_stock: !data.available,
+                limited: data.limited,
+                bestseller: data.bestseller
+            });
+
+            setColor(select.colors.find(({ value }) => value === data.color));
+            setSizes(select.sizes.filter(({ value }) => data.sizes.includes(value)));
+
+            const category = select.categories.find(({ value }) => value === data.category);
+            const subcategory = category.subcategories.find(({ value }) => value === data.subcategory);
+            changeCategory(category, subcategory);
+        }
+    }, [parent]);
+
+    const [images, setImages] = useState(product?.images ?? []);
+
     const [language, setLanguage] = useState("RU");
     const [color, setColor] = useState();
     const [sizes, setSizes] = useState([]);
     const [category, setCategory] = useState();
-    const changeCategory = category => {
-        setCategory(category);
-        setSubcategory(null);
-    };
     const [subcategory, setSubcategory] = useState();
+    const changeCategory = (category, subcategory = null) => {
+        setCategory(category);
+        setSubcategory(subcategory);
+    };
 
     const submit = async formData => {
+        formData.images = images;
         formData.sizes = sizes.map(({ label }) => label);
         formData.available = !formData.out_of_stock;
+        if(parent) formData.parent = parent.value;
         delete formData.out_of_stock;
         delete formData[""];
-        console.log({ formData });
-        console.log({ jsoned: JSON.stringify(formData) });
 
-        const response = await fetch("/api/products/4", {
-            method: "POST",
+        const url = `/api/products/${product?.id ?? "_"}`;
+        const method = product ? "PATCH" : "POST";
+        const response = await fetch(url, {
             headers: { "Content-Type": "application/json;charset=utf-8" },
-            body: JSON.stringify(formData)
+            method, body: JSON.stringify(formData)
         });
         const json = await response.json();
-        console.log({ json });
     };
 
     const resetSelects = () => {
@@ -143,21 +190,12 @@ export default function Edit() {
         <div className={blocks.content_body}>
             <div className={styles.page}>
                 <div className={styles.row}>
-                    <h2 className={styles.title}>Загрузите фотографии товара</h2>
-                    <label>
-                        <input className={styles.hidden} type="file" multiple accept="image/*" />
-                        <div className={styles.add_photo_button}>Загрузить</div>
-                    </label>
-                    <div className={styles.photo_wrapper}>
-                        <div className={styles.photo_elem}>
-                            <span className={styles.delete_button} />
-                            <img src="/images/products/p1.1.jpg" alt="" />
-                        </div>
-                        <div className={styles.photo_elem}>
-                            <span className={styles.delete_button} />
-                            <img src="/images/products/p1.2.jpg" alt="" />
-                        </div>
-                    </div>
+                    <ImageLoader
+                        multiple
+                        type="products"
+                        images={images}
+                        setImages={setImages}
+                    />
                 </div>
                 <div className={styles.row}>
                     <h2 className={styles.title}>Параметры товара</h2>
@@ -165,7 +203,7 @@ export default function Edit() {
                         <LanguageButton language="RU" currentLanguage={language} setLanguage={setLanguage} />
                         <LanguageButton language="EN" currentLanguage={language} setLanguage={setLanguage} />
                     </div>
-                    <form id="form" autoComplete="off" onSubmit={evt => {
+                    <form ref={form} id="form" autoComplete="off" onSubmit={evt => {
                         evt.preventDefault();
                         submit(serializeForm(evt.target));
                     }}>
@@ -196,7 +234,6 @@ export default function Edit() {
                                     onChange={setColor}
                                     value={color}
                                     name="color"
-                                    
                                 />
                             </label>
                             <label>
@@ -244,9 +281,10 @@ export default function Edit() {
                                 Родительский товар
                                 <Select
                                     instanceId="parent_select"
-                                    options={[]} // !!!!!!
                                     styles={select.styles}
                                     theme={select.theme}
+                                    onChange={setParent}
+                                    options={parents}
                                 />
                             </label>
                             <label>
@@ -300,5 +338,49 @@ function LanguageButton({ language, currentLanguage, setLanguage }) {
             className={cn(styles.changeLangBtn, styles.left, { [styles.active]: language === currentLanguage })}
             onClick={() => setLanguage(language)}
         >{ language }</button>
+    );
+}
+
+function ImageLoader({ multiple, type, images, setImages }) {
+    const filterImages = imagesToFilter => images.filter(image => !imagesToFilter.includes(image));
+    const addImages = images => setImages(multiple ? [...filterImages(images), ...images] : images);
+    const removeImage = image => setImages(filterImages([image]));
+
+    const loadImages = async images => {
+        images = Array.from(images);
+        const formData = new FormData();
+        for(const image of images) formData.append("images", image);
+
+        const response = await fetch(`/api/load/images?type=${type}`, {
+            method: "POST",
+            body: formData
+        });
+        const json = await response.json();
+        addImages(json.images.map(({ url }) => url));
+    };
+
+    return (<>
+        <h2 className={styles.title}>Загрузите фотографии товара</h2>
+        <form encType="multipart/form-data" onSubmit={e => e.preventDefault()}>
+            <label>
+                <input
+                    className={styles.hidden} type="file" multiple accept="image/*"
+                    onChange={evt => loadImages(evt.target.files)}
+                />
+                <div className={styles.add_photo_button}>Загрузить</div>
+            </label>
+        </form>
+        <div className={styles.photo_wrapper}>{
+            images.map(image => <ImageEntry key={image} url={image} remove={() => removeImage(image)} />)
+        }</div>
+    </>);
+}
+
+function ImageEntry({ url, remove }) {
+    return (
+        <div className={styles.photo_elem}>
+            <span className={styles.delete_button} onClick={remove} />
+            <img src={url} alt="" />
+        </div>
     );
 }
