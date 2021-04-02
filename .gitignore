@@ -35,3 +35,5 @@ yarn-error.log*
 .vs/vivat/v16/.suo
 .vs/VSWorkspaceState.json
 .vscode/settings.json
+pages/api/mail/data.json
+pages/api/auth/admins.json
