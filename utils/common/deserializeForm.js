@@ -1,10 +1,10 @@
 export default function deserializeForm(form, data) {
     const flattened = flattenObject(data);
-    console.log({ flattened });
-    for(const name in form.elements) {
+    // console.log({ flattened });
+    for(const name in flattened) {
         const element = form.elements[name];
         const value = flattened[name];
-        switch(element.type) {
+        if(typeof element === "object") switch(element.type) {
             case "checkbox":
                 element.checked = value;
                 break;
@@ -12,7 +12,7 @@ export default function deserializeForm(form, data) {
                 element.checked = element.value === value;
                 break;
             case "number":
-                element.valueAsNumber = value;
+                element.valueAsNumber = Number.isNaN(value) ? 0 : value;
                 break;
             default:
                 element.value = value;
