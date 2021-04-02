@@ -41,10 +41,15 @@ class Store {
     cutRecent = () => this.recent.slice(-3); // 3 last products
     addToRecent = id => this.setRecent([...this.cutRecent(), id]);
 
+    @observable admin = false;
+    @action enableAdmin = () => this.admin = true;
+    @action disableAdmin = () => this.admin = false;
+
     @action initClientStore = () => runInAction(() => {
         this.favorite = localStorage.favorite ? JSON.parse(localStorage.favorite) : [];
         this.cart = localStorage.cart ? JSON.parse(localStorage.cart) : [];
         this.recent = localStorage.recent ? JSON.parse(localStorage.recent) : [];
+        this.admin = false;
     });
 
     /*  Examples of store use.
@@ -73,6 +78,7 @@ class Store {
         this.favorite = data.favorite ?? [];
         this.cart = data.cart ?? [];
         this.recent = data.recent ?? [];
+        this.admin = false;
 
         /*  Examples of hydrate use
 
