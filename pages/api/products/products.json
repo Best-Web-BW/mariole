@@ -25,7 +25,7 @@
             "/images/products/p1.4.webp"
         ],
         "category": "knitwear",
-        "subcategory": "suit",
+        "subcategory": "suits",
         "limited": false,
         "bestseller": false,
         "available": true,
@@ -57,7 +57,7 @@
             "/images/products/p1.4.webp"
         ],
         "category": "knitwear",
-        "subcategory": "turtleneck",
+        "subcategory": "turtlenecks",
         "limited": false,
         "bestseller": true,
         "available": true,
