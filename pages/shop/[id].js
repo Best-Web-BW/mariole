@@ -1,19 +1,26 @@
 import deleteFalsyValues from "../../utils/common/deleteFalsyValues";
 import StylableSizeTable from "../../components/StylableSizeTable";
+import { _get as getProduct } from "../api/products/[id]";
 import { useCallback, useEffect, useState } from "react";
 import FeedbackForm from "../../components/FeedbackForm";
 import formatPrice from "../../utils/common/formatPrice";
 import admin from "../../scss/adminButtons.module.scss";
 import RecentBlock from "../../components/RecentBlock";
 import blocks from "../../scss/blocks.module.scss";
+import ForAdmin from "../../components/ForAdmin";
 import { inject, observer } from "mobx-react";
-import { _get } from "../api/products/[id]";
 import cycle from "../../utils/math/cycle";
 import styles from "./[id].module.scss";
 import Link from "next/link";
 import cn from "classnames";
 
 const existingSizes = ["S", "M", "L"];
+
+export async function getServerSideProps({ params: { id } }) {
+    const product = getProduct({ locale: "ru", id: +id });
+    if(product) return { props: { product: deleteFalsyValues(product) } };
+    else return { notFound: true };
+}
 
 export default inject("store")(observer(function ProductPage({ store, product }) {
     const [sliderOpened, setSliderOpened] = useState(false);
@@ -41,7 +48,13 @@ export default inject("store")(observer(function ProductPage({ store, product })
                     <div className={styles.product_data}>
                         <div className={styles.data_row}>
                             <h2>{ product.locale.name }</h2>
-                            <button className={admin.button}>Изменить товар</button>
+                            <ForAdmin>
+                                <Link href={`/admin/edit?id=${product.id}`}>
+                                    <a>
+                                        <button className={admin.button}>Изменить товар</button>
+                                    </a>
+                                </Link>
+                            </ForAdmin>
                         </div>
                         <div className={styles.data_row}>
                             <p className={styles.price}>{ formatPrice(product.price) } &#8381;</p>
@@ -246,10 +259,4 @@ function InfoBlock({ title, children }) {
             </div>
         </div>
     );
-}
-
-export async function getServerSideProps({ params: { id } }) {
-    const product = _get({ locale: "ru", id: +id });
-    if(product) return { props: { product: deleteFalsyValues(product) } };
-    else return { notFound: true };
 }

@@ -4,11 +4,13 @@ import admin from "../scss/adminButtons.module.scss";
 import ProductCard from "../components/ProductCard";
 import { joinQuery } from "../utils/common/network";
 import blocks from "../scss/blocks.module.scss";
+import ForAdmin from "../components/ForAdmin";
 import styles from "./shop.module.scss";
 import { useRouter } from "next/router";
 import { _get } from "./api/products";
 import Select from "react-select";
 import cn from "classnames";
+import Link from "next/link";
 
 const sortingOptions = [
     { value: "price_0-1", label: "Цена по возрастанию" },
@@ -126,17 +128,6 @@ export default function Shop({ enabledSearch, defaultProducts }) {
             enabled={enabledSearch} submit={() => toggle.search(search)}
             text={search} setText={setSearch}
         />
-        {/* <div className={cn(styles.search_results, { [styles.hidden]: !filter.search?.length })}>
-            <div className={styles.search_title}>
-                <h2>Результаты поиска</h2>
-            </div>
-            <form className={styles.search_form} onSubmit={e => e.preventDefault()}>
-                <input type="text" />
-                <button type="submit" className={styles.search_button}>
-                    <span className={styles.search_icn} />
-                </button>
-            </form>
-        </div> */}
         <div className={cn(blocks.content_block, styles.shop_page)}>
             <div className={cn(styles.menu_wrapper, { [styles.opened]: mobileMenuOpened })}>
                 <div className={cn(styles.menu_cross_wrapper)}>
@@ -161,7 +152,13 @@ export default function Shop({ enabledSearch, defaultProducts }) {
                             onClick={() => setMobileMenuOpened(true)}
                         />
                     </div>
-                    <button className={admin.button}>Создать товар</button>
+                    <ForAdmin>
+                        <Link href="/admin/edit">
+                            <a>
+                                <button className={admin.button}>Создать товар</button>
+                            </a>
+                        </Link>
+                    </ForAdmin>
                     <div className={styles.select_wrapper}>
                         <Select
                             instanceId="sorting_select"
@@ -210,30 +207,30 @@ function CategoryMenu({ toggle, filter }) {
                     <CategoryFilter
                         toggle={toggle} name="knitwear" title="Трикотаж"
                         subcategories={[
-                            ["suit", "Костюмы"],
-                            ["turtleneck", "Водолазки"],
-                            ["cardigans", "Кардиганы"]
+                            [      "suits", "Костюмы"  ],
+                            ["turtlenecks", "Водолазки"],
+                            [  "cardigans", "Кардиганы"]
                         ]}
                     />
                     <CategoryFilter
                         toggle={toggle} name="accessories" title="Аксессуары"
                         subcategories={[
-                            ["mittens", "Варежки"],
-                            ["gloves", "Перчатки"],
-                            ["socks", "Носки"],
-                            ["headscarves", "Косынки"],
-                            ["shawls", "Платки"],
-                            ["stoles", "Палантины"],
-                            ["headwear", "Головные уборы"]
+                            [    "mittens", "Варежки"       ],
+                            [     "gloves", "Перчатки"      ],
+                            [      "socks", "Носки"         ],
+                            ["headscarves", "Косынки"       ],
+                            [     "shawls", "Платки"        ],
+                            [     "stoles", "Палантины"     ],
+                            [   "headwear", "Головные уборы"]
                         ]}
                     />
                     <CategoryFilter
                         toggle={toggle} name="jewelry" title="Украшения"
                         subcategories={[
-                            ["necklaces", "Колье"],
-                            ["earrings", "Серьги"],
+                            ["necklaces", "Колье"   ],
+                            [ "earrings", "Серьги"  ],
                             ["bracelets", "Браслеты"],
-                            ["brooches", "Броши"]
+                            [ "brooches", "Броши"   ]
                         ]}
                     />
                     <LimitedFilter toggle={toggle.limited} active={filter.limited} />
