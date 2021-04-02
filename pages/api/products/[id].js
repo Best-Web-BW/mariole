@@ -12,18 +12,18 @@ export default function handler(req, res) {
     }
 }
 
-export function _get({ locale = "ru", id = 0 }) {
+export function _get({ locale = "ru", id = 0, full = false }) {
     const product = products.find(entry => entry.id === id);
     if(product) {
         const linkedProducts = products.filter(({ space }) => space === product.space);
         product.links = linkedProducts.map(({ id, color, images: [image] }) => ({ id, color, image }));
-        return leaveOneLocale(product, locale);
+        return full ? product : leaveOneLocale(product, locale);
     } else return product;
 }
 
 function GET(req, res) {
-    const { locale, id } = req.query;
-    const product = _get({ locale, id: +id });
+    const { locale, id, full } = req.query;
+    const product = _get({ locale, id: +id, full });
     if(product) res.status(200).json(product);
     else res.status(404).end();
 }
@@ -99,7 +99,7 @@ function PATCH(req, res) {
         }, color, sizes, /* images, */
         category, subcategory,
         limited, bestseller,
-        available, parent
+        available
     } = req.body;
     const result = _patch({
         id: +id, price, locales: {
@@ -118,7 +118,7 @@ function PATCH(req, res) {
         }, color, sizes, /* images, */
         category, subcategory,
         limited, bestseller,
-        available, parent
+        available
     });
     res.status(200).json(result);
 }
