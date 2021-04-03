@@ -2,34 +2,6 @@ import { methodNotAllowed } from "../../../utils/common/network";
 import { address, password } from "./data.json";
 import nodemailer from "nodemailer";
 const mariole = "Mario'le";
-const mailer = {
-    transporter: nodemailer.createTransport({
-        host: "smtp.yandex.ru",
-        port: 465,
-        secure: true,
-        auth: { user: address, pass: password },
-    }),
-    admin: ({ }) => ({
-        from: `"${mariole}" <${address}>`,
-        to: address,
-        subject: `Заказ`,
-        html: `
-            <div>
-                <p>Информация о заказе.</p>
-            </div>
-        `
-    }),
-    user: ({ email }) => ({
-        from: `"${mariole}" <${address}>`,
-        to: email,
-        subject: `Заказ`,
-        html: `
-            <div>
-                <p>Информация о заказе.</p>
-            </div>
-        `
-    })
-};
 
 export default function handler(req, res) {
     switch(req.method) {
@@ -38,12 +10,45 @@ export default function handler(req, res) {
     }
 }
 
+const transporter = nodemailer.createTransport({
+    host: "smtp.yandex.ru",
+    port: 465,
+    secure: true,
+    auth: { user: address, pass: password }
+});
+
+function makeAdminMessage({ }) {
+    return {
+        from: `"${mariole}" <${address}>`,
+        to: address,
+        subject: `Заказ`,
+        html: `
+            <div>
+                <p>Информация о заказе.</p>
+            </div>
+        `
+    };
+}
+
+function makeUserMessage({ email }) {
+    return {
+        from: `"${mariole}" <${address}>`,
+        to: email,
+        subject: `Заказ`,
+        html: `
+            <div>
+                <p>Информация о заказе.</p>
+            </div>
+        `
+    };
+}
+
 async function _post({ email }) {
     try {
         const data = { email };
         await Promises.all([
-            mailer.transporter.sendMail(mailer.admin(data)),
-            mailer.transporter.sendMail(mailer.user(data))
+            transporter.sendMail(makeAdminMessage(data)),
+            transporter.sendMail(makeUserMessage(data))
         ]);
         return { success: 1 };
     } catch(e) {

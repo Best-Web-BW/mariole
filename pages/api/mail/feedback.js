@@ -2,14 +2,23 @@ import { methodNotAllowed } from "../../../utils/common/network";
 import { address, password } from "./data.json";
 import nodemailer from "nodemailer";
 const mariole = "Mario'le";
-const mailer = {
-    transporter: nodemailer.createTransport({
-        host: "smtp.yandex.ru",
-        port: 465,
-        secure: true,
-        auth: { user: address, pass: password },
-    }),
-    admin: ({ name, email, phone, message }) => ({
+
+export default function handler(req, res) {
+    switch(req.method) {
+        case "POST": return POST(req, res);
+        default: return methodNotAllowed(req, res, ["POST"]);
+    }
+}
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.yandex.ru",
+    port: 465,
+    secure: true,
+    auth: { user: address, pass: password }
+});
+
+function makeMessage({ name, email, phone, message }) {
+    return {
         from: `"${mariole}" <${address}>`,
         to: address,
         subject: `Обратная связь`,
@@ -26,20 +35,13 @@ const mailer = {
                 <p>${message}</p>
             </div>
         `
-    })
-};
-
-export default function handler(req, res) {
-    switch(req.method) {
-        case "POST": return POST(req, res);
-        default: return methodNotAllowed(req, res, ["POST"]);
-    }
+    };
 }
 
-async function _post({ name, email, phone, question }) {
+async function _post({ name, email, phone, message }) {
     try {
-        const data = { name, email, phone, question };
-        await mailer.transporter.sendMail(mailer.admin(data));
+        const data = { name, email, phone, message };
+        await transporter.sendMail(makeMessage(data));
         return { success: 1 };
     } catch(e) {
         console.error(e);
@@ -48,7 +50,7 @@ async function _post({ name, email, phone, question }) {
 }
 
 async function POST(req, res) {
-    const { name, email, phone, question } = req.body;
-    const result = await _post({ name, email, phone, question });
+    const { name, email, phone, message } = req.body;
+    const result = await _post({ name, email, phone, message });
     res.status(result.success ? 200 : 400).end();
 }
