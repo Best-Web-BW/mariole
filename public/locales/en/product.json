@@ -1,0 +1,10 @@
+{
+    "quantity": "Quantity",
+    "color": "Color",
+    "size": "Size",
+    "composition": "Composition",
+    "details": "Details",
+    "feedback-title": "Ask a question",
+    "add-to-cart": "ADD TO CART",
+    "add-to-favorite": "ADD TO FAVORITE"
+}
