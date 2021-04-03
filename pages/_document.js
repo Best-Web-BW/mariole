@@ -8,7 +8,7 @@ export default class MyDocument extends Document {
 
     render() {
         return (
-            <Html lang="ru">
+            <Html>
                 <Head>
                     <link rel="stylesheet" href="/fonts/Fontello/css/fontello.css" />
                     <link rel="stylesheet" href="/fonts/Fontello/css/animation.css" />
