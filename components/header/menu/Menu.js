@@ -1,4 +1,5 @@
 import { getMenuItem } from "../../MenuItemGenerator";
+import LanguageBlock from "../../LanguageBlock";
 import styles from "../Header.module.scss";
 import { useState } from "react";
 import Link from "next/link";
@@ -43,22 +44,9 @@ export default function Menu({ opened, close }) {
                             <a className={styles.social_link} />
                         </Link>
                     </li>
-                    <LanguageBlock />
+                    <LanguageBlock styles={styles} />
                 </ul>
             </div>
-        </div>
-    );
-}
-
-function LanguageBlock() {
-    return (
-        <div className={styles.changeLang_container}>
-            <Link href="#">
-                <a className={cn(styles.changeLangBtn, styles.left, styles.active)}>RU</a>
-            </Link>
-            <Link href="#">
-                <a className={cn(styles.changeLangBtn, styles.right)}>EN</a>
-            </Link>
         </div>
     );
 }

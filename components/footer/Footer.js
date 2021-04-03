@@ -1,7 +1,7 @@
 import { getMenuItem } from "../MenuItemGenerator";
 import blocks from "../../scss/blocks.module.scss";
+import LanguageBlock from "../LanguageBlock";
 import styles from "./Footer.module.scss";
-import Link from "next/link";
 import cn from "classnames";
 
 export default function Footer() {
@@ -13,14 +13,7 @@ export default function Footer() {
                 </div>
                 <div className={styles.changeLang_wrapper}>
                     <p>Choose your language</p>
-                    <div className={styles.changeLang_container}>
-                        <Link href="#">
-                            <a className={cn(styles.changeLangBtn, styles.left, styles.active)}>RU</a>
-                        </Link>
-                        <Link href="#">
-                            <a className={cn(styles.changeLangBtn, styles.right)}>EN</a>
-                        </Link>
-                    </div>
+                    <LanguageBlock styles={styles} />
                 </div>
             </div>
             <div className={cn(blocks.row, styles.row)}>
@@ -44,9 +37,7 @@ export default function Footer() {
             </div>
             <div className={cn(blocks.row, styles.copyright_block)}>
                 <p className={styles.copyright_text}>
-                    &#169; Mario'le <span>2021</span> | Все права защищены | Design and template by <Link href="#">
-                        <a>BestWeb Studio</a>
-                    </Link>
+                    &#169; Mario'le <span>2021</span> | Все права защищены | Design and template by <a href="https://reginleif.tech">Reginleif</a>
                 </p>
             </div>
         </div>
