@@ -1,3 +1,25 @@
 {
-	"title": "Order"
+	"title": "Order",
+    "shipping-address": "Shipping address",
+    "email": "Email",
+    "first-name": "First name",
+    "last-name": "Last name",
+    "country": "Country",
+    "address": "Address",
+    "city": "City",
+    "postal-code": "Postal code",
+    "phone": "Phone",
+    "only-email": "Only email",
+    "subscribe": "Yes, I want to receive news and exclusive offers",
+    "shipping-method": "Shipping method",
+    "cdek": "CDEK",
+    "free": "Free",
+    "courier": "Courier",
+    "payment": "Payment",
+    "online": "Online",
+    "cash-to-courier": "Cash to the courier",
+    "pay": "Pay",
+    "subtotal": "Subtotal:",
+    "shipping": "Shipping:",
+    "total": "Total:"
 }

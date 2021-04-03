@@ -41,16 +41,23 @@ const selectStyles = {
 const selectCountries = [{ value: "russia", label: "Россия" }];
 
 export const getStaticProps = async ({ locale }) => ({
-    props: { ...await serverSideTranslations(locale, ["page_order"]) }
+    props: {
+        locale,
+        ...await serverSideTranslations(locale, [
+            "common_colors",
+            "page_order"
+        ])
+    }
 });
 
-export default inject("store")(observer(function Order({ store }) {
+export default inject("store")(observer(function Order({ store, locale }) {
     const { t } = useTranslation("page_order");
+    const { t: colors } = useTranslation("common_colors");
 
     const [products, setProducts] = useState([]);
     useEffect(async () => {
         const ids = store.cart.map(({ id }) => id);
-        const response = await fetch(`/api/products/cart?ids=${ids.toString()}`);
+        const response = await fetch(`/api/products/cart?locale=${locale}&ids=${ids.toString()}`);
         const json = await response.json();
 
         const products = json.reduce((products, product) => {
@@ -130,21 +137,21 @@ export default inject("store")(observer(function Order({ store }) {
                     <input type="hidden" name="price" value={totalPrice} />
                     <input type="hidden" name="address" value={orderAddress} />
                     <div className={styles.form_block}>
-                        <p className={styles.form_block_title}>1. Адрес доставки</p>
+                        <p className={styles.form_block_title}>1. { t("shipping-address") }</p>
                         <label className={styles.full_width_label}>
-                            Адрес электронной почты
+                            { t("email") }
                             <input type="email" name="email" autoComplete="email" required />
                         </label>
                         <label className={styles.half_width_label}>
-                            Имя
+                            { t("first-name") }
                             <input type="text" name="name.first" autoComplete="given-name" required />
                         </label>
                         <label className={styles.half_width_label}>
-                            Фамилия
+                            { t("last-name") }
                             <input type="text" name="name.last" autoComplete="family-name" required />
                         </label>
                         <label className={styles.full_width_label}>
-                            Страна
+                            { t("country") }
                             <Select
                                 instanceId="country_select"
                                 styles={selectStyles}
@@ -155,7 +162,7 @@ export default inject("store")(observer(function Order({ store }) {
                             />
                         </label>
                         <label className={styles.full_width_label}>
-                            Адрес <br />
+                            { t("address") } <br />
                             <div className={styles.full_width_label}>
                                 <AddressSuggestions
                                     token="7c5272e224601f8a36fd147a354c266eb2494cd9"
@@ -165,48 +172,46 @@ export default inject("store")(observer(function Order({ store }) {
                             </div>
                         </label>
                         <label className={styles.label_2_3}>
-                            Город
+                            { t("city") }
                             <input
                                 type="text" name="city" autoComplete="address-level2" required
                                 value={city} onChange={e => setCity(e.target.value)} 
                             />
                         </label>
                         <label className={styles.label_1_3}>
-                            Индекс
+                            { t("postal-code") }
                             <input
                                 type="text" name="postal_code" autoComplete="postal-code" required
                                 value={postalCode} onChange={e => setPostalCode(e.target.value)} 
                             />
                         </label>
                         <label className={styles.full_width_label}>
-                            Телефон
+                            { t("phone") }
                             <input type="tel" name="phone" autoComplete="tel" required />
                         </label>
                         <label className={styles.full_width_label}>
                             <input className={styles.confidantial} type="checkbox" name="only_email" />
-                            <p className={styles.confidantial}>Адрес электронной почты</p>
+                            <p className={styles.confidantial}>{ t("only-email") }</p>
                         </label>
                         <label className={styles.full_width_label}>
                             <input
                                 className={styles.confidantial} type="checkbox"
                                 name="subscribe" defaultChecked
                             />
-                            <p className={styles.confidantial}>
-                                Да, я хочу получать новости и эксклюзивные предложения
-                            </p>
+                            <p className={styles.confidantial}>{ t("subscribe") }</p>
                         </label>
                     </div>
                     <div className={styles.form_block}>
-                        <p className={styles.form_block_title}>2. Способ доставки</p>
+                        <p className={styles.form_block_title}>2. { t("shipping-method") }</p>
                         <div className={cn(styles.full_width_label, styles.delivery)}>
                             <label>
                                 <input
                                     type="radio" name="delivery" value="cdek" required defaultChecked
                                     onClick={e => e.target.checked && setDeliveryPrice(0)}
                                 />
-                                СDEK
+                                { t("cdek") }
                             </label>
-                            <p className={styles.price}>Бесплатно</p>
+                            <p className={styles.price}>{ t("free") }</p>
                         </div>
                         <div className={cn(styles.full_width_label, styles.delivery)}>
                             <label>
@@ -214,43 +219,41 @@ export default inject("store")(observer(function Order({ store }) {
                                     type="radio" name="delivery" value="courier" required
                                     onClick={e => e.target.checked && setDeliveryPrice(500)}
                                 />
-                                Курьер
+                                { t("courier") }
                             </label>
-                            <p className={styles.price}>500р</p>
+                            <p className={styles.price}>500 &#8381;</p>
                         </div>
                     </div>
                     <div className={styles.form_block}>
-                        <p className={styles.form_block_title}>3. Оплата</p>
+                        <p className={styles.form_block_title}>3. { t("payment") }</p>
                         <label className={cn(styles.full_width_label, styles.payment)}>
                             <input type="radio" name="payment" value="online" required defaultChecked />
-                            &nbsp;Онлайн
+                            &nbsp;{ t("online") }
                         </label>
                         <label className={cn(styles.full_width_label, styles.payment)}>
-                            {/* <input type="radio" name="payment" value="online" required defaultChecked /> Онлайн
-                            <br /> */}
                             <input type="radio" name="payment" value="cash" required />
-                            &nbsp;Наличными курьеру
+                            &nbsp;{ t("cash-to-courier") }
                         </label>
                     </div>
                     <div className={styles.form_block}>
-                        <button className={styles.pay_button}>Оплатить</button>
+                        <button className={styles.pay_button}>{ t("pay") }</button>
                     </div>
                 </form>
             </div>
             <div className={styles.column}>
                 <div className={styles.order_preview}>
-                    { products.map(product => <ProductCard key={product.id} {...product} />) }
+                    { products.map(product => <ProductCard key={product.id} {...product} colors={colors} />) }
                     <div className={styles.data_row}>
-                        <p>Промежуточный итог:</p>
+                        <p>{ t("subtotal") }</p>
                         <p>{ formatPrice(productsPrice) } &#8381;</p>
                     </div>
                     <div className={styles.data_row}>
-                        <p>Доставка:</p>
-                        { deliveryPrice === 0 && <p>Бесплатно</p> }
+                        <p>{ t("shipping") }</p>
+                        { deliveryPrice === 0 && <p>{ t("free") }</p> }
                         { deliveryPrice !== 0 && <p>{ formatPrice(deliveryPrice) } &#8381;</p> }
                     </div>
                     <div className={cn(styles.data_row, styles.ammount)}>
-                        <p className={styles.ammount_text}>Итого:</p>
+                        <p className={styles.ammount_text}>{ t("total") }</p>
                         <p className={styles.ammount_text}>{ formatPrice(totalPrice) } &#8381;</p>
                     </div>
                 </div>
@@ -259,14 +262,14 @@ export default inject("store")(observer(function Order({ store }) {
     </>);
 }));
 
-function ProductCard({ image, quantity, price, name, color }) {
+function ProductCard({ image, quantity, price, name, color, colors }) {
     return (
         <div className={styles.product_row}>
             <div className={styles.col_1}>
                 <img src={image} alt="" width="100%" />
                 <div className={styles.quantity}>{ quantity }</div>
             </div>
-            <div className={styles.col_2}>{ name } / { color }</div>
+            <div className={styles.col_2}>{ name } / { colors(color) }</div>
             <div className={styles.col_3}>{ formatPrice(quantity * price) } &#8381;</div>
         </div>
     );
