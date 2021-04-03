@@ -1,3 +1,4 @@
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import deleteFalsyValues from "../../utils/common/deleteFalsyValues";
 import StylableSizeTable from "../../components/StylableSizeTable";
 import { _get as getProduct } from "../api/products/[id]";
@@ -8,6 +9,7 @@ import admin from "../../scss/adminButtons.module.scss";
 import RecentBlock from "../../components/RecentBlock";
 import blocks from "../../scss/blocks.module.scss";
 import ForAdmin from "../../components/ForAdmin";
+import { useTranslation } from "react-i18next";
 import { inject, observer } from "mobx-react";
 import cycle from "../../utils/math/cycle";
 import styles from "./[id].module.scss";
@@ -16,13 +18,22 @@ import cn from "classnames";
 
 const existingSizes = ["S", "M", "L"];
 
-export async function getServerSideProps({ params: { id } }) {
-    const product = getProduct({ locale: "ru", id: +id });
-    if(product) return { props: { product: deleteFalsyValues(product) } };
+export async function getServerSideProps({ locale, params: { id } }) {
+    const product = getProduct({ locale, id: +id });
+    if(product) return {
+        props: {
+            product: deleteFalsyValues(product),
+            ...await serverSideTranslations(locale, ["product", "size-table", "feedback"])
+        }
+    };
     else return { notFound: true };
 }
 
 export default inject("store")(observer(function ProductPage({ store, product }) {
+    const { t } = useTranslation("product");
+    const { t: sizeTable } = useTranslation("size-table");
+    const { t: feedback } = useTranslation("feedback");
+
     const [sliderOpened, setSliderOpened] = useState(false);
     const [selectedQuantity, setSelectedQuantity] = useState(1);
     const [selectedImage, setSelectedImage] = useState();
@@ -60,16 +71,16 @@ export default inject("store")(observer(function ProductPage({ store, product })
                             <p className={styles.price}>{ formatPrice(product.price) } &#8381;</p>
                         </div>
                         <div className={styles.data_row}>
-                            <p>Количество</p>
+                            <p>{ t("quantity") }</p>
                             <QuantitySelectionBlock {...{ selectedQuantity, setSelectedQuantity }} />
-                            <p>Цвет</p>
+                            <p>{ t("color") }</p>
                             <ColorSelectionBlock links={product.links} currentId={product.id} />
-                            <p>Размер</p>
+                            <p>{ t("size") }</p>
                             <SizeSelectionBlock sizes={product.sizes} {...{ selectedSize, setSelectedSize }} />
                         </div>
                         <div className={styles.data_row}>
-                            <CartButton id={product.id} size={selectedSize} quantity={selectedQuantity} />
-                            <FavoriteButton id={product.id} />
+                            <CartButton id={product.id} size={selectedSize} quantity={selectedQuantity} t={t} />
+                            <FavoriteButton id={product.id} t={t} />
                         </div>
                         <div className={cn(styles.data_row, styles.padding)}>
                             <p>{ product.locale.description }</p>
@@ -77,21 +88,21 @@ export default inject("store")(observer(function ProductPage({ store, product })
                         <div className={cn(styles.data_row, styles.padding)}>
                             <p>Цвет: Розовый (???)</p>
                         </div>
-                        <InfoBlock title="Состав">
+                        <InfoBlock title={t("composition")}>
                             {/* Основа: 100% вискоза. Подклад: 100% вискоза. */}
                             { product.locale.composition }
                         </InfoBlock>
-                        <InfoBlock title="Детали и уход">
+                        <InfoBlock title={t("details")}>
                             {/* Рост модели 173 см, размер XS (40 RUS). 
                             На модели: жакет размера S (42 RUS). 
                             Рекомендуется только сухая чистка. */}
                             { product.locale.details }
                         </InfoBlock>
-                        <InfoBlock title="Таблица размеров">
-                            <StylableSizeTable styles={styles} />
+                        <InfoBlock title={sizeTable("title")}>
+                            <StylableSizeTable styles={styles} t={sizeTable} />
                         </InfoBlock>
-                        <InfoBlock title="Задать вопрос">
-                            <FeedbackForm />
+                        <InfoBlock title={t("feedback-title")}>
+                            <FeedbackForm t={feedback} />
                         </InfoBlock>
                     </div>
                 </div>
@@ -109,18 +120,18 @@ export default inject("store")(observer(function ProductPage({ store, product })
     </>);
 }));
 
-const CartButton = inject("store")(observer(({ store, id, size, quantity }) => (
+const CartButton = inject("store")(observer(({ store, id, size, quantity, t }) => (
     <button className={styles.add_to_cart} onClick={() => store.addToCart(id, size, quantity)}>
-        ДОБАВИТЬ В КОРЗИНУ
+        { t("add-to-cart") }
     </button>
 )));
 
-const FavoriteButton = inject("store")(observer(({ store, id }) => (
+const FavoriteButton = inject("store")(observer(({ store, id, t }) => (
     <button
         className={cn(styles.add_to_favorite, { [styles.active]: store.favorite.includes(id) })}
         onClick={() => store.toggleFavorite(id)}
     >
-        <span className={styles.favorite_icon} /> ДОБАВИТЬ В ИЗБРАННОЕ
+        <span className={styles.favorite_icon} /> { t("add-to-favorite") }
     </button>
 )));
 

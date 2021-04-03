@@ -1,26 +1,24 @@
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import ProductCard from "../components/ProductCard";
 import blocks from "../scss/blocks.module.scss";
+import { useTranslation } from "react-i18next";
+import lorem from "../utils/common/lorem";
 import styles from "./index.module.scss";
 import Head from "next/head";
 import Link from "next/link";
 import cn from "classnames";
 
+export const getStaticProps = async ({ locale }) => ({
+    props: { ...await serverSideTranslations(locale, ["title"]) }
+})
+
 export default function Index() {
+    const { t: title } = useTranslation("title");
+
     return (<>
         <Head>
-            <title>Mariole</title>
-            <meta name="description" content={`
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                In blandit turpis non tincidunt semper. Nulla ut lorem fringilla, 
-                accumsan dolor non, luctus lacus. Aliquam a tempor arcu. 
-                Sed auctor, ex vel interdum consectetur, justo nisl malesuada 
-                mauris, at cursus tortor nulla ut mi. Suspendisse convallis, 
-                diam a lobortis tempus, lectus nunc laoreet metus, vel dignissim 
-                nibh arcu in ligula. Aenean ac aliquet tellus, eget vestibulum neque. 
-                Mauris dui tortor, lobortis at leo eu, gravida pellentesque tellus. 
-                In iaculis nunc interdum sagittis hendrerit. Etiam faucibus dui et sapien 
-                dictum, nec aliquam nibh pulvinar. Donec vehicula sem dolor, a ornare dui eleifend.
-            `} />
+            <title>{ title("main") }</title>
+            <meta name="description" content={lorem(100)} />
             <meta name="keywords" content="mariole, mariole, mariole" />
             <meta name="keywords" content="mariole, mariole, mariole" />
             <meta name="keywords" content="mariole, mariole, mariole" />

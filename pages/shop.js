@@ -1,16 +1,19 @@
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import divideArrayToSubarrays from "../utils/arrays/divideToSubarrays";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import admin from "../scss/adminButtons.module.scss";
+import { _get as getProducts } from "./api/products";
 import ProductCard from "../components/ProductCard";
 import { joinQuery } from "../utils/common/network";
 import blocks from "../scss/blocks.module.scss";
+import { useTranslation } from "react-i18next";
 import ForAdmin from "../components/ForAdmin";
 import styles from "./shop.module.scss";
 import { useRouter } from "next/router";
-import { _get } from "./api/products";
 import Select from "react-select";
-import cn from "classnames";
 import Link from "next/link";
+import Head from "next/head";
+import cn from "classnames";
 
 const sortingOptions = [
     { value: "price_0-1", label: "Цена по возрастанию" },
@@ -71,7 +74,18 @@ const uri = {
     }
 }
 
+export async function getServerSideProps({ locale, query }) {
+    const parsedQuery = { ...parseQuery(query), locale: "ru" };
+    if(!parsedQuery.sizes.length) parsedQuery.sizes = undefined;
+    const defaultProducts = getProducts(parsedQuery);
+    return { props: {
+        enabledSearch: !!parsedQuery.search, defaultProducts,
+        ...await serverSideTranslations(locale, ["title"])
+    } };
+}
+
 export default function Shop({ enabledSearch, defaultProducts }) {
+    const { t: title } = useTranslation("title");
     const [mobileMenuOpened, setMobileMenuOpened] = useState(false);
 
     const [products, setProducts] = useState(defaultProducts);
@@ -117,6 +131,9 @@ export default function Shop({ enabledSearch, defaultProducts }) {
     }), [updateQuery, filter]);
 
     return (<>
+        <Head>
+            <title>{ title("shop") }</title>
+        </Head>
         <div className={cn(blocks.main_block, styles.first_block)}>
             <img className={blocks.desktop} src="/images/blocks/mario_le-2077.jpg" alt="" />
             <img className={blocks.mobile} src="/images/blocks/mario_le-1817.jpg" alt="" width="100%" />
@@ -324,13 +341,6 @@ function SizeMenu({ activeSizes, existingSizes, toggle }) {
             </div>
         </li>
     );
-}
-
-export async function getServerSideProps({ query }) {
-    const parsedQuery = { ...parseQuery(query), locale: "ru" };
-    if(!parsedQuery.sizes.length) parsedQuery.sizes = undefined;
-    const defaultProducts = _get(parsedQuery);
-    return { props: { enabledSearch: !!parsedQuery.search, defaultProducts } };
 }
 
 function ProductList({ products }) {

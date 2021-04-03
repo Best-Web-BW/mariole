@@ -1,4 +1,4 @@
-export default function StylableSizeTable({ styles }) {
+export default function StylableSizeTable({ styles, t }) {
     return (
         <table>
             <thead>
@@ -12,35 +12,35 @@ export default function StylableSizeTable({ styles }) {
             </thead>
             <tbody>
                 <tr>
-                    <td className={styles.row_title}>Объём груди (см)</td>
+                    <td className={styles.row_title}>{ t("chest-volume") }</td>
                     <td>84</td>
                     <td>88</td>
                     <td>92</td>
                     <td>96</td>
                 </tr>
                 <tr>
-                    <td className={styles.row_title}>Объём талии (см)</td>
+                    <td className={styles.row_title}>{ t("waist-volume") }</td>
                     <td>64</td>
                     <td>68</td>
                     <td>72</td>
                     <td>76</td>
                 </tr>
                 <tr>
-                    <td className={styles.row_title}>Объём бёдер (см)</td>
+                    <td className={styles.row_title}>{ t("hip-volume") }</td>
                     <td>88</td>
                     <td>92</td>
                     <td>96</td>
                     <td>100</td>
                 </tr>
                 <tr>
-                    <td className={styles.row_title}>Италия</td>
+                    <td className={styles.row_title}>{ t("italy") }</td>
                     <td>38</td>
                     <td>40</td>
                     <td>42</td>
                     <td>44</td>
                 </tr>
                 <tr>
-                    <td className={styles.row_title}>Франция</td>
+                    <td className={styles.row_title}>{ t("france") }</td>
                     <td>36</td>
                     <td>38</td>
                     <td>40</td>

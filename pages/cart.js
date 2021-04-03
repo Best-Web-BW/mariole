@@ -1,13 +1,21 @@
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import formatPrice from "../utils/common/formatPrice";
 import RecentBlock from "../components/RecentBlock";
 import blocks from "../scss/blocks.module.scss";
+import { useTranslation } from "react-i18next";
 import { inject, observer } from "mobx-react";
 import { useEffect, useState } from "react";
 import styles from "./cart.module.scss";
 import Link from "next/link";
+import Head from "next/head";
 import cn from "classnames";
 
+export const getStaticProps = async ({ locale }) => ({
+    props: { ...await serverSideTranslations(locale, ["title"]) }
+});
+
 export default inject("store")(observer(function Cart({ store }) {
+    const { t: title } = useTranslation("title");
     const [products, setProducts] = useState([]);
     const [fetched, setFetched] = useState(false);
     useEffect(async () => {
@@ -54,12 +62,13 @@ export default inject("store")(observer(function Cart({ store }) {
         setTotalPrice(totalPrice);
     }, [products]);
 
-    return (
+    return (<>
+        <Head>
+            <title>{ title("cart") }</title>
+        </Head>
         <div className={blocks.content_block}>
             <div className={styles.content}>
-                <h2>
-                    КОРЗИНА
-                </h2>
+                <h2>КОРЗИНА</h2>
                 { (fetched && !products.length) && <EmptyCartMessage /> }
                 <div className={cn(styles.data_row, styles.desktop_flex)}>
                     <p className={styles.col_2}>Цена</p>
@@ -80,7 +89,7 @@ export default inject("store")(observer(function Cart({ store }) {
             </div>
             <RecentBlock styles={styles} />
         </div>
-    );
+    </>);
 }));
 
 const EmptyCartMessage = () => (

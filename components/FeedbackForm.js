@@ -1,7 +1,7 @@
 import serializeForm from "../utils/common/serializeForm";
 import styles from "./FeedbackForm.module.scss";
 
-export default function FeedbackForm() {
+export default function FeedbackForm({ t }) {
 	return (
 		<div className={styles.form}>
             <form onSubmit={e => {
@@ -10,14 +10,14 @@ export default function FeedbackForm() {
             }}>
                 <div className={styles.form_row}>
                     <label className={styles.name}>
-                        ИМЯ
+                        { t("name") }
                         <input
                             className={styles.input} type="text"
                             name="name" autoComplete="given-name" required
                         />
                     </label>
                     <label className={styles.email}>
-                        EMAIL
+                        { t("email") }
                         <input
                             className={styles.input} type="email"
                             name="email" autoComplete="email" required
@@ -26,7 +26,7 @@ export default function FeedbackForm() {
                 </div>
                 <div className={styles.form_row}>
                     <label className={styles.phone}>
-                        ТЕЛЕФОН
+                        { t("phone") }
                         <input
                             className={styles.input} type="tel"
                             name="phone" autoComplete="tel" required
@@ -35,7 +35,7 @@ export default function FeedbackForm() {
                 </div>
                 <div className={styles.form_row}>
                     <label className={styles.comment}>
-                        СООБЩЕНИЕ
+                        { t("message") }
                         <textarea
                             className={styles.input} type="text"
                             name="message" autoComplete="off" required
@@ -43,7 +43,7 @@ export default function FeedbackForm() {
                     </label>
                 </div>
                 <div className={styles.form_row}>
-                    <button className={styles.submit}>Отправить</button>
+                    <button className={styles.submit}>{ t("send") }</button>
                 </div>
             </form>
         </div>
