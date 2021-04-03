@@ -9,15 +9,16 @@ import Head from "next/head";
 import cn from "classnames";
 
 export const getStaticProps = async ({ locale }) => ({
-    props: { ...await serverSideTranslations(locale, ["page_favorite"]) }
+    props: { locale, ...await serverSideTranslations(locale, ["page_favorite", "component_product-card"]) }
 });
 
-export default inject("store")(observer(function Favorite({ store }) {
+export default inject("store")(observer(function Favorite({ locale, store }) {
     const { t } = useTranslation("page_favorite");
+    const { t: productCard } = useTranslation("component_product-card");
     
     const [products, setProducts] = useState([]);
     useEffect(async () => {
-        const response = await fetch(`/api/products?ids=${store.favorite.toString()}`);
+        const response = await fetch(`/api/products/cart?locale=${locale}&ids=${store.favorite.toString()}`);
         const json = await response.json();
         setProducts(json);
     }, [store.favorite]);
@@ -29,16 +30,21 @@ export default inject("store")(observer(function Favorite({ store }) {
         <div className={cn(blocks.main_block, styles.page)}>
             <h2 className={cn(blocks.block_title, styles.title)}>{ t("title") }</h2>
             <div className={styles.favorite_row}>{
-                products.map(product => <Element key={product.id} product={product} t={t} />)
+                products.map(product => (
+                    <Element
+                        key={product.id} product={product}
+                        t={t} productCard={productCard}
+                    />
+                ))
             }</div>
         </div>
     </>);
 }));
 
-const Element = inject("store")(observer(({ store, product, t }) => {
+const Element = inject("store")(observer(({ store, product, t, productCard }) => {
     return (
         <div className={styles.favorite_elem}>
-            <ProductCard data={product} />
+            <ProductCard data={product} t={productCard} />
             <button
                 className={styles.delete_button}
                 onClick={() => store.removeFromFavorite(product.id)}

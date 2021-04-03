@@ -1,4 +1,3 @@
-// import leaveOneLocale from "../../../utils/products/leaveOneLocale";
 import { methodNotAllowed } from "../../../utils/common/network";
 import products from "./products.json";
 
