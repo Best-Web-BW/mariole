@@ -9,7 +9,7 @@ import admin from "../../scss/adminButtons.module.scss";
 import RecentBlock from "../../components/RecentBlock";
 import blocks from "../../scss/blocks.module.scss";
 import ForAdmin from "../../components/ForAdmin";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { inject, observer } from "mobx-react";
 import cycle from "../../utils/math/cycle";
 import styles from "./[id].module.scss";

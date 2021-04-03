@@ -1,10 +1,10 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import ProductCard from "../components/ProductCard";
-import blocks from "../scss/blocks.module.scss";
-import { useTranslation } from "react-i18next";
+import ProductCard from "../../components/ProductCard";
+import blocks from "../../scss/blocks.module.scss";
+import { useTranslation } from "next-i18next";
 import { inject, observer } from "mobx-react";
-import styles from "./favorite.module.scss";
 import { useEffect, useState } from "react";
+import styles from "./index.module.scss";
 import Head from "next/head";
 import cn from "classnames";
 
@@ -14,6 +14,7 @@ export const getStaticProps = async ({ locale }) => ({
 
 export default inject("store")(observer(function Favorite({ store }) {
     const { t } = useTranslation("favorite");
+    
     const [products, setProducts] = useState([]);
     useEffect(async () => {
         const response = await fetch(`/api/products?ids=${store.favorite.toString()}`);

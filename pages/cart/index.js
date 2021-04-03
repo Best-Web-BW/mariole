@@ -1,11 +1,11 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import formatPrice from "../utils/common/formatPrice";
-import RecentBlock from "../components/RecentBlock";
-import blocks from "../scss/blocks.module.scss";
-import { useTranslation } from "react-i18next";
+import formatPrice from "../../utils/common/formatPrice";
+import RecentBlock from "../../components/RecentBlock";
+import blocks from "../../scss/blocks.module.scss";
+import { useTranslation } from "next-i18next";
 import { inject, observer } from "mobx-react";
 import { useEffect, useState } from "react";
-import styles from "./cart.module.scss";
+import styles from "./index.module.scss";
 import Link from "next/link";
 import Head from "next/head";
 import cn from "classnames";

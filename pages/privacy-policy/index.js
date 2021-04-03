@@ -1,9 +1,16 @@
-import styles from "./privacy-policy.module.scss";
-import blocks from "../scss/blocks.module.scss";
+// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import blocks from "../../scss/blocks.module.scss";
+// import { useTranslation } from "next-i18next";
+import styles from "./index.module.scss";
 import cn from "classnames";
 
-// I dont want to die
+// export const getStaticProps = async ({ locale }) => ({
+//     props: { ...await serverSideTranslations(locale, ["privacy-policy"]) }
+// });
+
 export default function PrivacyPolicy() {
+    // const { t } = useTranslation("privacy-policy");
+
     return (
         <div className={cn(blocks.content_block, styles.page)}>
             <h2 className={styles.page_title}>Политика конфиденциальности и соглашение</h2>

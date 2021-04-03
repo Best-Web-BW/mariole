@@ -1,13 +1,15 @@
-import blocks from "../scss/blocks.module.scss";
-import styles from "./order.module.scss";
+// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import serializeForm from "../../utils/common/serializeForm";
+import formatPrice from "../../utils/common/formatPrice";
+import { useCallback, useEffect, useState } from "react";
+import blocks from "../../scss/blocks.module.scss";
+import { AddressSuggestions } from "react-dadata";
+// import { useTranslation } from "next-i18next";
+import { inject, observer } from "mobx-react";
+import 'react-dadata/dist/react-dadata.css';
+import styles from "./index.module.scss";
 import Select from "react-select";
 import cn from "classnames";
-import formatPrice from "../utils/common/formatPrice";
-import { useCallback, useEffect, useState } from "react";
-import { inject, observer } from "mobx-react";
-import { AddressSuggestions } from "react-dadata";
-import 'react-dadata/dist/react-dadata.css';
-import serializeForm from "../utils/common/serializeForm";
 
 const selectTheme = theme => ({
     ...theme, borderRadius: 0,
@@ -37,7 +39,13 @@ const selectStyles = {
 
 const selectCountries = [{ value: "russia", label: "Россия" }];
 
+// export const getStaticProps = async ({ locale }) => ({
+//     props: { ...await serverSideTranslations(locale, ["order"]) }
+// });
+
 export default inject("store")(observer(function Order({ store }) {
+    // const { t } = useTranslation("order");
+
     const [products, setProducts] = useState([]);
     useEffect(async () => {
         const ids = store.cart.map(({ id }) => id);

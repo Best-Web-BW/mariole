@@ -1,9 +1,17 @@
-import FeedbackForm from "../components/FeedbackForm";
-import blocks from "../scss/blocks.module.scss";
-import styles from "./contacts.module.scss";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import FeedbackForm from "../../components/FeedbackForm";
+import blocks from "../../scss/blocks.module.scss";
+import { useTranslation } from "next-i18next";
+import styles from "./index.module.scss";
 import cn from "classnames";
 
+export const getStaticProps = async ({ locale }) => ({
+    props: { ...await serverSideTranslations(locale, [/* "contacts", */ "feedback"]) }
+});
+
 export default function Contacts() {
+    // const { t } = useTranslation("contacts");
+    const { t: feedback } = useTranslation("feedback");
 
     return (
         <div className={cn(blocks.content_block, styles.page)}>
@@ -48,7 +56,7 @@ export default function Contacts() {
             <div className={styles.row}>
                 <p className={styles.title}>Связаться с нами:</p>
                 <div className={styles.contact_form_wrapper}>
-                    <FeedbackForm />
+                    <FeedbackForm t={feedback} />
                 </div>
             </div>
             <div className={styles.row}>

@@ -1,8 +1,8 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import StylableSizeTable from "../components/StylableSizeTable";
-import { content_block } from "../scss/blocks.module.scss";
-import { useTranslation } from "react-i18next";
-import styles from "./size-table.module.scss";
+import StylableSizeTable from "../../components/StylableSizeTable";
+import { content_block } from "../../scss/blocks.module.scss";
+import { useTranslation } from "next-i18next";
+import styles from "./index.module.scss";
 import Head from "next/head";
 import cn from "classnames";
 
@@ -12,7 +12,7 @@ export const getStaticProps = async ({ locale }) => ({
 
 export default function SizeTable() {
     const { t } = useTranslation("size-table");
-
+    
     return (<>
         <Head>
             <title>{ t("title") }</title>

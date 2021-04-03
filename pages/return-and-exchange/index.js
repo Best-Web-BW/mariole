@@ -1,9 +1,17 @@
-import styles from "./return-and-exchange.module.scss";
-import blocks from "../scss/blocks.module.scss";
+// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import blocks from "../../scss/blocks.module.scss";
+// import { useTranslation } from "next-i18next";
+import styles from "./index.module.scss";
 import { useState } from "react";
 import cn from "classnames";
 
+// export const getStaticProps = async ({ locale }) => ({
+//     props: { ...await serverSideTranslations(locale, ["return-and-exchange"]) }
+// });
+
 export default function ReturnAndExchange() {
+    // const { t } = useTranslation("return-and-exchange");
+
     return (
         <div className={cn(blocks.content_block, styles.page)}>
             <h2 className={styles.page_title}>Условия возврата и обмена</h2>

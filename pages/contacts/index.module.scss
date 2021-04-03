@@ -1,4 +1,4 @@
-@import "../scss/main_settings.scss";
+@import "../../scss/main_settings.scss";
 
 .page {
     width: 60%;
@@ -36,9 +36,7 @@
     margin: 10px 0;
 }
 
-.contact_form_wrapper {
-
-}
+// .contact_form_wrapper {}
 
 .desktop {
     @extend %desktop;

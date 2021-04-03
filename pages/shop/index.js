@@ -1,14 +1,14 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import divideArrayToSubarrays from "../utils/arrays/divideToSubarrays";
+import divideArrayToSubarrays from "../../utils/arrays/divideToSubarrays";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import admin from "../scss/adminButtons.module.scss";
-import { _get as getProducts } from "./api/products";
-import ProductCard from "../components/ProductCard";
-import { joinQuery } from "../utils/common/network";
-import blocks from "../scss/blocks.module.scss";
-import { useTranslation } from "react-i18next";
-import ForAdmin from "../components/ForAdmin";
-import styles from "./shop.module.scss";
+import admin from "../../scss/adminButtons.module.scss";
+import ProductCard from "../../components/ProductCard";
+import { joinQuery } from "../../utils/common/network";
+import { _get as getProducts } from "../api/products";
+import blocks from "../../scss/blocks.module.scss";
+import ForAdmin from "../../components/ForAdmin";
+import { useTranslation } from "next-i18next";
+import styles from "./index.module.scss";
 import { useRouter } from "next/router";
 import Select from "react-select";
 import Link from "next/link";
@@ -78,10 +78,12 @@ export async function getServerSideProps({ locale, query }) {
     const parsedQuery = { ...parseQuery(query), locale: "ru" };
     if(!parsedQuery.sizes.length) parsedQuery.sizes = undefined;
     const defaultProducts = getProducts(parsedQuery);
-    return { props: {
-        enabledSearch: !!parsedQuery.search, defaultProducts,
-        ...await serverSideTranslations(locale, ["title"])
-    } };
+    return {
+        props: {
+            enabledSearch: !!parsedQuery.search, defaultProducts,
+            ...await serverSideTranslations(locale, ["title"])
+        }
+    };
 }
 
 export default function Shop({ enabledSearch, defaultProducts }) {

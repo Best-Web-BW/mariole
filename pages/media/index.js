@@ -1,9 +1,17 @@
-import blocks from "../scss/blocks.module.scss";
-import styles from "./media.module.scss";
+// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import blocks from "../../scss/blocks.module.scss";
+// import { useTranslation } from "next-i18next";
+import styles from "./index.module.scss";
 import Link from "next/link";
 import cn from "classnames";
 
+// export const getStaticProps = async ({ locale }) => ({
+//     props: { ...await serverSideTranslations(locale, ["media"]) }
+// });
+
 export default function Media() {
+    // const { t } = useTranslation("media");
+
     return (
         <div className={cn(blocks.content_block, styles.page)}>
             <h2 className={styles.page_title}>О НАС ПИШУТ</h2>

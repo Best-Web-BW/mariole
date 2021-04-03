@@ -1,8 +1,16 @@
-import blocks from "../scss/blocks.module.scss";
-import styles from "./payment.module.scss";
+// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import blocks from "../../scss/blocks.module.scss";
+// import { useTranslation } from "next-i18next";
+import styles from "./index.module.scss";
 import cn from "classnames";
 
+// export const getStaticProps = async ({ locale }) => ({
+//     props: { ...await serverSideTranslations(locale, ["payment"]) }
+// });
+
 export default function Payment() {
+    // const { t } = useTranslation("payment");
+
     return (
         <div className={cn(blocks.content_block, styles.page)}>
             <h2 className={styles.page_title}>Оплата</h2>
