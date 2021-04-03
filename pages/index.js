@@ -9,15 +9,15 @@ import Link from "next/link";
 import cn from "classnames";
 
 export const getStaticProps = async ({ locale }) => ({
-    props: { ...await serverSideTranslations(locale, ["title"]) }
+    props: { ...await serverSideTranslations(locale, ["page_index"]) }
 })
 
 export default function Index() {
-    const { t: title } = useTranslation("title");
+    const { t } = useTranslation("page_index");
 
     return (<>
         <Head>
-            <title>{ title("main") }</title>
+            <title>{ t("title") }</title>
             <meta name="description" content={lorem(100)} />
             <meta name="keywords" content="mariole, mariole, mariole" />
             <meta name="keywords" content="mariole, mariole, mariole" />

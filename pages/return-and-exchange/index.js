@@ -1,18 +1,22 @@
-// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import blocks from "../../scss/blocks.module.scss";
-// import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next";
 import styles from "./index.module.scss";
 import { useState } from "react";
 import cn from "classnames";
+import Head from "next/head";
 
-// export const getStaticProps = async ({ locale }) => ({
-//     props: { ...await serverSideTranslations(locale, ["return-and-exchange"]) }
-// });
+export const getStaticProps = async ({ locale }) => ({
+    props: { ...await serverSideTranslations(locale, ["page_return-and-exchange"]) }
+});
 
 export default function ReturnAndExchange() {
-    // const { t } = useTranslation("return-and-exchange");
+    const { t } = useTranslation("page_return-and-exchange");
 
-    return (
+    return (<>
+        <Head>
+            <title>{ t("title") }</title>
+        </Head>
         <div className={cn(blocks.content_block, styles.page)}>
             <h2 className={styles.page_title}>Условия возврата и обмена</h2>
             <ExpansibleBlock title="Как вернуть не подошедший товар?">
@@ -113,7 +117,7 @@ export default function ReturnAndExchange() {
                 </ul>
             </ExpansibleBlock>
         </div>
-    );
+    </>);
 }
 
 function ExpansibleBlock({ title, children }) {

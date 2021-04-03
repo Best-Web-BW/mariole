@@ -1,17 +1,21 @@
-// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import blocks from "../../scss/blocks.module.scss";
-// import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next";
 import styles from "./index.module.scss";
+import Head from "next/head";
 import cn from "classnames";
 
-// export const getStaticProps = async ({ locale }) => ({
-//     props: { ...await serverSideTranslations(locale, ["payment"]) }
-// });
+export const getStaticProps = async ({ locale }) => ({
+    props: { ...await serverSideTranslations(locale, ["page_payment"]) }
+});
 
 export default function Payment() {
-    // const { t } = useTranslation("payment");
+    const { t } = useTranslation("page_payment");
 
-    return (
+    return (<>
+        <Head>
+            <title>{ t("title") }</title>
+        </Head>
         <div className={cn(blocks.content_block, styles.page)}>
             <h2 className={styles.page_title}>Оплата</h2>
             <Data>Оплата банковскими картами осуществляется через ЮKassa (бывш. Yandex.Касса).</Data>
@@ -74,7 +78,7 @@ export default function Payment() {
                 только в зашифрованном виде и не сохраняются на нашем Web-сервере.
             </Data>
         </div>
-    );
+    </>);
 }
 
 function Data({ children }) {

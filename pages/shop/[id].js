@@ -14,6 +14,7 @@ import { inject, observer } from "mobx-react";
 import cycle from "../../utils/math/cycle";
 import styles from "./[id].module.scss";
 import Link from "next/link";
+import Head from "next/head";
 import cn from "classnames";
 
 const existingSizes = ["S", "M", "L"];
@@ -23,16 +24,20 @@ export async function getServerSideProps({ locale, params: { id } }) {
     if(product) return {
         props: {
             product: deleteFalsyValues(product),
-            ...await serverSideTranslations(locale, ["product", "size-table", "feedback"])
+            ...await serverSideTranslations(locale, [
+                "page_shop_product",
+                "component_size-table",
+                "component_feedback-form"
+            ])
         }
     };
     else return { notFound: true };
 }
 
 export default inject("store")(observer(function ProductPage({ store, product }) {
-    const { t } = useTranslation("product");
-    const { t: sizeTable } = useTranslation("size-table");
-    const { t: feedback } = useTranslation("feedback");
+    const { t } = useTranslation("page_shop_product");
+    const { t: sizeTable } = useTranslation("component_size-table");
+    const { t: feedbackForm } = useTranslation("component_feedback-form");
 
     const [sliderOpened, setSliderOpened] = useState(false);
     const [selectedQuantity, setSelectedQuantity] = useState(1);
@@ -45,6 +50,9 @@ export default inject("store")(observer(function ProductPage({ store, product })
     useEffect(() => store.addToRecent(product.id), [product.id]);
 
     return (<>
+        <Head>
+            <title>{ t("title") }</title>
+        </Head>
         <div className={blocks.content_body}>
             <div className={styles.product_page}>
                 <div className={styles.column}>
@@ -102,7 +110,7 @@ export default inject("store")(observer(function ProductPage({ store, product })
                             <StylableSizeTable styles={styles} t={sizeTable} />
                         </InfoBlock>
                         <InfoBlock title={t("feedback-title")}>
-                            <FeedbackForm t={feedback} />
+                            <FeedbackForm t={feedbackForm} />
                         </InfoBlock>
                     </div>
                 </div>

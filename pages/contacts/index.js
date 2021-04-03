@@ -3,17 +3,21 @@ import FeedbackForm from "../../components/FeedbackForm";
 import blocks from "../../scss/blocks.module.scss";
 import { useTranslation } from "next-i18next";
 import styles from "./index.module.scss";
+import Head from "next/head";
 import cn from "classnames";
 
 export const getStaticProps = async ({ locale }) => ({
-    props: { ...await serverSideTranslations(locale, [/* "contacts", */ "feedback"]) }
+    props: { ...await serverSideTranslations(locale, ["page_contacts", "component_feedback-form"]) }
 });
 
 export default function Contacts() {
-    // const { t } = useTranslation("contacts");
-    const { t: feedback } = useTranslation("feedback");
+    const { t } = useTranslation("page_contacts");
+    const { t: feedbackForm } = useTranslation("component_feedback-form");
 
-    return (
+    return (<>
+        <Head>
+            <title>{ t("title") }</title>
+        </Head>
         <div className={cn(blocks.content_block, styles.page)}>
             <div className={styles.row}>
                 <p className={styles.title}>Наша продукция представлена в:</p>
@@ -56,12 +60,12 @@ export default function Contacts() {
             <div className={styles.row}>
                 <p className={styles.title}>Связаться с нами:</p>
                 <div className={styles.contact_form_wrapper}>
-                    <FeedbackForm t={feedback} />
+                    <FeedbackForm t={feedbackForm} />
                 </div>
             </div>
             <div className={styles.row}>
                 <p className={styles.title}>Наши реквизиты:</p>
             </div>
         </div>
-    );
+    </>);
 }

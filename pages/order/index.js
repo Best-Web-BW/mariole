@@ -1,14 +1,15 @@
-// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import serializeForm from "../../utils/common/serializeForm";
 import formatPrice from "../../utils/common/formatPrice";
 import { useCallback, useEffect, useState } from "react";
 import blocks from "../../scss/blocks.module.scss";
 import { AddressSuggestions } from "react-dadata";
-// import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next";
 import { inject, observer } from "mobx-react";
 import 'react-dadata/dist/react-dadata.css';
 import styles from "./index.module.scss";
 import Select from "react-select";
+import Head from "next/head";
 import cn from "classnames";
 
 const selectTheme = theme => ({
@@ -39,12 +40,12 @@ const selectStyles = {
 
 const selectCountries = [{ value: "russia", label: "Россия" }];
 
-// export const getStaticProps = async ({ locale }) => ({
-//     props: { ...await serverSideTranslations(locale, ["order"]) }
-// });
+export const getStaticProps = async ({ locale }) => ({
+    props: { ...await serverSideTranslations(locale, ["page_order"]) }
+});
 
 export default inject("store")(observer(function Order({ store }) {
-    // const { t } = useTranslation("order");
+    const { t } = useTranslation("page_order");
 
     const [products, setProducts] = useState([]);
     useEffect(async () => {
@@ -115,7 +116,10 @@ export default inject("store")(observer(function Order({ store }) {
         console.log({ json });
     }, [transformFormData]);
 
-    return (
+    return (<>
+        <Head>
+            <title>{ t("title") }</title>
+        </Head>
         <div className={cn(blocks.content_block, styles.page)}>            
             <div className={styles.column}>
                 <form className={styles.form} onSubmit={evt => {
@@ -252,7 +256,7 @@ export default inject("store")(observer(function Order({ store }) {
                 </div>
             </div>
         </div>
-    );
+    </>);
 }));
 
 function ProductCard({ image, quantity, price, name, color }) {

@@ -81,13 +81,14 @@ export async function getServerSideProps({ locale, query }) {
     return {
         props: {
             enabledSearch: !!parsedQuery.search, defaultProducts,
-            ...await serverSideTranslations(locale, ["title"])
+            ...await serverSideTranslations(locale, ["page_shop"])
         }
     };
 }
 
 export default function Shop({ enabledSearch, defaultProducts }) {
-    const { t: title } = useTranslation("title");
+    const { t } = useTranslation("page_shop");
+
     const [mobileMenuOpened, setMobileMenuOpened] = useState(false);
 
     const [products, setProducts] = useState(defaultProducts);
@@ -134,7 +135,7 @@ export default function Shop({ enabledSearch, defaultProducts }) {
 
     return (<>
         <Head>
-            <title>{ title("shop") }</title>
+            <title>{ t("title") }</title>
         </Head>
         <div className={cn(blocks.main_block, styles.first_block)}>
             <img className={blocks.desktop} src="/images/blocks/mario_le-2077.jpg" alt="" />

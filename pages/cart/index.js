@@ -11,11 +11,12 @@ import Head from "next/head";
 import cn from "classnames";
 
 export const getStaticProps = async ({ locale }) => ({
-    props: { ...await serverSideTranslations(locale, ["title"]) }
+    props: { ...await serverSideTranslations(locale, ["page_cart"]) }
 });
 
 export default inject("store")(observer(function Cart({ store }) {
-    const { t: title } = useTranslation("title");
+    const { t } = useTranslation("page_cart");
+
     const [products, setProducts] = useState([]);
     const [fetched, setFetched] = useState(false);
     useEffect(async () => {
@@ -64,7 +65,7 @@ export default inject("store")(observer(function Cart({ store }) {
 
     return (<>
         <Head>
-            <title>{ title("cart") }</title>
+            <title>{ t("title") }</title>
         </Head>
         <div className={blocks.content_block}>
             <div className={styles.content}>

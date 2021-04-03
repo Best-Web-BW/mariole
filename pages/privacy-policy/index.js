@@ -1,17 +1,21 @@
-// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import blocks from "../../scss/blocks.module.scss";
-// import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next";
 import styles from "./index.module.scss";
+import Head from "next/head";
 import cn from "classnames";
 
-// export const getStaticProps = async ({ locale }) => ({
-//     props: { ...await serverSideTranslations(locale, ["privacy-policy"]) }
-// });
+export const getStaticProps = async ({ locale }) => ({
+    props: { ...await serverSideTranslations(locale, ["page_privacy-policy"]) }
+});
 
 export default function PrivacyPolicy() {
-    // const { t } = useTranslation("privacy-policy");
+    const { t } = useTranslation("page_privacy-policy");
 
-    return (
+    return (<>
+        <Head>
+            <title>{ t("title") }</title>
+        </Head>
         <div className={cn(blocks.content_block, styles.page)}>
             <h2 className={styles.page_title}>Политика конфиденциальности и соглашение</h2>
             <Data title="УСЛОВИЯ ОБСЛУЖИВАНИЯ">
@@ -77,7 +81,7 @@ export default function PrivacyPolicy() {
                 <p>8.5. Пользователю запрещается: осуществлять массовые рассылки сообщений; использовать программное обеспечение и осуществлять действия, направленные на нарушение нормального функционирования технических возможностей и оборудования ИП Мельниковой О. А.; публиковать и распространять на Сайте или иным образом использовать вирусы, трояны и другие вредоносные программы; размещать на Сайте коммерческую и политическую рекламу; осуществлять иные действия, которые могут нанести вред ИП Мельниковой О. А., третьим лицам, Пользователям.</p>
             </Data>
         </div>
-    );
+    </>);
 }
 
 function Data({ title, children }) {

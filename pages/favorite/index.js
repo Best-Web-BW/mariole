@@ -9,11 +9,11 @@ import Head from "next/head";
 import cn from "classnames";
 
 export const getStaticProps = async ({ locale }) => ({
-    props: { ...await serverSideTranslations(locale, ["favorite"]) }
+    props: { ...await serverSideTranslations(locale, ["page_favorite"]) }
 });
 
 export default inject("store")(observer(function Favorite({ store }) {
-    const { t } = useTranslation("favorite");
+    const { t } = useTranslation("page_favorite");
     
     const [products, setProducts] = useState([]);
     useEffect(async () => {

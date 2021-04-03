@@ -1,17 +1,21 @@
-// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import blocks from "../../scss/blocks.module.scss";
-// import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next";
 import styles from "./index.module.scss";
 import cn from "classnames";
+import Head from "next/head";
 
-// export const getStaticProps = async ({ locale }) => ({
-//     props: { ...await serverSideTranslations(locale, ["shipping"]) }
-// });
+export const getStaticProps = async ({ locale }) => ({
+    props: { ...await serverSideTranslations(locale, ["page_shipping"]) }
+});
 
 export default function Shipping() {
-    // const { t } = useTranslation("shipping");
+    const { t } = useTranslation("page_shipping");
 
-    return (
+    return (<>
+        <Head>
+            <title>{ t("title") }</title>
+        </Head>
         <div className={cn(blocks.content_block, styles.page)}>
             <h2 className={styles.page_title}>ПОЛИТИКА ДОСТАВКИ</h2>
             <div className={styles.attention}>
@@ -61,7 +65,7 @@ export default function Shipping() {
                 , и мы с радостью вам поможем.
             </Data>
         </div>
-    );
+    </>);
 }
 
 function Data({ children }) {
