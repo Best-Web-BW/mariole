@@ -10,7 +10,6 @@ async function runTimeout(store) {
 
 async function refresh(store) {
     const response = await fetch("/api/auth/refresh");
-    console.log({ response });
     if(response.status === 200) {
         store.enableAdmin();
         return true;

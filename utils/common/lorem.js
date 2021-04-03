@@ -37,6 +37,6 @@ const words = [
     "iaculis", "leo", "vitae", "risus", "bibendum"
 ];
 
-export default function f(count = 1) {
+export default function lorem(count = 1) {
     return `${words.slice(0, Math.min(count, words.length)).join(" ")}...`;
 }
