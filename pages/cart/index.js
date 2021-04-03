@@ -11,17 +11,26 @@ import Head from "next/head";
 import cn from "classnames";
 
 export const getStaticProps = async ({ locale }) => ({
-    props: { ...await serverSideTranslations(locale, ["page_cart"]) }
+    props: {
+        locale,
+        ...await serverSideTranslations(locale, [
+            "page_cart",
+            "component_recent-block",
+            "component_product-card"
+        ])
+    }
 });
 
-export default inject("store")(observer(function Cart({ store }) {
+export default inject("store")(observer(function Cart({ store, locale }) {
     const { t } = useTranslation("page_cart");
+    const { t: recentBlock } = useTranslation("component_recent-block");
+    const { t: productCard } = useTranslation("component_product-card");
 
     const [products, setProducts] = useState([]);
     const [fetched, setFetched] = useState(false);
     useEffect(async () => {
         const ids = store.cart.map(({ id }) => id);
-        const response = await fetch(`/api/products/cart?ids=${ids.toString()}`);
+        const response = await fetch(`/api/products/cart?locale=${locale}&ids=${ids.toString()}`);
         const json = await response.json();
 
         const products = json.reduce((products, product) => {
@@ -69,41 +78,41 @@ export default inject("store")(observer(function Cart({ store }) {
         </Head>
         <div className={blocks.content_block}>
             <div className={styles.content}>
-                <h2>КОРЗИНА</h2>
-                { (fetched && !products.length) && <EmptyCartMessage /> }
+                <h2>{ t("title-caps") }</h2>
+                { (fetched && !products.length) && <EmptyCartMessage t={t} /> }
                 <div className={cn(styles.data_row, styles.desktop_flex)}>
-                    <p className={styles.col_2}>Цена</p>
-                    <p className={styles.col_3}>Количество</p>
-                    <p className={styles.col_4}>Итого</p>
+                    <p className={styles.col_2}>{ t("price") }</p>
+                    <p className={styles.col_3}>{ t("quantity") }</p>
+                    <p className={styles.col_4}>{ t("total") }</p>
                 </div>
-                { products.map(product => <ProductEntry key={product.id} {...product} />) }
+                { products.map(product => <ProductEntry key={product.id} {...product} t={t} />) }
                 <div className={styles.ammount_row}>
-                    <p className={styles.col_1}>ПРОМЕЖУТОЧНЫЙ ИТОГ</p>
+                    <p className={styles.col_1}>{ t("subtotal-caps") }</p>
                     <p className={styles.col_2}>{ formatPrice(totalPrice) } &#8381;</p>
-                    <p className={styles.col_3}>Стоимость доставки будет учтена при оформлении заказа.</p>
+                    <p className={styles.col_3}>{ t("about-shipping-price") }</p>
                 </div>
                 <Link href="/order">
                     <a>
-                        <button className={styles.order_button}>ОФОРМИТЬ ЗАКАЗ</button>
+                        <button className={styles.order_button}>{ t("place-order-caps") }</button>
                     </a>
                 </Link>
             </div>
-            <RecentBlock styles={styles} />
+            <RecentBlock styles={styles} t={recentBlock} productCard={productCard} />
         </div>
     </>);
 }));
 
-const EmptyCartMessage = () => (
+const EmptyCartMessage = ({ t }) => (
     <div className={styles.empty_cart}>
-        <p>Ваша корзина пуста</p>
+        <p>{ t("empty-cart") }</p>
         <br />
         <Link href="/shop">
-            <a>Продолжить покупки</a>
+            <a>{ t("continue-shopping") }</a>
         </Link>
     </div>
 );
 
-const ProductEntry = ({ id, image, name, color, size, quantity, price }) => (
+const ProductEntry = ({ id, image, name, color, size, quantity, price, t }) => (
     <div className={styles.product_row}>
         <div className={styles.product_photo}>
             <img src={image} alt="" width="100%" />
@@ -113,7 +122,7 @@ const ProductEntry = ({ id, image, name, color, size, quantity, price }) => (
                 <a>{ name } / { color }</a>
             </Link>
             <p className={styles.size}>{ size }</p>
-            <DeleteButton id={id} />
+            <DeleteButton id={id} t={t} />
         </div>
         <div className={styles.col_2}>
             <p>{ formatPrice(price) } &#8381;</p>
@@ -125,11 +134,11 @@ const ProductEntry = ({ id, image, name, color, size, quantity, price }) => (
     </div>
 );
 
-const DeleteButton = inject("store")(observer(({ store, id }) => (
+const DeleteButton = inject("store")(observer(({ store, id, t }) => (
     <button
         className={styles.delete_button}
         onClick={() => store.removeFromCart(id)}
-    >Удалить</button>
+    >{ t("delete") }</button>
 )));
 
 const QuantitySelector = inject("store")(observer(({ store, quantity, id }) => (

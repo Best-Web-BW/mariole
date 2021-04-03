@@ -1,3 +1,13 @@
 {
-	"title": "Cart"
+	"title": "Cart",
+    "title-caps": "CART",
+    "price": "Price",
+    "quantity": "Quantity",
+    "total": "Total",
+    "subtotal-caps": "SUBTOTAL",
+    "about-shipping-price": "The shipping cost will be taken into account when placing the order.",
+    "place-order-caps": "PLACE AN ORDER",
+    "empty-cart": "Your cart is empty",
+    "continue-shopping": "Continue shopping",
+    "delete": "Delete"
 }
