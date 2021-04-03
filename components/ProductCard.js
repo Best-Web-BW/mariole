@@ -3,10 +3,10 @@ import styles from "./ProductCard.module.scss";
 import Link from "next/link";
 import cn from "classnames";
 
-export default function ProductCard({ data: { id, image, name, price, available } = {} }) {
+export default function ProductCard({ data: { id, image, name, price, available } = {}, t }) {
 	return (
 		<div className={styles.product_card}>
-            <div className={cn(styles.outofstock, { [styles.hidden]: available })}>нет в наличии</div>
+            <div className={cn(styles.outofstock, { [styles.hidden]: available })}>{ t("out_of_stock") }</div>
             <Link href="/shop/[id]" as={`/shop/${id}`}>
                 <a className={styles.content}>
                     <div className={styles.image}>
