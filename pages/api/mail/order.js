@@ -36,9 +36,63 @@ function makeUserMessage({ email }) {
         to: email,
         subject: `Заказ`,
         html: `
-            <div>
-                <p>Информация о заказе.</p>
+        <div>
+        <h2>Спасибо за Ваш заказ!</h2>
+        <br/>
+        <p>Далее Вы можете ознакомиться с детальной информацией.</p>
+        <br/>
+        <p>Сумма вашего заказа: <b>summ</b></p>
+        <p>Включаяя доставку: <b></b></p>
+        <p>Метод оплаты: <b>наличными курьеру/картой курьеру/онлайн оплата</b></p>
+        <p>Доставить по адресу: <span>адрес</span></p>
+        <p>Заказчик: <b>Имя</b></p>
+        <br/>
+        <p>Вфш заказ:</p>
+        <div style="
+        display: block;
+        ">
+            <div style="
+            border-bottom: 1px solid #cfcfcf; 
+            display: flex;
+            flex-wrap: nowrap; 
+            justify-content: center;
+            align-items: center;
+            ">
+                <div className={styles.col_1} style="
+                width: 20%;
+                position: relative;
+                ">
+                    <img src="mario_le-1100 копия.jpg" alt="" width="100%" />
+                    <div className={styles.quantity} style="
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    background-color: #cfcfcf;
+                    border-radius: 50%;
+                    height: 20px;
+                    width: 20px;
+                    font-size: 16px;
+                    display: flex;
+                    flex-wrap: nowrap; 
+                    justify-content: center;
+                    align-items: center;
+                    ">{ 1 }</div>
+                </div>
+                <div className={styles.col_2} style="
+                width: calc(40% - 20px);
+                padding-left: 20px;
+                font-size: 16px;
+                ">{ Название продукта } / { colors(color) }</div>
+                <div className={styles.col_3} style="
+                width: 40%;
+                display: flex;
+                flex-wrap: nowrap;
+                justify-content: flex-end;
+                font-size: 16px;
+                ">{ formatPrice(50000) } &#8381;</div>
             </div>
+        </div>
+    </div>
         `
     };
 }
