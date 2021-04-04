@@ -9,7 +9,14 @@ import { useEffect } from "react";
 import Head from "next/head";
 import "../scss/main.scss";
 
-export default appWithTranslation(function MyApp({ Component, pageProps }) {
+import commonEn from "../public/locales/en/common.json";
+import commonRu from "../public/locales/ru/common.json";
+const common = {
+    ru: commonRu,
+    en: commonEn
+}
+
+export default appWithTranslation(function MyApp({ Component, pageProps, router: { locale } }) {
     const store = useStore(pageProps.initialState);
     useEffect(() => store.initClientStore(), []);
     useEffect(() => runAutoRefresh(store), []);
@@ -18,10 +25,11 @@ export default appWithTranslation(function MyApp({ Component, pageProps }) {
         <Head>
             <meta charSet="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+            <meta name="robots" content="index, follow" />
         </Head>
         <Provider store={store}>
             <header>
-                <Header />
+                <Header t={common[locale].header} />
             </header>
             <main>
                 <div className={content_body}>
@@ -29,7 +37,7 @@ export default appWithTranslation(function MyApp({ Component, pageProps }) {
                 </div>
             </main>
             <footer>
-                <Footer />
+                <Footer t={common[locale].footer} />
             </footer>
         </Provider>
 	</>);

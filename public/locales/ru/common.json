@@ -1,1 +1,36 @@
-{}
+{
+    "header": {
+        "menu": {
+            "shop": {
+                "title-caps": "МАГАЗИН",
+                "new": "Новинки",
+                "limited-collection": "Лимитированная коллекция",
+                "knitwear": "Трикотаж",
+                "bestsellers": "Бестселлеры",
+                "jewelry": "Украшения",
+                "view-all": "Смотреть всё"
+            },
+            "about-us-caps": "О НАС",
+            "media-caps": "ПРЕССА",
+            "contacts-caps": "КОНТАКТЫ"
+        },
+        "search": {
+            "nothing-found": "По вашему запросу ничего не нашлось",
+            "products": "Товары"
+        }
+    },
+    "footer": {
+        "menu": {
+            "main": "Главная",
+            "shop": "Магазин",
+            "media": "Пресса",
+            "contacts": "Контакты",
+            "shipping": "Доставка",
+            "payment": "Оплата",
+            "return-and-exchange": "Возврат и обмен",
+            "size-table": "Таблица размеров",
+            "privacy-policy": "Политика конфиденциальности"
+        },
+        "all-rights-reserved": "Все права защищены"
+    }
+}

@@ -7,7 +7,7 @@ import cn from "classnames";
 
 const MenuItem = getMenuItem(styles.menu_elem);
 
-export default function Menu({ opened, close }) {
+export default function Menu({ opened, close, t }) {
     const [submenuOpened, setSubmenuOpened] = useState(false);
 
     return (
@@ -19,7 +19,7 @@ export default function Menu({ opened, close }) {
                 <ul>
                     <li>
                         <Link href="/shop">
-                            <a className={styles.menu_elem}>МАГАЗИН</a>
+                            <a className={styles.menu_elem}>{ t.shop["title-caps"] }</a>
                         </Link>
                         <span
                             className={cn(styles.submenu_icn, { [styles.active]: submenuOpened })}
@@ -28,17 +28,17 @@ export default function Menu({ opened, close }) {
                     </li>
                     <div className={cn(styles.submenu, { [styles.active]: submenuOpened })}>
                         <ul>
-                            <MenuItem href="/shop" title="Новинки" />
-                            <MenuItem href="/shop?limited=1" title="Лимитированная коллекция" />
-                            <MenuItem href="/shop?category=knitwear" title="Трикотаж" />
-                            <MenuItem href="/shop?bestseller=1" title="Бестселлеры" />
-                            <MenuItem href="/shop?category=jewelry" title="Украшения" />
-                            <MenuItem href="/shop" title="Смотреть всё" />
+                            <MenuItem href="/shop" title={t.shop["new"]} />
+                            <MenuItem href="/shop?limited=1" title={ t.shop["limited-collection"] } />
+                            <MenuItem href="/shop?category=knitwear" title={ t.shop["knitwear"] } />
+                            <MenuItem href="/shop?bestseller=1" title={ t.shop["bestsellers"] } />
+                            <MenuItem href="/shop?category=jewelry" title={ t.shop["jewelry"] }/>
+                            <MenuItem href="/shop" title={ t.shop["view-all"] } />
                         </ul>
                     </div>
-                    <MenuItem href="/" title="О НАС" />
-                    <MenuItem href="/media" title="ПРЕССА" />
-                    <MenuItem href="/contacts" title="КОНТАКТЫ" />
+                    <MenuItem href="/" title={ t["about-us-caps"] } />
+                    <MenuItem href="/media" title={ t["media-caps"] } />
+                    <MenuItem href="/contacts" title={ t["contacts-caps"] } />
                     <li>
                         <Link href="#">
                             <a className={styles.social_link} />

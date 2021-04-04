@@ -5,7 +5,7 @@ import Search from "./search/Search";
 import Menu from "./menu/Menu";
 import cn from "classnames";
 
-export default function Header() {
+export default function Header({ t }) {
     const [sticky, setSticky] = useState(false);
     useEffect(() => {
         const handler = () => setSticky(window.scrollY > 0);
@@ -22,8 +22,8 @@ export default function Header() {
                 openMenu={() => setMenuOpened(true)}
                 toggleSearch={() => setSearchOpened(prev => !prev)}
             />
-            <Menu opened={menuOpened} close={() => setMenuOpened(false)} />
-            <Search opened={searchOpened} close={() => setSearchOpened(false)} />
+            <Menu opened={menuOpened} close={() => setMenuOpened(false)} t={t.menu} />
+            <Search opened={searchOpened} close={() => setSearchOpened(false)} t={t.search} />
         </div>
     );
 }

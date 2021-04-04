@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import cn from "classnames";
 
-export default function Search({ opened, close }) {
+export default function Search({ opened, close, t }) {
     const [text, setText] = useState("");
     const [products, setProducts] = useState([]);
 
@@ -38,9 +38,7 @@ export default function Search({ opened, close }) {
                 </label>
                 <div className={cn(styles.results_container, { [styles.active]: text.length > 0 })}>
                     <div className={styles.results_list}>
-                        <p className={cn({ [styles.hidden]: products.length })}>
-                            По вашему запросу ничего не нашлось
-                        </p>
+                        <p className={cn({ [styles.hidden]: products.length })}>{ t["nothing-found"] }</p>
                         {/* <div className={styles.results_row}>
                             <p className={styles.results_title}>Популярные предложения</p>
                             <ul>
@@ -52,7 +50,7 @@ export default function Search({ opened, close }) {
                             </ul>
                         </div> */}
                         <div className={cn(styles.results_row, { [styles.hidden]: !products.length })}>
-                            <p className={styles.results_title}>Товары</p>
+                            <p className={styles.results_title}>{ t["products"] }</p>
                             <ul>{
                                 products.map(product => (
                                     <ProductCard key={product.id} {...product} close={close} />

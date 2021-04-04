@@ -1,1 +1,36 @@
-{}
+{
+    "header": {
+        "menu": {
+            "shop": {
+                "title-caps": "SHOP",
+                "new": "New",
+                "limited-collection": "Limited collection",
+                "knitwear": "Knitwear",
+                "bestsellers": "Bestsellers",
+                "jewelry": "Jewelry",
+                "view-all": "View all"
+            },
+            "about-us-caps": "ABOUT US",
+            "media-caps": "MEDIA",
+            "contacts-caps": "CONTACTS"
+        },
+        "search": {
+            "nothing-found": "Nothing was found for your request",
+            "products": "Products"
+        }
+    },
+    "footer": {
+        "menu": {
+            "main": "Main",
+            "shop": "Shop",
+            "media": "Media",
+            "contacts": "Contacts",
+            "shipping": "Shipping",
+            "payment": "Payment",
+            "return-and-exchange": "Return and exchange",
+            "size-table": "Size table",
+            "privacy-policy": "Privacy policy"
+        },
+        "all-rights-reserved": "All rights reserved"
+    }
+}
