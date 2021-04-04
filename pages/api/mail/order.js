@@ -1,6 +1,7 @@
 import { methodNotAllowed } from "../../../utils/common/network";
 import { address, password } from "./data.json";
 import nodemailer from "nodemailer";
+import formatPrice from "../../../utils/common/formatPrice";
 
 export default function handler(req, res) {
     switch(req.method) {
@@ -16,6 +17,15 @@ const transporter = nodemailer.createTransport({
     secure: true,
     auth: { user: address, pass: password }
 });
+const paymentTypes = {
+    online: "Онлайн",
+    cash: "Наличными курьеру",
+    card: "Картой курьеру"
+};
+const shippingTypes = {
+    "cdek": "CDEK",
+    "courier": "Курьер"
+};
 
 const toAdminCartEntry = ({ href, name, color, size, quantity, price }) => (`
     <li>
@@ -24,34 +34,40 @@ const toAdminCartEntry = ({ href, name, color, size, quantity, price }) => (`
             <span>${color}</span>
             <span>${size}</span>
             <span>${quantity}</span>
-            <span>${price}</span>
+            <span>${formatPrice(quantity * price)} &#8381;</span>
         </p>
     </li>
 `);
 
-const makeAdminMessage = ({ id, name, phone, email, shippingAddress, cart, payment, totalPrice, shippingPrice }) => ({
+const makeAdminMessage = ({
+    id, name, phone, email,
+    shippingType, paymentType,
+    shippingAddress, cart,
+    totalPrice, shippingPrice
+}) => ({
     from: `"${mariole}" <${address}>`,
     to: address,
     subject: `Заказ`,
     html: `
         <div>
             <p>Информация о заказе №<span>${id}</span></p>
-            <p>Заказчик: <b>${name}</b></p>
+            <p>Заказчик: <b>${name.first} ${name.last}</b></p>
             <p>Телефон: <b>${phone}</b></p>
             <p>Email: <b>${email}</b></p>
+            <p>Способ доставки: <span><i>${shippingTypes[shippingType]}</i></span></p>
             <p>Адрес доставки: <span><i>${shippingAddress}</i></span></p>
             <br/>
             <p>Товары в заказе:</p>
             <ul>${cart.map(toAdminCartEntry).join("")}</ul>
             <br/>
-            <p>Метод оплаты: <span>${payment}</span></p>
+            <p>Метод оплаты: <span>${paymentTypes[paymentType]}</span></p>
             <p>Заказ на сумму: <b>${totalPrice}</b></p>
             <p>Включая доставку: <b>${shippingPrice}</b></p>
         </div>
     `
 });
 
-const userStyles = {
+const user1Styles = {
     row: "display: block;",
     wrapper: `
         border-bottom: 1px solid #cfcfcf;
@@ -82,6 +98,8 @@ const userStyles = {
     `
 }
 
+const userStyles = {};
+
 const toUserCartEntry = ({ image, quantity, name, color, price }) => (`
     <div style="${userStyles.row}">
         <div style="${userStyles.wrapper}">
@@ -90,12 +108,16 @@ const toUserCartEntry = ({ image, quantity, name, color, price }) => (`
                 <div style="${userStyles.quantity}">${quantity}</div>
             </div>
             <div style="${userStyles.name}">${name} / ${color}</div>
-            <div style="${userStyles.price}">${formatPrice(price)} &#8381;</div>
+            <div style="${userStyles.price}">${formatPrice(quantity * price)} &#8381;</div>
         </div>
     </div>
 `);
 
-const makeUserMessage = ({ email, totalPrice, shippingPrice, payment, shippingAddress, name, cart }) => ({
+const makeUserMessage = ({
+    email, totalPrice, shippingPrice,
+    paymentType, shippingType,
+    shippingAddress, name, cart
+}) => ({
     from: `"${mariole}" <${address}>`,
     to: email,
     subject: `Успешное оформление заказа`,
@@ -107,9 +129,10 @@ const makeUserMessage = ({ email, totalPrice, shippingPrice, payment, shippingAd
             <br />
             <p>Сумма вашего заказа: <b>${totalPrice}</b></p>
             <p>Включая доставку: <b>${shippingPrice}</b></p>
-            <p>Метод оплаты: <b>${payment}</b></p>
+            <p>Метод оплаты: <b>${paymentTypes[paymentType]}</b></p>
+            <p>Способ доставки: <span>${shippingTypes[shippingType]}</span></p>
             <p>Доставить по адресу: <span>${shippingAddress}</span></p>
-            <p>Заказчик: <b>${name}</b></p>
+            <p>Заказчик: <b>${name.first} ${name.last}</b></p>
             <br />
             <p>Ваш заказ:</p>
             ${cart.map(toUserCartEntry).join("")}
@@ -117,14 +140,36 @@ const makeUserMessage = ({ email, totalPrice, shippingPrice, payment, shippingAd
     `
 });
 
-async function _post({ id, name, phone, email, cart, payment, shippingAddress, shippingPrice, totalPrice }) {
+export async function _post({
+    id, name, phone, email, cart,
+    paymentType, shippingType,
+    shippingAddress,
+    shippingPrice, totalPrice
+}) {
     try {
-        const adminData = { id, name, phone, email, cart, payment, shippingAddress, shippingPrice, totalPrice };
-        const userData = { name, email, cart, payment, shippingAddress, shippingPrice, totalPrice };
-        await Promises.all([
-            transporter.sendMail(makeAdminMessage(adminData)),
-            transporter.sendMail(makeUserMessage(userData))
-        ]);
+        // const adminData = {
+        //     id, name, phone, email, cart,
+        //     paymentType, shippingType,
+        //     shippingAddress,
+        //     shippingPrice, totalPrice
+        // };
+        // const userData = {
+        //     name, email, cart,
+        //     paymentType, shippingType,
+        //     shippingAddress,
+        //     shippingPrice, totalPrice
+        // };
+
+        // const adminEmail = makeAdminMessage(adminData);
+        // const userEmail = makeUserMessage(userData);
+
+        // console.log("Admin message", adminEmail);
+        // console.log("User message", userEmail);
+
+        // await Promises.all([
+        //     transporter.sendMail(makeAdminMessage(adminData)),
+        //     transporter.sendMail(makeUserMessage(userData))
+        // ]);
         return { success: 1 };
     } catch(e) {
         console.error(e);
