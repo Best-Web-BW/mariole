@@ -17,8 +17,7 @@ function Link({ styles, customStyle, toLocale, title }) {
     let onClick;
     if(!isServer() && toLocale !== locale) {
         const { defaultLocale, asPath } = router;
-        const query = window.location.search;
-        const pathname = `${toLocale !== defaultLocale ? `/${toLocale}` : ""}${asPath}${query}`;
+        const pathname = `${toLocale !== defaultLocale ? `/${toLocale}` : ""}${asPath}`;
         onClick = () => window.location = pathname;
     }
     
