@@ -1,9 +1,14 @@
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import serializeForm from "../../utils/common/serializeForm";
+import runAutoRefresh from "../../utils/auth/runAutoRefresh";
 import blocks from "../../scss/blocks.module.scss";
 import { inject, observer } from "mobx-react";
 import styles from "./login.module.scss";
 import Router from "next/router";
-import runAutoRefresh from "../../utils/auth/runAutoRefresh";
+
+export const getStaticProps = async ({ locale }) => ({
+    props: { ...await serverSideTranslations(locale, []) }
+});
 
 export default inject("store")(observer(function Login({ store }) {
     const submit = async data => {
@@ -13,6 +18,7 @@ export default inject("store")(observer(function Login({ store }) {
             body: JSON.stringify(data)
         });
         if(response.status === 200) {
+            store.enableAdmin();
             runAutoRefresh(store);
             Router.push("/admin/edit");
         }
