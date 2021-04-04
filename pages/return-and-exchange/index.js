@@ -43,7 +43,7 @@ export default function ReturnAndExchange() {
                 </p>
                 <p>Адрес доставки:</p>
                 <p>
-                    Получатель: Mario'le <a href="tel:+7 (968) 001-88-80">+7 (968) 001-88-80</a>
+                    Получатель: Mario'le <a href="tel:+7 (968) 001-88-80">+7 (968) 001-88-80</a>,&nbsp;<a href="tel:+7 (929) 500-51-46">+7 (929) 500-51-46</a>
                 </p>
                 <p>
                     Обращаем ваше внимание, что возврат товара осуществляется 
@@ -71,7 +71,7 @@ export default function ReturnAndExchange() {
                 </p>
                 <p>Связаться с менеджером возможно следующими способами:</p>
                 <p>
-                    WhatsApp <a href="tel:+7 (968) 001-88-80">+7 (968) 001-88-80</a>
+                    WhatsApp <a href="tel:+7 (968) 001-88-80">+7 (968) 001-88-80</a>,&nbsp;<a href="tel:+7 (929) 500-51-46">+7 (929) 500-51-46</a>
                 </p>
                 <p>
                     Почта: <a href="mailto:Mariolewool@yandex.ru">Mariolewool@yandex.ru</a>

@@ -59,7 +59,8 @@ export default function Shipping() {
             <Data>
                 Если у вас остались вопросы, пожалуйста, свяжитесь 
                 с нами в Whatsapp по номеру телефона:&nbsp;
-                <a href="tel:+7(968)001-88-80" className={styles.link}>+7 (968) 001-88-80</a>
+                <a href="tel:+7(968)001-88-80" className={styles.link}>+7 (968) 001-88-80</a>,&nbsp;
+                <a href="tel:+7 (929) 500-51-46" className={styles.link}>+7 (929) 500-51-46</a>
                 &nbsp;или e-mail:&nbsp;
                 <a href="mailto:mariolewool@yandex.ru" className={styles.link}>Mariolewool@yandex.ru</a>
                 , и мы с радостью вам поможем.
