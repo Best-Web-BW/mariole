@@ -1,3 +1,26 @@
 {
-	"title": "Магазин"
+	"title": "Магазин",
+    "all-products-caps": "ВСЕ ТОВАРЫ",
+    "search-results": "Результаты поиска",
+    "category-caps": "КАТЕГОРИЯ",
+    "category.knitwear": "Трикотаж",
+    "subcategory.suits": "Костюмы",
+    "subcategory.turtlenecks": "Водолазки",
+    "subcategory.cardigans": "Кардиганы",
+    "category.accessories": "Аксессуары",
+    "subcategory.mittens": "Варежки",
+    "subcategory.gloves": "Перчатки",
+    "subcategory.socks": "Носки",
+    "subcategory.headscarves": "Косынки",
+    "subcategory.shawls": "Платки",
+    "subcategory.stoles": "Палантины",
+    "subcategory.headwear": "Головные уборы",
+    "category.jewelry": "Украшения",
+    "subcategory.necklaces": "Колье",
+    "subcategory.earrings": "Серьги",
+    "subcategory.bracelets": "Браслеты",
+    "subcategory.brooches": "Броши",
+    "limited-collection": "Лимитированная коллекция",
+    "bestsellers": "Бестселлеры",
+    "size-caps": "РАЗМЕР"
 }

@@ -1,3 +1,26 @@
 {
-	"title": "Shop"
+	"title": "Shop",
+    "all-products-caps": "ALL PRODUCTS",
+    "search-results": "Search results",
+    "category-caps": "CATEGORY",
+    "category.knitwear": "Knitwear",
+    "subcategory.suits": "Suits",
+    "subcategory.turtlenecks": "Turtlenecks",
+    "subcategory.cardigans": "Cardigans",
+    "category.accessories": "Accessories",
+    "subcategory.mittens": "Mittens",
+    "subcategory.gloves": "Gloves",
+    "subcategory.socks": "Socks",
+    "subcategory.headscarves": "Headscarves",
+    "subcategory.shawls": "Shawls",
+    "subcategory.stoles": "Stoles",
+    "subcategory.headwear": "Headwear",
+    "category.jewelry": "Jewelry",
+    "subcategory.necklaces": "Necklaces",
+    "subcategory.earrings": "Earrings",
+    "subcategory.bracelets": "Bracelets",
+    "subcategory.brooches": "Brooches",
+    "limited-collection": "Limited collection",
+    "bestsellers": "Bestsellers",
+    "size-caps": "SIZE"
 }

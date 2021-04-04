@@ -80,14 +80,20 @@ export async function getServerSideProps({ locale, query }) {
     const defaultProducts = getProducts(parsedQuery);
     return {
         props: {
-            enabledSearch: !!parsedQuery.search, defaultProducts,
-            ...await serverSideTranslations(locale, ["page_shop"])
+            enabledSearch: !!parsedQuery.search,
+            defaultProducts,
+            locale,
+            ...await serverSideTranslations(locale, [
+                "page_shop",
+                "component_product-card"
+            ])
         }
     };
 }
 
-export default function Shop({ enabledSearch, defaultProducts }) {
+export default function Shop({ locale, enabledSearch, defaultProducts }) {
     const { t } = useTranslation("page_shop");
+    const { t: productCard } = useTranslation("component_product-card");
 
     const [mobileMenuOpened, setMobileMenuOpened] = useState(false);
 
@@ -98,7 +104,7 @@ export default function Shop({ enabledSearch, defaultProducts }) {
     useEffect(() => setSearch(filter.search), [filter.search]);
 
     useEffect(async () => {
-        const response = await fetch(`/api/products?${joinQuery(filter)}`);
+        const response = await fetch(`/api/products?locale=${locale}&${joinQuery(filter)}`);
         setProducts(await response.json());
     }, [filter]);
     
@@ -141,12 +147,12 @@ export default function Shop({ enabledSearch, defaultProducts }) {
             <img className={blocks.desktop} src="/images/blocks/mario_le-2077.jpg" alt="" />
             <img className={blocks.mobile} src="/images/blocks/mario_le-1817.jpg" alt="" width="100%" />
             <div className={blocks.page_title}>
-                <p>ВСЕ ТОВАРЫ</p>
+                <p>{ t("all-products-caps") }</p>
             </div>
         </div>
         <Search
             enabled={enabledSearch} submit={() => toggle.search(search)}
-            text={search} setText={setSearch}
+            text={search} setText={setSearch} t={t}
         />
         <div className={cn(blocks.content_block, styles.shop_page)}>
             <div className={cn(styles.menu_wrapper, { [styles.opened]: mobileMenuOpened })}>
@@ -155,11 +161,12 @@ export default function Shop({ enabledSearch, defaultProducts }) {
                 </div>
                 <div className={styles.menu_container}>
                     <ul>
-                        <CategoryMenu toggle={toggle} filter={filter} />
+                        <CategoryMenu toggle={toggle} filter={filter} t={t} />
                         <SizeMenu
                             existingSizes={["L", "M", "S", "XS"]}
                             activeSizes={filter.sizes}
                             toggle={toggle.size}
+                            t={t}
                         />
                     </ul>
                 </div>
@@ -188,17 +195,17 @@ export default function Shop({ enabledSearch, defaultProducts }) {
                         />
                     </div>
                 </div>
-                <ProductList products={products} />
+                <ProductList products={products} t={productCard} />
             </div>
         </div>
     </>);
 }
 
-function Search({ enabled, text, setText, submit }) {
+function Search({ enabled, text, setText, submit, t }) {
     return (
         <div className={cn(styles.search_results, { [styles.hidden]: !enabled })}>
             <div className={styles.search_title}>
-                <h2>Результаты поиска</h2>
+                <h2>{ t("search-results") }</h2>
             </div>
             <form className={styles.search_form} onSubmit={evt => {
                 evt.preventDefault();
@@ -213,48 +220,54 @@ function Search({ enabled, text, setText, submit }) {
     );
 }
 
-function CategoryMenu({ toggle, filter }) {
+function CategoryMenu({ toggle, filter, t }) {
     const [expanded, setExpanded] = useState(false);
 
     return (
         <li>
             <div className={styles.menu_elem} onClick={() => setExpanded(prev => !prev)}>
                 <span className={cn(styles.submenu_icn, { [styles.active]: expanded })} />
-                КАТЕГОРИЯ
+                { t("category-caps") }
             </div>
             <div className={cn(styles.submenu_container, { [styles.opened]: expanded })}>
                 <ul>
                     <CategoryFilter
-                        toggle={toggle} name="knitwear" title="Трикотаж"
-                        subcategories={[
-                            [      "suits", "Костюмы"  ],
-                            ["turtlenecks", "Водолазки"],
-                            [  "cardigans", "Кардиганы"]
-                        ]}
+                        toggle={toggle} name="knitwear" title={t("category.knitwear")}
+                        subcategories={
+                            [
+                                "suits",
+                                "turtlenecks",
+                                "cardigans"
+                            ].map(id => [id, t(`subcategory.${id}`)])
+                        }
                     />
                     <CategoryFilter
-                        toggle={toggle} name="accessories" title="Аксессуары"
-                        subcategories={[
-                            [    "mittens", "Варежки"       ],
-                            [     "gloves", "Перчатки"      ],
-                            [      "socks", "Носки"         ],
-                            ["headscarves", "Косынки"       ],
-                            [     "shawls", "Платки"        ],
-                            [     "stoles", "Палантины"     ],
-                            [   "headwear", "Головные уборы"]
-                        ]}
+                        toggle={toggle} name="accessories" title={t("category.accessories")}
+                        subcategories={
+                            [
+                                "mittens",
+                                "gloves",
+                                "socks",
+                                "headscarves",
+                                "shawls",
+                                "stoles",
+                                "headwear"
+                            ].map(id => [id, t(`subcategory.${id}`)])
+                        }
                     />
                     <CategoryFilter
-                        toggle={toggle} name="jewelry" title="Украшения"
-                        subcategories={[
-                            ["necklaces", "Колье"   ],
-                            [ "earrings", "Серьги"  ],
-                            ["bracelets", "Браслеты"],
-                            [ "brooches", "Броши"   ]
-                        ]}
+                        toggle={toggle} name="jewelry" title={t("category.jewelry")}
+                        subcategories={
+                            [
+                                "necklaces",
+                                "earrings",
+                                "bracelets",
+                                "brooches"
+                            ].map(id => [id, t(`subcategory.${id}`)])
+                        }
                     />
-                    <LimitedFilter toggle={toggle.limited} active={filter.limited} />
-                    <BestsellerFilter toggle={toggle.bestseller} active={filter.bestseller} />
+                    <LimitedFilter toggle={toggle.limited} active={filter.limited} t={t} />
+                    <BestsellerFilter toggle={toggle.bestseller} active={filter.bestseller} t={t} />
                 </ul>
             </div>
         </li>
@@ -276,9 +289,7 @@ function CategoryFilter({ toggle, name, title, subcategories }) {
                     subcategories.map(([_name, _title]) => (
                         <SubcategoryFilter
                             key={_name} name={_name} title={_title}
-                            toggle={() => {
-                                toggle.subcategory(name, _name);
-                            }}
+                            toggle={() => toggle.subcategory(name, _name)}
                         />
                     ))
                 }</ul>
@@ -295,18 +306,18 @@ function SubcategoryFilter({ toggle, name, title }) {
     );
 }
 
-function LimitedFilter({ toggle, active }) {
+function LimitedFilter({ toggle, active, t }) {
     return (
         <li onClick={() => toggle(!active)}>
-            <span className={styles.menu_elem}>Лимитированная коллекция</span>
+            <span className={styles.menu_elem}>{ t("limited-collection") }</span>
         </li>
     );
 }
 
-function BestsellerFilter({ toggle, active }) {
+function BestsellerFilter({ toggle, active, t }) {
     return (
         <li onClick={() => toggle(!active)}>
-            <span className={styles.menu_elem}>Бестселлеры</span>
+            <span className={styles.menu_elem}>{ t("bestsellers") }</span>
         </li>
     );
 }
@@ -322,14 +333,14 @@ function SizeItem({ toggle, active, name }) {
     );
 }
 
-function SizeMenu({ activeSizes, existingSizes, toggle }) {
+function SizeMenu({ activeSizes, existingSizes, toggle, t }) {
     const [expanded, setExpanded] = useState(false);
 
     return (
         <li>
             <div className={styles.menu_elem} onClick={() => setExpanded(prev => !prev)}>
                 <span className={cn(styles.submenu_icn, { [styles.active]: expanded })} />
-                РАЗМЕР
+                { t("size-caps") }
             </div>
             <div className={cn(styles.submenu_container, { [styles.opened]: expanded })}>
                 <ul>{
@@ -346,11 +357,11 @@ function SizeMenu({ activeSizes, existingSizes, toggle }) {
     );
 }
 
-function ProductList({ products }) {
+function ProductList({ products, t }) {
     const divided = useMemo(() => divideArrayToSubarrays(products, 4), [products]);
     return divided.map((sublist, index) => (
         <div key={index} className={styles.row}>{
-            sublist.map((data, index) => <ProductCard key={index} data={data} />)
+            sublist.map((data, index) => <ProductCard key={index} data={data} t={t} />)
         }</div>
     ));
 }
