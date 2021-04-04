@@ -42,8 +42,14 @@ class Store {
     addToRecent = id => this.setRecent([...this.cutRecent(), id]);
 
     @observable admin = false;
-    @action enableAdmin = () => this.admin = true;
-    @action disableAdmin = () => this.admin = false;
+    @action enableAdmin = () => {
+        this.admin = true;
+        localStorage.setItem("admin", 1);
+    };
+    @action disableAdmin = () => {
+        this.admin = false;
+        localStorage.removeItem("admin");
+    }
 
     @action initClientStore = () => runInAction(() => {
         this.favorite = localStorage.favorite ? JSON.parse(localStorage.favorite) : [];

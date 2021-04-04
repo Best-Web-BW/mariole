@@ -5,16 +5,14 @@ export default function runAutoRefresh(store) {
 }
 
 async function runTimeout(store) {
-    if(await refresh(store)) setTimeout(() => runTimeout(store), refreshInterval);
+    if(!localStorage.getItem("admin")) return;
+    if(await refresh()) {
+        store.enableAdmin();
+        setTimeout(() => runTimeout(store), refreshInterval);
+    } else store.disableAdmin();
 }
 
-async function refresh(store) {
+async function refresh() {
     const response = await fetch("/api/auth/refresh");
-    if(response.status === 200) {
-        store.enableAdmin();
-        return true;
-    } else {
-        store.disableAdmin();
-        return false;
-    }
+    return response.status === 200;
 }
