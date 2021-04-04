@@ -48,11 +48,11 @@ export default function Contacts() {
                 <div className={styles.data_wrapper}>
                     <p className={styles.data}>109316, Москва, а/я 111</p>
                     <p className={styles.data}>
-                        Телефон: <a href="tel:+7 (929) 500-51-46" className={styles.data}>+7 (929) 500-51-46</a>
-                        , &nbsp;<a href="tel:+7(968)001-88-80" className={styles.data}>+7 (968) 001-88-80</a>
+                        Телефон: <a href="tel:+79295005146" className={styles.data}>+7 (929) 500-51-46</a>
+                        , &nbsp;<a href="tel:+79680018880" className={styles.data}>+7 (968) 001-88-80</a>
                     </p>
                     <p className={styles.data}>
-                        Почта: <a href="mailto:Mariolewool@yandex.ru" className={styles.data}>Mariolewool@yandex.ru</a>
+                        Почта: <a href="mailto:mariolewool@yandex.ru" className={styles.data}>Mariolewool@yandex.ru</a>
                     </p>
                     <a href="https://www.instagram.com/mario__le/?hl=ru" className={styles.data}>Instagram: Mario__le</a>
                 </div>
