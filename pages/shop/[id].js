@@ -1,4 +1,5 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import capitalizeFirstLetter from "../../utils/common/capitalizeFirstLetter";
 import deleteFalsyValues from "../../utils/common/deleteFalsyValues";
 import StylableSizeTable from "../../components/StylableSizeTable";
 import { _get as getProduct } from "../api/products/[id]";
@@ -25,7 +26,10 @@ export async function getServerSideProps({ locale, params: { id } }) {
         props: {
             product: deleteFalsyValues(product),
             ...await serverSideTranslations(locale, [
+                "common_colors",
                 "page_shop_product",
+                "component_recent-block",
+                "component_product-card",
                 "component_size-table",
                 "component_feedback-form"
             ])
@@ -36,6 +40,9 @@ export async function getServerSideProps({ locale, params: { id } }) {
 
 export default inject("store")(observer(function ProductPage({ store, product }) {
     const { t } = useTranslation("page_shop_product");
+    const { t: colors } = useTranslation("common_colors");
+    const { t: recentBlock } = useTranslation("component_recent-block");
+    const { t: productCard } = useTranslation("component_product-card");
     const { t: sizeTable } = useTranslation("component_size-table");
     const { t: feedbackForm } = useTranslation("component_feedback-form");
 
@@ -51,7 +58,7 @@ export default inject("store")(observer(function ProductPage({ store, product })
 
     return (<>
         <Head>
-            <title>{ t("title") }</title>
+            <title>{ product.locale.name }</title>
         </Head>
         <div className={blocks.content_body}>
             <div className={styles.product_page}>
@@ -94,16 +101,12 @@ export default inject("store")(observer(function ProductPage({ store, product })
                             <p>{ product.locale.description }</p>
                         </div>
                         <div className={cn(styles.data_row, styles.padding)}>
-                            <p>Цвет: Розовый (???)</p>
+                            <p>{ t("color") }: { capitalizeFirstLetter(colors(product.color)) }</p>
                         </div>
                         <InfoBlock title={t("composition")}>
-                            {/* Основа: 100% вискоза. Подклад: 100% вискоза. */}
                             { product.locale.composition }
                         </InfoBlock>
                         <InfoBlock title={t("details")}>
-                            {/* Рост модели 173 см, размер XS (40 RUS). 
-                            На модели: жакет размера S (42 RUS). 
-                            Рекомендуется только сухая чистка. */}
                             { product.locale.details }
                         </InfoBlock>
                         <InfoBlock title={sizeTable("title")}>
@@ -122,7 +125,7 @@ export default inject("store")(observer(function ProductPage({ store, product })
                 opened={sliderOpened}
             />
             <div className={blocks.content_block}>
-                <RecentBlock styles={styles} />
+                <RecentBlock styles={styles} t={recentBlock} productCard={productCard} />
             </div>
         </div>
     </>);
