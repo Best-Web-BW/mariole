@@ -1,3 +1,4 @@
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import deserializeForm from "../../utils/common/deserializeForm";
 import serializeForm from "../../utils/common/serializeForm";
 import { _get as getParents } from "../api/products/parents";
@@ -108,12 +109,17 @@ const select = {
     ]
 };
 
-export async function getServerSideProps({ req: { cookies }, query: { id } }) {
+export async function getServerSideProps({ locale, req: { cookies }, query: { id } }) {
     const authorization = authorize({ uuid: cookies.uuid, accessKey: cookies.access_key });
     if(authorization.success) {
         const product = getProduct({ id: +id, full: true }) ?? null;
         const parents = getParents().map(({ id, name }) => ({ value: id, label: name }));
-        return { props: { product, parents } };
+        return {
+            props: {
+                product, parents,
+                ...await serverSideTranslations(locale, [])
+            } 
+        };
     } else return {
         redirect: {
             destination: "/admin/login",

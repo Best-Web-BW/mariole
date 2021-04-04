@@ -1,7 +1,6 @@
 import { methodNotAllowed } from "../../../utils/common/network";
 import { address, password } from "./data.json";
 import nodemailer from "nodemailer";
-const mariole = "Mario'le";
 
 export default function handler(req, res) {
     switch(req.method) {
@@ -10,6 +9,7 @@ export default function handler(req, res) {
     }
 }
 
+const mariole = "Mario’le";
 const transporter = nodemailer.createTransport({
     host: "smtp.yandex.ru",
     port: 465,
@@ -17,31 +17,31 @@ const transporter = nodemailer.createTransport({
     auth: { user: address, pass: password }
 });
 
-function makeMessage({ name, email, phone, message }) {
-    return {
-        from: `"${mariole}" <${address}>`,
-        to: address,
-        subject: `Обратная связь`,
-        html: `
-            <div>
-                <h2>Контактная информация</h2>
-                <p>Имя: <b>${name}</b></p>
-                <br />
-                <p>Email: <b>${email}</b></p>
-                <br />
-                <p>Номер телефона: <b>${phone}</b></p>
-                <br />
-                <p>Вопрос:</p>
-                <p>${message}</p>
-            </div>
-        `
-    };
-}
+const makeMessage = ({ name, email, phone, message }) => ({
+    from: `"${mariole}" <${address}>`,
+    to: address,
+    subject: `Обратная связь`,
+    html: `
+        <div>
+            <h2>Контактная информация</h2>
+            <p>Имя: <b>${name}</b></p>
+            <br />
+            <p>Email: <b>${email}</b></p>
+            <br />
+            <p>Номер телефона: <b>${phone}</b></p>
+            <br />
+            <p>Вопрос:</p>
+            <p>${message}</p>
+        </div>
+    `
+});
 
 async function _post({ name, email, phone, message }) {
     try {
         const data = { name, email, phone, message };
-        await transporter.sendMail(makeMessage(data));
+        const mail = makeMessage(data);
+        console.log("Send feedback email", { mail });
+        // await transporter.sendMail(makeMessage(data));
         return { success: 1 };
     } catch(e) {
         console.error(e);
