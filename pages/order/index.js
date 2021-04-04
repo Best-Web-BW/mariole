@@ -1,7 +1,7 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import serializeForm from "../../utils/common/serializeForm";
 import formatPrice from "../../utils/common/formatPrice";
-import { useCallback, useEffect, useState } from "react";
 import blocks from "../../scss/blocks.module.scss";
 import { AddressSuggestions } from "react-dadata";
 import { useTranslation } from "next-i18next";
@@ -45,6 +45,7 @@ export const getStaticProps = async ({ locale }) => ({
         locale,
         ...await serverSideTranslations(locale, [
             "common_colors",
+            "common_countries",
             "page_order"
         ])
     }
@@ -53,6 +54,13 @@ export const getStaticProps = async ({ locale }) => ({
 export default inject("store")(observer(function Order({ store, locale }) {
     const { t } = useTranslation("page_order");
     const { t: colors } = useTranslation("common_colors");
+    const { t: countries } = useTranslation("common_countries");
+
+    const selectCountries = useMemo(() => {
+        return [
+            "russia"
+        ].map(country => ({ value: country, label: countries(country) }));
+    }, []);
 
     const [products, setProducts] = useState([]);
     useEffect(async () => {
@@ -134,7 +142,6 @@ export default inject("store")(observer(function Order({ store, locale }) {
                     submitOrder(evt.target);
                 }}>
                     <input type="hidden" name="cart" value={JSON.stringify(store.cart)} />
-                    <input type="hidden" name="price" value={totalPrice} />
                     <input type="hidden" name="address" value={orderAddress} />
                     <div className={styles.form_block}>
                         <p className={styles.form_block_title}>1. { t("shipping-address") }</p>
@@ -233,6 +240,10 @@ export default inject("store")(observer(function Order({ store, locale }) {
                         <label className={cn(styles.full_width_label, styles.payment)}>
                             <input type="radio" name="payment" value="cash" required />
                             &nbsp;{ t("cash-to-courier") }
+                        </label>
+                        <label className={cn(styles.full_width_label, styles.payment)}>
+                            <input type="radio" name="payment" value="card" required />
+                            &nbsp;{ t("card-to-courier") }
                         </label>
                     </div>
                     <div className={styles.form_block}>
