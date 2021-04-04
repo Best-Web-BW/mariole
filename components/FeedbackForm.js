@@ -2,11 +2,21 @@ import serializeForm from "../utils/common/serializeForm";
 import styles from "./FeedbackForm.module.scss";
 
 export default function FeedbackForm({ t }) {
+    const submit = async data => {
+        console.log({ data });
+        const response = await fetch("/api/mail/feedback", {
+            method: "POST",
+            headers: { "Content-Type": "application/json;charset=utf-8" },
+            body: JSON.stringify(data)
+        });
+        console.log({ response })
+    };
+
 	return (
 		<div className={styles.form}>
             <form onSubmit={e => {
                 e.preventDefault();
-                console.log(serializeForm(e.target));
+                submit(serializeForm(e.target));
             }}>
                 <div className={styles.form_row}>
                     <label className={styles.name}>
