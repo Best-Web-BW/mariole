@@ -24,7 +24,29 @@ function makeAdminMessage({ }) {
         subject: `Заказ`,
         html: `
             <div>
-                <p>Информация о заказе.</p>
+                <p>Информация о заказе №<span></span></p>
+                <p>Заказчик: <b></b></p>
+                <p>Телефон: <b></b></p>
+                <p>Email: <b></b></p>
+                <p>Адрес доставки: <span><i></i></span></p>
+                <br/>
+                <p>Товары в заказе:</p>
+                <ul>
+                    <li>
+                        <p>
+                            <span>name</span>
+                            <span>color</span>
+                            <span>size</span>
+                            <span>quantity</span>
+                            <span>price</span>
+                            <span>link</span>
+                        </p>
+                    </li>
+                </ul>
+                <br/>
+                <p>Метод оплаты: <span></span></p>
+                <p>Заказ на сумму: <b></b></p>
+                <p>Включая доставку: <b></b></p>
             </div>
         `
     };
@@ -34,7 +56,7 @@ function makeUserMessage({ email }) {
     return {
         from: `"${mariole}" <${address}>`,
         to: email,
-        subject: `Заказ`,
+        subject: `Успешное оформление заказа`,
         html: `
         <div>
         <h2>Спасибо за Ваш заказ!</h2>
