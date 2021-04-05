@@ -1,3 +1,5 @@
-export default function f(product, locale) {
-    return { ...product, locale: product.locales[locale], locales: undefined };
+export default function leaveOneLocale(product, locale) {
+    const newProduct = { ...product, locale: product.locales[locale] };
+    delete newProduct.locales;
+    return newProduct;
 }
