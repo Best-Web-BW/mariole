@@ -21,7 +21,7 @@ import cn from "classnames";
 const existingSizes = ["S", "M", "L"];
 
 export async function getServerSideProps({ locale, params: { id } }) {
-    const product = getProduct({ locale, id: +id });
+    const { product } = await getProduct({ locale, id: +id });
     if(product) return {
         props: {
             product: deleteFalsyValues(product),

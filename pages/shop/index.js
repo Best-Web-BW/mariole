@@ -77,7 +77,7 @@ const uri = {
 export async function getServerSideProps({ locale, query }) {
     const parsedQuery = { ...parseQuery(query), locale: "ru" };
     if(!parsedQuery.sizes.length) parsedQuery.sizes = undefined;
-    const defaultProducts = getProducts(parsedQuery);
+    const { products: defaultProducts } = await getProducts(parsedQuery);
     return {
         props: {
             enabledSearch: !!parsedQuery.search,
