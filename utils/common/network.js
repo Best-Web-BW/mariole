@@ -16,3 +16,13 @@ export function joinQuery(params) {
     }
     return `${entries.join("&")}`;
 }
+
+export function success(data = {}) {
+    // console.log("success", { data });
+    return { success: 1, ...data };
+}
+
+export function error(error, data = {}) {
+    // console.log("error", { error, data });
+    return { success: 0, error, ...data };
+}
