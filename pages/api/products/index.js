@@ -1,51 +1,71 @@
-import findArrrayIntersection from "../../../utils/arrays/findIntersection";
-import { methodNotAllowed } from "../../../utils/common/network";
-import products from "./products.json";
+import { success, error, methodNotAllowed } from "../../../utils/common/network";
+import connect from "../../../utils/mongo/connect";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
     switch(req.method) {
-        case "GET": return GET(req, res);
+        case "GET": return await GET(req, res);
         default: return methodNotAllowed(req, res, ["GET"]);
     }
 }
 
-function findInLocalesName(locales, text) {
-    for(const localeId in locales) {
-        const { name } = locales[localeId];
-        if(name.toLowerCase().includes(text.toLowerCase())) return true;
+function cut({ images: [image], locales, ...product }, locale) {
+    return { image, name: locales[locale].name, ...product };
+}
+
+function createQuery({ ids, category, subcategory, limited, bestseller, sizes, search }) {
+    const result = {};
+    if(ids && ids instanceof Array) result.id = { $in: ids };
+    if(category && typeof category === "string") result.category = category;
+    if(subcategory && typeof subcategory === "string") result.subcategory = subcategory;
+    if(limited && typeof limited === "boolean") result.limited = true;
+    if(bestseller && typeof bestseller === "boolean") result.bestseller = true;
+    if(sizes && sizes instanceof Array) result.sizes = { $elemMatch: { $in: sizes } };
+    if(search && typeof search === "string") {
+        result.$or = [
+            { "locales.ru.name": { $regex: search, $options: "gi" } },
+            { "locales.en.name": { $regex: search, $options: "gi" } }
+        ]
     }
-    return false;
+    return result;
 }
 
-function matchesRequest(product, { ids, category, subcategory, limited, bestseller, sizes, search }) {
-    return !Boolean(
-        (ids && !ids.includes(product.id)) ||
-        (category && product.category !== category) ||
-        (subcategory && product.subcategory !== subcategory) ||
-        (+limited === 1 && !product.limited) ||
-        (+bestseller === 1 && !product.bestseller) ||
-        (sizes && findArrrayIntersection(sizes, product.sizes).length === 0) ||
-        (search && !findInLocalesName(product.locales, search))
-    );
+export async function _get({ locale = "ru", ...params }) {
+    let matchedProducts;
+    try {
+        const { db } = await connect();
+        const products = db.collection("products");
+        
+        const query = createQuery(params);
+        const projection = { _id: 0, id: 1, price: 1, images: 1, locales: 1, available: 1, color: 1 };
+        matchedProducts = await products.find(query, { projection }).toArray();
+    } catch(e) {
+        console.error(e);
+        return error("db_error");
+    }
+
+    try {
+        matchedProducts = matchedProducts.map(product => cut(product, locale));
+    } catch(e) {
+        console.error(e);
+        return error("internal_error");
+    }
+
+    return success({ products: matchedProducts });
 }
 
-function cut({ id, price, images: [image], locales, available, color }, locale) {
-    return { id, price, image, name: locales[locale].name, available, color };
-}
-
-export function _get({ locale = "ru", ...params }) {
-    return (
-        products
-            .filter(product => matchesRequest(product, params))
-            .map(product => cut(product, locale))
-    );
-}
-
-function GET(req, res) {
-    const { locale, category, subcategory, limited, bestseller } = req.query;
+async function GET(req, res) {
+    const { locale, category, subcategory } = req.query;
+    const limited = req.query.limited === "1";
+    const bestseller = req.query.bestseller === "1";
     const ids = req.query.ids?.split(",").map(id => id ? +id : undefined);
     const sizes = req.query.sizes?.split(",");
     const search = decodeURIComponent(req.query.search ?? "");
-    const products = _get({ locale, ids, category, subcategory, limited, bestseller, sizes, search });
-    res.status(200).json(products);
+
+    const result = await _get({ locale, ids, category, subcategory, limited, bestseller, sizes, search });
+    if(result.success) res.status(200).json(result.products);
+    else switch(result.error) {
+        default:
+            res.status(500).end(result.error);
+            break;
+    }
 }
