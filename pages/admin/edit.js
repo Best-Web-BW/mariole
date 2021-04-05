@@ -110,15 +110,15 @@ const select = {
 };
 
 export async function getServerSideProps({ locale, req: { cookies }, query: { id } }) {
-    const authorization = authorize({ uuid: cookies.uuid, accessKey: cookies.access_key });
+    const authorization = await authorize({ uuid: cookies.uuid, accessKey: cookies.access_key });
     if(authorization.success) {
-        const product = getProduct({ id: +id, full: true }) ?? null;
-        const parents = getParents().map(({ id, name }) => ({ value: id, label: name }));
+        const product = (await getProduct({ id: +id, full: true })).product ?? null;
+        const parents = (await getParents()).parents.map(({ id, name }) => ({ value: id, label: name }));
         return {
             props: {
                 product, parents,
                 ...await serverSideTranslations(locale, [])
-            } 
+            }
         };
     } else return {
         redirect: {
