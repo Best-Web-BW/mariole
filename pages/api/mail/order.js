@@ -1,7 +1,6 @@
 import { methodNotAllowed } from "../../../utils/common/network";
-import { address, password } from "./data.json";
-import nodemailer from "nodemailer";
 import formatPrice from "../../../utils/common/formatPrice";
+import nodemailer from "nodemailer";
 
 export default function handler(req, res) {
     switch(req.method) {
@@ -11,6 +10,7 @@ export default function handler(req, res) {
 }
 
 const mariole = "Mario’le Shop";
+const { MAIL_ADDRESS: address, MAIL_PASSWORD: password } = process.env;
 const transporter = nodemailer.createTransport({
     host: "smtp.yandex.ru",
     port: 465,
@@ -19,12 +19,12 @@ const transporter = nodemailer.createTransport({
 });
 const paymentTypes = {
     online: "Онлайн",
-    cash: "Наличными курьеру",
-    card: "Картой курьеру"
+    offline_cash: "Наличными курьеру",
+    offline_card: "Картой курьеру"
 };
 const shippingTypes = {
-    "cdek": "CDEK",
-    "courier": "Курьер"
+    cdek: "CDEK",
+    courier: "Курьер"
 };
 
 const toAdminCartEntry = ({ href, name, color, size, quantity, price }) => (`

@@ -1,5 +1,4 @@
 import { methodNotAllowed } from "../../../utils/common/network";
-import { address, password } from "./data.json";
 import nodemailer from "nodemailer";
 
 export default function handler(req, res) {
@@ -10,6 +9,7 @@ export default function handler(req, res) {
 }
 
 const mariole = "Mario’le";
+const { MAIL_ADDRESS: address, MAIL_PASSWORD: password } = process.env;
 const transporter = nodemailer.createTransport({
     host: "smtp.yandex.ru",
     port: 465,
