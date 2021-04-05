@@ -12,36 +12,52 @@ import Select from "react-select";
 import Head from "next/head";
 import cn from "classnames";
 
-const selectTheme = theme => ({
-    ...theme, borderRadius: 0,
-    colors: { ...theme.colors, primary: "black", neutral0: "transparent" }
-});
-
-const selectStyles = {
-    container: () => ({
-        width: "100%",
-        fontSize: "16px"
+const select = {
+    theme: theme => ({
+        ...theme,
+        borderRadius: 0,
+        colors: {
+            ...theme.colors,
+            primary: "black",
+            neutral0: "transparent"
+        }
     }),
-    menu: () => ({
-        backgroundColor: "whitesmoke",
-        position: "absolute",
-        width: "calc(100% - 2px)",
-        zIndex: "1000",
-        border: "1px solid black"
-    }),
-    option: (styles, { isDisabled, isFocused, isSelected }) => {
-        return {
+    styles: {
+        container: () => ({
+            width: "100%",
+            fontSize: "16px"
+        }),
+        menu: () => ({
+            backgroundColor: "whitesmoke",
+            width: "calc(100% - 2px)",
+            border: "1px solid black",
+            position: "absolute",
+            zIndex: "1000"
+        }),
+        option: (styles, { isDisabled, isFocused, isSelected }) => ({
             ...styles,
             color: "#333333",
-            backgroundColor: isDisabled ? null : (isSelected ? "#b4b4b4" : (isFocused ? "#cfcfcf" : null)),
-        }
+            backgroundColor: (
+                isDisabled
+                ? null
+                : (
+                    isSelected
+                    ? "#b4b4b4"
+                    : (
+                        isFocused
+                        ? "#cfcfcf"
+                        : null
+                    )
+                )
+            ),
+        })
     }
 }
 
-const selectCountries = [{ value: "russia", label: "Россия" }];
-
 export const getStaticProps = async ({ locale }) => ({
     props: {
+        CDEK_PRICE: +process.env.SHIPPING_CDEK_PRICE,
+        COURIER_PRICE: +process.env.SHIPPING_COURIER_PRICE,
         locale,
         ...await serverSideTranslations(locale, [
             "common_colors",
@@ -51,7 +67,7 @@ export const getStaticProps = async ({ locale }) => ({
     }
 });
 
-export default inject("store")(observer(function Order({ store, locale }) {
+export default inject("store")(observer(function Order({ store, locale, CDEK_PRICE, COURIER_PRICE }) {
     const { t } = useTranslation("page_order");
     const { t: colors } = useTranslation("common_colors");
     const { t: countries } = useTranslation("common_countries");
@@ -79,7 +95,7 @@ export default inject("store")(observer(function Order({ store, locale }) {
 
     const [productsPrice, setProductsPrice] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
-    const [deliveryPrice, setDeliveryPrice] = useState(0);
+    const [deliveryPrice, setDeliveryPrice] = useState(CDEK_PRICE);
     useEffect(() => {
         let productsPrice = 0;
         for(const { quantity, price } of products) productsPrice += quantity * price;
@@ -122,7 +138,7 @@ export default inject("store")(observer(function Order({ store, locale }) {
         console.log({ data });
         console.log({ jsoned: JSON.stringify(data) });
 
-        const response = await fetch("/api/orders/make", {
+        const response = await fetch(`/api/orders/make?locale=${locale}`, {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=utf-8" },
             body: JSON.stringify(data)
@@ -160,12 +176,11 @@ export default inject("store")(observer(function Order({ store, locale }) {
                         <label className={styles.full_width_label}>
                             { t("country") }
                             <Select
+                                onChange={country => setCountry(country)}
                                 instanceId="country_select"
-                                styles={selectStyles}
-                                theme={selectTheme}
                                 options={selectCountries}
                                 value={country}
-                                onChange={country => setCountry(country)}
+                                {...select}
                             />
                         </label>
                         <label className={styles.full_width_label}>
@@ -214,7 +229,7 @@ export default inject("store")(observer(function Order({ store, locale }) {
                             <label>
                                 <input
                                     type="radio" name="delivery" value="cdek" required defaultChecked
-                                    onClick={e => e.target.checked && setDeliveryPrice(0)}
+                                    onClick={e => e.target.checked && setDeliveryPrice(CDEK_PRICE)}
                                 />
                                 { t("cdek") }
                             </label>
@@ -224,11 +239,11 @@ export default inject("store")(observer(function Order({ store, locale }) {
                             <label>
                                 <input
                                     type="radio" name="delivery" value="courier" required
-                                    onClick={e => e.target.checked && setDeliveryPrice(500)}
+                                    onClick={e => e.target.checked && setDeliveryPrice(COURIER_PRICE)}
                                 />
                                 { t("courier") }
                             </label>
-                            <p className={styles.price}>500 &#8381;</p>
+                            <p className={styles.price}>{ COURIER_PRICE } &#8381;</p>
                         </div>
                     </div>
                     <div className={styles.form_block}>
@@ -238,16 +253,16 @@ export default inject("store")(observer(function Order({ store, locale }) {
                             &nbsp;{ t("online") }
                         </label>
                         <label className={cn(styles.full_width_label, styles.payment)}>
-                            <input type="radio" name="payment" value="cash" required />
+                            <input type="radio" name="payment" value="offline_cash" required />
                             &nbsp;{ t("cash-to-courier") }
                         </label>
                         <label className={cn(styles.full_width_label, styles.payment)}>
-                            <input type="radio" name="payment" value="card" required />
+                            <input type="radio" name="payment" value="offline_card" required />
                             &nbsp;{ t("card-to-courier") }
                         </label>
                     </div>
                     <div className={styles.form_block}>
-                        <button className={styles.pay_button}>{ t("pay") }</button>
+                        <button className={styles.pay_button}>{ t("place") }</button>
                     </div>
                 </form>
             </div>
