@@ -1,34 +1,61 @@
 import createSecureCookie from "../../../utils/cookies/createSecureCookie";
-import { methodNotAllowed } from "../../../utils/common/network";
-import admins from "./admins.json";
+import { success, error, methodNotAllowed } from "../../../utils/common/network";
+import connect from "../../../utils/mongo/connect";
 import { v4 as UUID } from "uuid";
 
 export default async function handler(req, res) {
     switch(req.method) {
-        case "GET": return GET(req, res);
+        case "GET": return await GET(req, res);
         default: return methodNotAllowed(req, res, ["GET"]);
     }
 }
 
-export function _get({ uuid, refreshKey }) {
-    const admin = admins.find(admin => admin.sessions.find(session => {
-        return session.uuid === uuid && session.refreshKey === refreshKey;
-    }));
-    
-    if(admin) {
-        const filteredSessions = admin.sessions.filter(session => session.uuid !== uuid);
-        const session = {
+export async function _get({ uuid, refreshKey }) {
+    let admins, admin;
+    try {
+        const { db } = await connect();
+        admins = db.collection("admins");
+
+        admin = await admins.findOne({ sessions: { $elemMatch: { uuid, refreshKey } } });
+        if(!admin) return error("invalid_auth_data");
+    } catch(e) {
+        console.error(e);
+        return error("db_error");
+    }
+
+    let session;
+    try {
+        session = {
             uuid, refreshKey,
-            accessKey: UUID(),
+            accessKey: UUID()
         };
-        admin.sessions = [...filteredSessions, session];
-        return { success: 1, session };
-    } else return { success: 0 };
+    } catch(e) {
+        console.error(e);
+        return error("uuid_error");
+    }
+
+    let sessions;
+    try {
+        sessions = admin.sessions.filter(session => session.uuid !== uuid);
+        sessions.push(session);
+    } catch(e) {
+        console.error(e);
+        return error("internal_error");
+    }
+
+    try {
+        await admins.updateOne({ _id: admin._id }, { $set: { sessions } });
+    } catch(e) {
+        console.error(e);
+        return error("db_error");
+    }
+
+    return success({ session });
 }
 
-function GET(req, res) {
+async function GET(req, res) {
     const { uuid, refresh_key: refreshKey } = req.cookies;
-    const result = _get({ uuid, refreshKey });
+    const result = await _get({ uuid, refreshKey });
     if(result.success) {
         res.status(200);
         res.setHeader("Set-Cookie", createSecureCookie({
@@ -36,6 +63,13 @@ function GET(req, res) {
             value: result.session.accessKey,
             maxAge: 60 * 5 /* 5 minutes */
         }));
-    } else res.status(403);
-    res.end();
+        res.end();
+    } else switch(result.error) {
+        case "invalid_auth_data":
+            res.status(403).end();
+            break;
+        default:
+            res.status(500).end(result.error);
+            break;
+    };
 }
