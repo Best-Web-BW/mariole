@@ -12,7 +12,8 @@
     "watch": [
       "routes/",
       "server.js",
-      "package.json"
+      "package.json",
+      ".env.local"
     ]
   },
   "keywords": [],
@@ -25,7 +26,7 @@
     "formidable": "^1.2.2",
     "mobx": "^6.1.8",
     "mobx-react": "^7.1.0",
-    "mongodb": "^3.6.4",
+    "mongodb": "^3.6.5",
     "next": "^10.0.6",
     "next-i18next": "^8.1.3",
     "nodemailer": "^6.5.0",
