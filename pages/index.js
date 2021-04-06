@@ -1,7 +1,9 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { _post as submitOrder } from "./api/orders/submit";
 import ProductCard from "../components/ProductCard";
 import blocks from "../scss/blocks.module.scss";
 import { useTranslation } from "next-i18next";
+import { inject, observer } from "mobx-react";
 import { useEffect, useState } from "react";
 import lorem from "../utils/common/lorem";
 import styles from "./index.module.scss";
@@ -9,18 +11,34 @@ import Head from "next/head";
 import Link from "next/link";
 import cn from "classnames";
 
-export const getStaticProps = async ({ locale }) => ({
-    props: {
-        ...await serverSideTranslations(locale, [
-            "page_index",
-            "component_product-card"
-        ])
+export async function getServerSideProps({ locale, query: { submitUUID } }) {
+    const props = {};
+    if(submitUUID) {
+        const result = await submitOrder({ submitUUID });
+        if(result.success) props.orderID = result.id;
+        else return { redirect: { destination: "/" } }
     }
-})
 
-export default function Index() {
+    return {
+        props: {
+            ...props,
+            ...await serverSideTranslations(locale, [
+                "page_index",
+                "component_product-card"
+            ])
+        }
+    }
+}
+
+export default inject("store")(observer(function Index({ store, orderID }) {
     const { t } = useTranslation("page_index");
     const { t: productCard } = useTranslation("component_product-card");
+
+    useEffect(() => {
+        if(typeof orderID === "number") {
+            store.resetCart();
+        }
+    }, []);
 
     return (<>
         <Head>
@@ -104,7 +122,7 @@ export default function Index() {
             </div>
         </div>
     </>);
-}
+}));
 
 function SpecialBlock({ fetchLink, href, title, t, productCard }) {
     const [products, setProducts] = useState([]);

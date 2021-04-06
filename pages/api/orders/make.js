@@ -1,19 +1,17 @@
-import { methodNotAllowed } from "../../../utils/common/network";
+import { success, error, methodNotAllowed } from "../../../utils/common/network";
 import { _get as getCartProducts } from "../products/cart";
-import { _post as sendOrderEmail } from "../mail/order";
-import { v4 as UUID } from "uuid";
-// import YooKassa from "yookassa";
+import { _post as placeOrder } from "./place";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
     switch(req.method) {
-        case "POST": return POST(req, res);
+        case "POST": return await POST(req, res);
         default: return methodNotAllowed(req, res, ["POST"]);
     }
 }
 
-function toEmailCart(cart) {
+async function toFullCart(cart) {
     const result = [];
-    const products = getCartProducts({ ids: cart.map(({ id }) => id) });
+    const { products } = await getCartProducts({ ids: cart.map(({ id }) => id) });
     for(const product of products) {
         const cartEntry = cart.find(({ id }) => id === product.id);
         result.push({
@@ -30,8 +28,8 @@ function toEmailCart(cart) {
 }
 
 function getShippingPrice(shippingType) {
-    if(shippingType === "cdek") return process.env.SHIPPING_CDEK_PRICE;
-    else if(shippingType === "courier") return process.env.SHIPPING_COURIER_PRICE;
+    if(shippingType === "cdek") return +process.env.SHIPPING_CDEK_PRICE;
+    else if(shippingType === "courier") return +process.env.SHIPPING_COURIER_PRICE;
     else throw Error(`Invalid shipping type: '${shippingType}'`);
 }
 
@@ -40,96 +38,84 @@ function calcTotalPrice(cart, shippingPrice) {
     return cartPrice + shippingPrice;
 }
 
-function createPayment(sum, description, submitURL) {
+// function createPayment(sum, description, submitURL) {
+//     return {
+//         amount: {
+//             value: sum,
+//             currency: "RUB"
+//         },
+//         description,
+//         capture: true,
+//         confirmation: {
+//             type: "redirect",
+//             return_url: submitURL
+//         }
+//     };
+// }
+
+// async function fetchPayment(shopID, secretKey, idempotenceKey, payment) {
+//     const response = await fetch("https://api.yookassa.ru/v3/payments", {
+//         method: "POST",
+//         body: JSON.stringify(payment),
+//         headers: {
+//             "Authorization": `Basic ${btoa(`${shopID}:${secretKey}`)}`,
+//             "Idempotence-Key": idempotenceKey,
+//             "Content-Type": "application/json;charset=utf-8"
+//         }
+//     });
+//     const { confirmation: { confirmation_url } } = await response.json();
+//     return confirmation_url;
+// }
+
+async function transformData({
+    email, phone, name: {
+        first: firstName,
+        last: lastName
+    }, cart, address, delivery,
+    payment, only_email, subscribe
+}) {
+    const fullCart = await toFullCart(cart);
+    const shippingPrice = getShippingPrice(delivery);
+    const totalPrice = calcTotalPrice(fullCart, shippingPrice);
     return {
-        amount: {
-            value: sum,
-            currency: "RUB"
+        name: {
+            first: firstName,
+            last: lastName
         },
-        description,
-        capture: true,
-        confirmation: {
-            type: "redirect",
-            return_url: submitURL
-        }
+        phone, email, cart,
+        shipping: {
+            address,
+            type: delivery,
+            price: shippingPrice
+        },
+        payment, totalPrice,
+        onlyEmail: only_email,
+        subscribe
     };
 }
 
-async function fetchPayment(shopID, secretKey, idempotenceKey, payment) {
-    const response = await fetch("https://api.yookassa.ru/v3/payments", {
-        method: "POST",
-        body: JSON.stringify(payment),
-        headers: {
-            "Authorization": `Basic ${btoa(`${shopID}:${secretKey}`)}`,
-            "Idempotence-Key": idempotenceKey,
-            "Content-Type": "application/json;charset=utf-8"
-        }
-    });
-    const { confirmation: { confirmation_url } } = await response.json();
-    return confirmation_url;
-}
-
-export function _post({
-    email, name, address, phone,
-    only_email, subscribe,
-    delivery, payment, cart
-}) {
+export async function _post(data) {
     try {
-        // console.log("Someone made an order!", {
-        //     email, name, address, phone,
-        //     only_email, subscribe,
-        //     delivery, payment, cart,
-        //     price, shipping_price
-        // });
-    
-        const submitUUID = UUID();
-        const submitURL = `${process.env.PROTOCOL}://${process.env.DOMAIN}/?submit=${submitUUID}`;
-        console.log({ submitUUID, submitURL });
+        const orderData = await transformData(data);
 
-        const id = "000000";
-        
-        const emailCart = toEmailCart(cart);
-        const shippingPrice = getShippingPrice(delivery);
-        const totalPrice = calcTotalPrice(emailCart, shippingPrice);
-        const emailData = {
-            id, name, phone, email,
-            cart: emailCart,
-            shippingType: delivery,
-            paymentType: payment,
-            only_email, subscribe,
-            shippingAddress: address,
-            shippingPrice,
-            totalPrice
-        };
-        
-        // console.log("Email data", emailData);
-        
-        const result = sendOrderEmail(emailData);
-        console.log({ result });
-        
-        if(false && payment === "online") { // TEMPORARILY CLOSED
-            // Work with Yandex.Kassa
-            const payment = createPayment(totalPrice, `Заказ №${id}`, submitURL);
-            const confirmationURL = fetchPayment("", "", "", payment);
-            return { success: 1, url: confirmation_url };
-        } else {
-            // Directly place an order
-            return { success: 1, url: submitURL };
-        }
+        const result = await placeOrder(orderData);
+        if(!result.success) return error(result.error);
+
+        return success({ url: result.submitURL });
     } catch(e) {
         console.error(e);
-        return { success: 0 };
+        return error("internal_error");
     }
 }
 
-function POST(req, res) {
+async function POST(req, res) {
     const {
         email, name: { first, last },
         address, phone,
         only_email, subscribe,
         delivery, payment, cart
     } = req.body;
-    const result = _post({
+    const result = await _post({
         email, name: { first, last },
         address, phone,
         only_email, subscribe,

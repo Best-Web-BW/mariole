@@ -9,6 +9,7 @@ import { inject, observer } from "mobx-react";
 import 'react-dadata/dist/react-dadata.css';
 import styles from "./index.module.scss";
 import Select from "react-select";
+import Router from "next/router";
 import Head from "next/head";
 import cn from "classnames";
 
@@ -135,16 +136,15 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
 
     const submitOrder = useCallback(async form => {
         const data = transformFormData(serializeForm(form));
-        console.log({ data });
-        console.log({ jsoned: JSON.stringify(data) });
-
         const response = await fetch(`/api/orders/make?locale=${locale}`, {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=utf-8" },
             body: JSON.stringify(data)
         });
-        const json = await response.json();
-        console.log({ json });
+        if(response.status === 200) {
+            const json = await response.json();
+            Router.push(json.url);
+        }
     }, [transformFormData]);
 
     return (<>
