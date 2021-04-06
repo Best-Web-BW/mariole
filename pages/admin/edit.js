@@ -183,7 +183,7 @@ export default function Edit({ product, parents }) {
             headers: { "Content-Type": "application/json;charset=utf-8" },
             method, body: JSON.stringify(formData)
         });
-        const json = await response.json();
+        console.log({ response });
     };
 
     const resetSelects = () => {
