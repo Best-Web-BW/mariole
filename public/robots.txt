@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /api/
+Disallow: /admin/
+Disallow: /favorite
+Disallow: /cart
+Disallow: /order
+# Sitemap: https://localhost/api/seo/sitemap
