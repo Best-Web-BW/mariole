@@ -1,11 +1,10 @@
 const forceSSL = require("express-force-ssl");
 const express = require("express")();
+const spdy = require("spdy");
 const http = require("http");
 const next = require("next");
 const path = require("path");
 const fs = require("fs");
-
-const spdy = require("spdy");
 
 process.env.DO_LOG = Boolean(process.env.npm_config_do_log);
 process.env.NODE_ENV = process.env.npm_config_dev ? "development" : "production";
@@ -16,8 +15,6 @@ const nextHandler = nextjs.getRequestHandler();
 
 const HTTPS_PORT = process.env.HTTPS_PORT ?? 443;
 const HTTP_PORT = process.env.HTTP_PORT ?? 80;
-
-const seo = require("./routes/seo.js");
 
 (async () => {
     try {
@@ -38,9 +35,6 @@ const seo = require("./routes/seo.js");
             } catch(e) { next(); }
         }
         express.use("/images/*", dynamicFileHandler);
-
-        express.use("/sitemap.xml", seo.sitemap);
-        express.use("/robots.txt", seo.robots);
         
         express.all("/api/*", nextHandler);
 		express.get("*", nextHandler);
