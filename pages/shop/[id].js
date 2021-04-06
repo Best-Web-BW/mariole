@@ -18,7 +18,7 @@ import Link from "next/link";
 import Head from "next/head";
 import cn from "classnames";
 
-const existingSizes = ["S", "M", "L"];
+const existingSizes = ["XS", "S", "M", "L"];
 
 export async function getServerSideProps({ locale, params: { id } }) {
     const { product } = await getProduct({ locale, id: +id });
