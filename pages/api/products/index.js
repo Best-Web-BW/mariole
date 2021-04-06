@@ -14,13 +14,13 @@ function cut({ images: [image], locales, ...product }, locale) {
 
 function createQuery({ ids, category, subcategory, limited, bestseller, sizes, search }) {
     const result = {};
-    if(ids && ids instanceof Array) result.id = { $in: ids };
-    if(category && typeof category === "string") result.category = category;
+    if(        ids && ids instanceof Array           ) result.id = { $in: ids };
+    if(      sizes && sizes instanceof Array         ) result.sizes = { $elemMatch: { $in: sizes } };
+    if(    limited && typeof limited === "boolean"   ) result.limited = true;
+    if( bestseller && typeof bestseller === "boolean") result.bestseller = true;
+    if(   category && typeof category === "string"   ) result.category = category;
     if(subcategory && typeof subcategory === "string") result.subcategory = subcategory;
-    if(limited && typeof limited === "boolean") result.limited = true;
-    if(bestseller && typeof bestseller === "boolean") result.bestseller = true;
-    if(sizes && sizes instanceof Array) result.sizes = { $elemMatch: { $in: sizes } };
-    if(search && typeof search === "string") {
+    if(     search && typeof search === "string"     ) {
         result.$or = [
             { "locales.ru.name": { $regex: search, $options: "gi" } },
             { "locales.en.name": { $regex: search, $options: "gi" } }
@@ -55,11 +55,11 @@ export async function _get({ locale = "ru", ...params }) {
 
 async function GET(req, res) {
     const { locale, category, subcategory } = req.query;
-    const limited = req.query.limited === "1";
+    const    limited = req.query.limited === "1";
     const bestseller = req.query.bestseller === "1";
-    const ids = req.query.ids?.split(",").map(id => id ? +id : undefined);
-    const sizes = req.query.sizes?.split(",");
-    const search = decodeURIComponent(req.query.search ?? "");
+    const        ids = req.query.ids?.split(",").map(id => id ? +id : undefined);
+    const      sizes = req.query.sizes?.split(",");
+    const     search = decodeURIComponent(req.query.search ?? "");
 
     const result = await _get({ locale, ids, category, subcategory, limited, bestseller, sizes, search });
     if(result.success) res.status(200).json(result.products);
