@@ -13,7 +13,7 @@ class Store {
 
     @observable favorite = [];
     @action setFavorite = favorite => {
-        localStorage.favorite = JSON.stringify(favorite);
+        localStorage.setItem("favorite", JSON.stringify(favorite));
         this.favorite = favorite;
     };
     filterFavorite = id => this.favorite.filter(entry => entry !== id);
@@ -23,7 +23,7 @@ class Store {
 
     @observable cart = [];
     @action setCart = cart => {
-        localStorage.cart = JSON.stringify(cart);
+        localStorage.setItem("cart", JSON.stringify(cart));
         this.cart = cart;
     };
     filterCart = id => this.cart.filter(entry => entry.id !== id);
@@ -32,10 +32,11 @@ class Store {
     setCartQuantity = (id, quantity) => {
         this.setCart(this.cart.map(entry => entry.id === id ? { ...entry, quantity } : entry));
     };
+    resetCart = () => this.setCart([]);
 
     @observable recent = [];
     @action setRecent = recent => {
-        localStorage.recent = JSON.stringify(recent);
+        localStorage.setItem("recent", JSON.stringify(recent));
         this.recent = recent;
     };
     cutRecent = () => this.recent.slice(-3); // 3 last products
@@ -51,11 +52,18 @@ class Store {
         localStorage.removeItem("admin");
     }
 
-    @action initClientStore = () => runInAction(() => {
-        this.favorite = localStorage.favorite ? JSON.parse(localStorage.favorite) : [];
-        this.cart = localStorage.cart ? JSON.parse(localStorage.cart) : [];
-        this.recent = localStorage.recent ? JSON.parse(localStorage.recent) : [];
-        this.admin = false;
+    @action initStore = ({ favorite, cart, recent, admin }) => runInAction(() => {
+        this.favorite = favorite ? JSON.parse(favorite) : [];
+        this.cart = cart ? JSON.parse(cart) : [];
+        this.recent = recent ? JSON.parse(recent) : [];
+        this.admin = admin
+    });
+
+    initClientStore = () => this.initStore({
+        favorite: localStorage.getItem("favorite"),
+        cart: localStorage.getItem("cart"),
+        recent: localStorage.getItem("recent"),
+        admin: false
     });
 
     /*  Examples of store use.
