@@ -7,7 +7,7 @@ function fast(obj) {
     for(const key in obj) {
         const value = obj[key];
         if(value) {
-            if(typeof value === "object") result[key] = f(value);
+            if(typeof value === "object") result[key] = fast(value);
             else result[key] = value;
         }
     }
