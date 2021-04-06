@@ -1,5 +1,6 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import divideArrayToSubarrays from "../../utils/arrays/divideToSubarrays";
+import deleteFalsyValues from "../../utils/common/deleteFalsyValues";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import admin from "../../scss/adminButtons.module.scss";
 import ProductCard from "../../components/ProductCard";
@@ -81,7 +82,7 @@ export async function getServerSideProps({ locale, query }) {
     return {
         props: {
             enabledSearch: !!parsedQuery.search,
-            defaultProducts,
+            defaultProducts: deleteFalsyValues(defaultProducts),
             locale,
             ...await serverSideTranslations(locale, [
                 "page_shop",
