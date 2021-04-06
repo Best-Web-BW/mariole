@@ -14,6 +14,7 @@ export const getStaticProps = async ({ locale }) => ({
     props: {
         locale,
         ...await serverSideTranslations(locale, [
+            "common_colors",
             "page_cart",
             "component_recent-block",
             "component_product-card"
@@ -23,6 +24,7 @@ export const getStaticProps = async ({ locale }) => ({
 
 export default inject("store")(observer(function Cart({ store, locale }) {
     const { t } = useTranslation("page_cart");
+    const { t: colors } = useTranslation("common_colors");
     const { t: recentBlock } = useTranslation("component_recent-block");
     const { t: productCard } = useTranslation("component_product-card");
 
@@ -85,7 +87,7 @@ export default inject("store")(observer(function Cart({ store, locale }) {
                     <p className={styles.col_3}>{ t("quantity") }</p>
                     <p className={styles.col_4}>{ t("total") }</p>
                 </div>
-                { products.map(product => <ProductEntry key={product.id} {...product} t={t} />) }
+                { products.map(product => <ProductEntry key={product.id} {...product} colors={colors} t={t} />) }
                 <div className={styles.ammount_row}>
                     <p className={styles.col_1}>{ t("subtotal-caps") }</p>
                     <p className={styles.col_2}>{ formatPrice(totalPrice) } &#8381;</p>
@@ -112,14 +114,14 @@ const EmptyCartMessage = ({ t }) => (
     </div>
 );
 
-const ProductEntry = ({ id, image, name, color, size, quantity, price, t }) => (
+const ProductEntry = ({ id, image, name, color, size, quantity, price, colors, t }) => (
     <div className={styles.product_row}>
         <div className={styles.product_photo}>
             <img src={image} alt="" width="100%" />
         </div>
         <div className={styles.product_name}>
             <Link href={`/shop/${id}`}>
-                <a>{ name } / { color }</a>
+                <a>{ name } / { colors(color) }</a>
             </Link>
             <p className={styles.size}>{ size }</p>
             <DeleteButton id={id} t={t} />
