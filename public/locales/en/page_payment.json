@@ -1,3 +1,15 @@
 {
-	"title": "Payment"
+	"title": "Payment",
+    "data1": "Payment by bank cards is made through ЮKassa (former Yandex.Kassa).",
+    "data2": "Visa, MasterCard, Mir, Apple Pay, Samsung Pay, etc. are accepted for payment.",
+    "data3": "Internet payment service is carried out in accordance with the Rules of international payment systems Visa, MasterCard and MIR Payment System on the principles of confidentiality and security of payment, for which the most advanced methods of verification, encryption and data transmission through closed communication channels are used. Bank card data entry is performed on the secure payment page of ЮKassa (former Yandex.Kassa).",
+    "data4": "On the page for entering the data of the bank card you will need to enter the following data of the bank card: card number, name of the cardholder, card expiration date, three-digit Card Verification Value 2 (CVV2) for VISA, CVC2 for MasterCard, Additional Identification Code for MIR). All the necessary data is printed on the card itself. CVV2 is the three digits on the back of the card.",
+    "data5": "You will then be redirected to your bank’s page to enter a security code, which will be texted to you via SMS. If the security code did not arrive, you should contact your card issuing bank.",
+    "data6": "Cases of refusal to make a payment:",
+    "data7-li1": "The bank card is not designed to make payments over the Internet, as you can find out by contacting your Bank;",
+    "data7-li2": "Insufficient funds for payment on the bank card. You can find out more about the availability of funds on the bank card by contacting the bank that issued the bank card;",
+    "data7-li3": "The bank card data was entered incorrectly;",
+    "data7-li4": "The bank card has expired. The expiration date of the card is usually indicated on the front of the card (it is the month and year until which the card is valid). You can find out more about the expiration date of the card by contacting the bank that issued the bank card;",
+    "data8": "For bank card payment and other issues related to the web site, you can contact our manager via WhatsApp on:",
+    "data9": "The personal information you provide (name, address, phone number, e-mail, bank card number) is confidential and will not be divulged. Your bank card data is transmitted only in encrypted form and is not stored on our Web server."
 }
