@@ -21,10 +21,11 @@ import cn from "classnames";
 const existingSizes = ["XS", "S", "M", "L"];
 
 export async function getServerSideProps({ locale, params: { id } }) {
-    const { product } = await getProduct({ locale, id: +id });
-    if(product) return {
+    const result = await getProduct({ locale, id: +id });
+    if(result.success) return {
         props: {
-            product: deleteFalsyValues(product),
+            product: deleteFalsyValues(result.product),
+            available: result.product.available,
             ...await serverSideTranslations(locale, [
                 "common_colors",
                 "page_shop_product",
@@ -38,7 +39,7 @@ export async function getServerSideProps({ locale, params: { id } }) {
     else return { notFound: true };
 }
 
-export default inject("store")(observer(function ProductPage({ store, product }) {
+export default inject("store")(observer(function ProductPage({ store, product, available }) {
     const { t } = useTranslation("page_shop_product");
     const { t: colors } = useTranslation("common_colors");
     const { t: recentBlock } = useTranslation("component_recent-block");
@@ -94,7 +95,13 @@ export default inject("store")(observer(function ProductPage({ store, product })
                             <SizeSelectionBlock sizes={product.sizes} {...{ selectedSize, setSelectedSize }} />
                         </div>
                         <div className={styles.data_row}>
-                            <CartButton id={product.id} size={selectedSize} quantity={selectedQuantity} t={t} />
+                            <CartButton
+                                quantity={selectedQuantity}
+                                available={available}
+                                size={selectedSize}
+                                id={product.id}
+                                t={t}
+                            />
                             <FavoriteButton id={product.id} t={t} />
                         </div>
                         <div className={cn(styles.data_row, styles.padding)}>
@@ -131,8 +138,11 @@ export default inject("store")(observer(function ProductPage({ store, product })
     </>);
 }));
 
-const CartButton = inject("store")(observer(({ store, id, size, quantity, t }) => (
-    <button className={styles.add_to_cart} onClick={() => store.addToCart(id, size, quantity)}>
+const CartButton = inject("store")(observer(({ store, id, size, quantity, available, t }) => (
+    <button 
+        className={cn(styles.add_to_cart, { [styles.disabled]: !available })}
+        onClick={available ? () => store.addToCart(id, size, quantity) : null}
+    >
         { t("add-to-cart") }
     </button>
 )));

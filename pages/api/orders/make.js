@@ -13,6 +13,8 @@ async function toFullCart(cart) {
     const result = [];
     const { products } = await getCartProducts({ ids: cart.map(({ id }) => id) });
     for(const product of products) {
+        if(!product.available) return;
+
         const cartEntry = cart.find(({ id }) => id === product.id);
         result.push({
             href: `https://localhost/shop/${product.id}`,
@@ -75,6 +77,8 @@ async function transformData({
     payment, only_email, subscribe
 }) {
     const fullCart = await toFullCart(cart);
+    if(!fullCart) return;
+
     const shippingPrice = getShippingPrice(delivery);
     const totalPrice = calcTotalPrice(fullCart, shippingPrice);
     return {
@@ -97,6 +101,7 @@ async function transformData({
 export async function _post(data) {
     try {
         const orderData = await transformData(data);
+        if(!orderData) return error("unavailable_product");
 
         const result = await placeOrder(orderData);
         if(!result.success) return error(result.error);
@@ -122,5 +127,12 @@ async function POST(req, res) {
         delivery, payment, cart
     });
     if(result.success === 1) res.status(200).json(result);
-    else res.status(500).json(result);
+    else switch(result.error) {
+        case "unavailable_product":
+            res.status(406).end();
+            break;
+        default:
+            res.status(500).end(result.error);
+            break;
+    }
 }

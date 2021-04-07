@@ -28,6 +28,7 @@ export default inject("store")(observer(function Cart({ store, locale }) {
     const { t: recentBlock } = useTranslation("component_recent-block");
     const { t: productCard } = useTranslation("component_product-card");
 
+    const [submittable, setSubmittable] = useState(false);
     const [products, setProducts] = useState([]);
     const [fetched, setFetched] = useState(false);
     useEffect(async () => {
@@ -45,6 +46,7 @@ export default inject("store")(observer(function Cart({ store, locale }) {
             return products;
         }, []);
 
+        setSubmittable(products.every(({ available }) => available) && !!products.length);
         setProducts(products);
         setFetched(true);
     }, [store.cart.length]);
@@ -81,23 +83,29 @@ export default inject("store")(observer(function Cart({ store, locale }) {
         <div className={blocks.content_block}>
             <div className={styles.content}>
                 <h2>{ t("title-caps") }</h2>
-                { (fetched && !products.length) && <EmptyCartMessage t={t} /> }
-                <div className={cn(styles.data_row, styles.desktop_flex)}>
-                    <p className={styles.col_2}>{ t("price") }</p>
-                    <p className={styles.col_3}>{ t("quantity") }</p>
-                    <p className={styles.col_4}>{ t("total") }</p>
-                </div>
-                { products.map(product => <ProductEntry key={product.id} {...product} colors={colors} t={t} />) }
-                <div className={styles.ammount_row}>
-                    <p className={styles.col_1}>{ t("subtotal-caps") }</p>
-                    <p className={styles.col_2}>{ formatPrice(totalPrice) } &#8381;</p>
-                    <p className={styles.col_3}>{ t("about-shipping-price") }</p>
-                </div>
-                <Link href="/order">
-                    <a>
-                        <button className={styles.order_button}>{ t("place-order-caps") }</button>
-                    </a>
-                </Link>
+                { fetched && (<>
+                    { !products.length && <EmptyCartMessage t={t} /> }
+                    { !!products.length && (<>
+                        <div className={cn(styles.data_row, styles.desktop_flex)}>
+                            <p className={styles.col_2}>{ t("price") }</p>
+                            <p className={styles.col_3}>{ t("quantity") }</p>
+                            <p className={styles.col_4}>{ t("total") }</p>
+                        </div>
+                        { products.map(product => <ProductEntry key={product.id} {...product} colors={colors} t={t} />) }
+                        <div className={styles.ammount_row}>
+                            <p className={styles.col_1}>{ t("subtotal-caps") }</p>
+                            <p className={styles.col_2}>{ formatPrice(totalPrice) } &#8381;</p>
+                            <p className={styles.col_3}>{ t("about-shipping-price") }</p>
+                        </div>
+                        { submittable && (
+                            <Link href="/order">
+                                <a>
+                                    <button className={styles.order_button}>{ t("place-order-caps") }</button>
+                                </a>
+                            </Link>
+                        )}
+                    </>)}
+                </>)}
             </div>
             <RecentBlock styles={styles} t={recentBlock} productCard={productCard} />
         </div>

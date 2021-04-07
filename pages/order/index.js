@@ -79,6 +79,7 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
         ].map(country => ({ value: country, label: countries(country) }));
     }, []);
 
+    const [submittable, setSubmittable] = useState(false);
     const [products, setProducts] = useState([]);
     useEffect(async () => {
         const ids = store.cart.map(({ id }) => id);
@@ -91,6 +92,7 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
             return products;
         }, []);
 
+        setSubmittable(products.every(({ available }) => available) && !!products.length);
         setProducts(products);
     }, [store.cart]);
 
@@ -155,7 +157,7 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
             <div className={styles.column}>
                 <form className={styles.form} onSubmit={evt => {
                     evt.preventDefault();
-                    submitOrder(evt.target);
+                    if(submittable) submitOrder(evt.target);
                 }}>
                     <input type="hidden" name="cart" value={JSON.stringify(store.cart)} />
                     <input type="hidden" name="address" value={orderAddress} />
@@ -262,7 +264,9 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
                         </label>
                     </div>
                     <div className={styles.form_block}>
-                        <button className={styles.pay_button}>{ t("place") }</button>
+                        <button
+                            className={cn(styles.pay_button, { [styles.disabled]: !submittable })}
+                        >{ t("place") }</button>
                     </div>
                 </form>
             </div>
