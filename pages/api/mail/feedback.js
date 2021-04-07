@@ -11,10 +11,12 @@ export default function handler(req, res) {
 const mariole = "Mario’le";
 const { MAIL_ADDRESS: address, MAIL_PASSWORD: password } = process.env;
 const transporter = nodemailer.createTransport({
-    host: "smtp.yandex.ru",
-    port: 465,
+    service: "Yandex",
     secure: true,
-    auth: { user: address, pass: password }
+    auth: {
+        user: address,
+        pass: password
+    }
 });
 
 const makeMessage = ({ name, email, phone, message }) => ({
@@ -39,9 +41,7 @@ const makeMessage = ({ name, email, phone, message }) => ({
 async function _post({ name, email, phone, message }) {
     try {
         const data = { name, email, phone, message };
-        const mail = makeMessage(data);
-        console.log("Send feedback email", { mail });
-        // await transporter.sendMail(makeMessage(data));
+        await transporter.sendMail(makeMessage(data));
         return { success: 1 };
     } catch(e) {
         console.error(e);
