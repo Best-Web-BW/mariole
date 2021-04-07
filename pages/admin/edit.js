@@ -258,9 +258,9 @@ export default function Edit({ product, parents }) {
                             <label>
                                 Категория
                                 <Select
+                                    onChange={category => changeCategory(category)}
                                     instanceId="category_select"
                                     options={select.categories}
-                                    onChange={changeCategory}
                                     styles={select.styles}
                                     theme={select.theme}
                                     value={category}
