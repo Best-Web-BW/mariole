@@ -27,11 +27,8 @@ const makeMessage = ({ name, email, phone, message }) => ({
         <div>
             <h2>Контактная информация</h2>
             <p>Имя: <b>${name}</b></p>
-            <br />
             <p>Email: <b>${email}</b></p>
-            <br />
             <p>Номер телефона: <b>${phone}</b></p>
-            <br />
             <p>Вопрос:</p>
             <p>${message}</p>
         </div>
