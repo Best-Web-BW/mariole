@@ -266,6 +266,7 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
                     <div className={styles.form_block}>
                         <button
                             className={cn(styles.pay_button, { [styles.disabled]: !submittable })}
+                            onClick={evt => !submittable && evt.preventDefault()}
                         >{ t("place") }</button>
                     </div>
                 </form>
