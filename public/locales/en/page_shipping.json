@@ -1,3 +1,16 @@
 {
-	"title": "Shipping"
+	"title": "Shipping",
+    "delivery-policy": "DELIVERY POLICY",
+    "data1": "Please note that since the onset of the COVID-19 pandemic, transportation companies are working with an increased load. Delivery and return times may be extended.",
+    "data2": "Delivery time is from Monday to Friday, 9:00 AM to 6:00 PM. For customers from Russia and Kazakhstan, we offer delivery by CDEK express-courier delivery service. Customers from these countries have the option of picking up their order at the CDEK office or reschedule delivery.",
+    "data3": "In other countries, the order can be delivered by other courier services, including UPS, FedEx, TNT and KCE.",
+    "data4": "The delivery is formed and handed over to the courier service within 2 work days after placing the order.",
+    "data5": "If you return your order, there is no refund for shipping costs.",
+    "data6": "The delivery time is set by the courier service and depends on the country and region of delivery.",
+    "data7": "Customs fees are not included when shipping to other countries and regions. The try-on service is not available upon delivery.",
+    "data8": "Услуга «примерка» не предоставляется при доставке.",
+    "data9": "Please note that taxes and customs duties are not included in the price of the goods. The amount of fees depends on the customs regulations of the country of delivery. It is the buyer’s responsibility to pay the taxes and charges.",
+    "data10-1": "If you still have questions, please contact us on WhatsApp at:",
+    "data10-2": "or e-mail:",
+    "data10-3": "and we will be happy to help you."
 }
