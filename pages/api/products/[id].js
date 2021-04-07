@@ -1,9 +1,10 @@
 import { success, error, methodNotAllowed } from "../../../utils/common/network";
 import leaveOneLocale from "../../../utils/products/leaveOneLocale";
-import connect from "../../../utils/mongo/connect";
 import { getMaxID } from "../../../utils/mongo/getMaxID";
 import { _get as authorize } from "../auth/authorize";
+import connect from "../../../utils/mongo/connect";
 import log from "../../../utils/mongo/log";
+import { v4 as UUID } from "uuid";
 
 export default async function handler(req, res) {
     switch(req.method) {
@@ -73,15 +74,18 @@ export async function _post({ uuid, accessKey, parent: parentID, ...data }) {
         const { db } = await connect();
         const products = db.collection("products");
 
-        const parent = await products.findOne({ id: parentID }, { projection: { _id: 0, space: 1 } });
-        if(!parent) return error("no_parent");
+        let parent;
+        if(parentID) {
+            parent = await products.findOne({ id: parentID }, { projection: { space: 1 } });
+            if(!parent) return error("no_parent");
+        }
 
         const timestamp = new Date().toISOString();
         data = {
             id: await getMaxID(products) + 1,
             cdate: timestamp,
             mdate: timestamp,
-            space: parent.space,
+            space: parent?.space ?? UUID(),
             ...data
         };
         await products.insertOne(data);
