@@ -104,6 +104,11 @@ export default inject("store")(observer(function Cart({ store, locale }) {
                                 </a>
                             </Link>
                         )}
+                        { !submittable && (
+                            <button
+                                className={cn(styles.order_button, styles.disabled)}
+                            >{ t("place-order-caps") }</button>
+                        )}
                     </>)}
                 </>)}
             </div>
