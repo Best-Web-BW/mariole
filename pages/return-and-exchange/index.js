@@ -32,7 +32,9 @@ export default function ReturnAndExchange() {
                 <p>{ t("block1.p5") }</p>
                 <p>{ t("block1.p6-shipping-address") }</p>
                 <p>
-                    { t("block1.p7-receiver") } <a href="tel:+79680018880">+7 (968) 001-88-80</a>
+                    { t("block1.p7-receiver") }
+                    &nbsp;<a href="tel:+79680018880">+7 (968) 001-88-80</a>,
+                    &nbsp;<a href="tel:+79295005146">+7 (929) 500-51-46</a>
                 </p>
                 <p>{ t("block1.p8") }</p>
                 <p>{ t("block1.p9") }</p>
@@ -43,7 +45,9 @@ export default function ReturnAndExchange() {
                 <p>{ t("block2.p3") }</p>
                 <p>{ t("block2.p4") }</p>
                 <p>
-                    { t("block2.p5-whatsapp") } <a href="tel:+79680018880">+7 (968) 001-88-80</a>
+                    { t("block2.p5-whatsapp") }
+                    &nbsp;<a href="tel:+79680018880">+7 (968) 001-88-80</a>,
+                    &nbsp;<a href="tel:+79295005146">+7 (929) 500-51-46</a>
                 </p>
                 <p>
                     { t("block2.p6-email") } <a href="mailto:mariolewool@yandex.ru">Mariolewool@yandex.ru</a>
