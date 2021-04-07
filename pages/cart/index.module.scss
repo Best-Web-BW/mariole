@@ -151,6 +151,17 @@
     float: right;
 }
 
+.order_button.disabled {
+    background-color: $light-gray;
+    cursor: auto;
+    color: $lighter-gray;
+    &:hover {
+        &::after {
+            content: none;
+        }
+    }
+}
+
 .desktop {
     @extend %desktop;
 }

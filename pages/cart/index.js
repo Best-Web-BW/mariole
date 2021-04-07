@@ -96,6 +96,7 @@ export default inject("store")(observer(function Cart({ store, locale }) {
                         <button className={styles.order_button}>{ t("place-order-caps") }</button>
                     </a>
                 </Link>
+                <button className={cn(styles.order_button, styles.disabled)}>{ t("place-order-caps") }</button>
             </div>
             <RecentBlock styles={styles} t={recentBlock} productCard={productCard} />
         </div>
