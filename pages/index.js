@@ -14,7 +14,7 @@ import cn from "classnames";
 export async function getServerSideProps({ locale, query: { submitUUID } }) {
     const props = {};
     if(submitUUID) {
-        const result = await submitOrder({ submitUUID });
+        const result = await submitOrder({ locale, submitUUID });
         if(result.success) props.orderID = result.id;
         else return { redirect: { destination: "/" } }
     }

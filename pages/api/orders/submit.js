@@ -6,7 +6,7 @@ export default function handler(req, res) {
     return methodNotAllowed(req, res, []);
 }
 
-export async function _post({ submitUUID }) {
+export async function _post({ locale, submitUUID }) {
     let orders, order;
     try {
         const { db } = await connect();
@@ -20,7 +20,7 @@ export async function _post({ submitUUID }) {
     if(!order) return error("no_order");
 
     try {
-        await sendOrderEmail(order);
+        await sendOrderEmail(locale, order);
     } catch(e) {
         console.error(e);
         return error("mail_error");

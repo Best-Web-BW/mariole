@@ -1,0 +1,25 @@
+{
+    "payment": {
+        "online": "Онлайн",
+        "offline_cash": "Наличными курьеру",
+        "offline_card": "Картой курьеру"
+    },
+    "shipping": {
+        "cdek": "CDEK",
+        "courier": "Курьер"
+    },
+    "email": {
+        "subject": "Успешное оформление заказа",
+        "html": {
+            "header": "Спасибо за Ваш заказ!",
+            "next-info": "Далее Вы можете ознакомиться с детальной информацией.",
+            "total-price": "Сумма вашего заказа:",
+            "shipping-cost": "Включая доставку:",
+            "payment-method": "Метод оплаты:",
+            "delivery-method": "Способ доставки:",
+            "delivery-address": "Доставить по адресу:",
+            "customer": "Заказчик:",
+            "your-order": "Ваш заказ:"
+        }
+    }
+}

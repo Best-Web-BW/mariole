@@ -1,0 +1,25 @@
+{
+    "payment": {
+        "online": "Online",
+        "offline_cash": "Cash to the courier",
+        "offline_card": "Card to the courier"
+    },
+    "shipping": {
+        "cdek": "CDEK",
+        "courier": "Courier"
+    },
+    "email": {
+        "subject": "Successful order registration",
+        "html": {
+            "header": "Thank you for your order!",
+            "next-info": "You can read the detailed information below.",
+            "total-price": "Total price of your order:",
+            "shipping-cost": "Shipping cost:",
+            "payment-method": "Payment method:",
+            "delivery-method": "Delivery method:",
+            "delivery-address": "Deliver to the address:",
+            "customer": "Customer:",
+            "your-order": "Your order:"
+        }
+    }
+}
