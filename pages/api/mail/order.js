@@ -178,24 +178,19 @@ export async function _post(locale, {
             toFullCart(locale, cart)
         ]);
 
-        const adminData = {
+        const data = {
             id, name, phone, email,
-            cart: fullAdminCart, payment,
-            shipping, totalPrice,
+            payment, shipping, totalPrice,
             onlyEmail, subscribe
         };
-        const userData = {
-            id, name, phone, email,
-            cart: fullUserCart, payment,
-            shipping, totalPrice,
-            onlyEmail, subscribe
-        };
+        const adminData = { ...data, cart: fullAdminCart };
+        const userData = { ...data, cart: fullUserCart };
 
-        const adminMessage = makeAdminMessage(adminData);
-        const userMessage = makeUserMessage(locale, userData);
+        // const adminMessage = makeAdminMessage(adminData);
+        // const userMessage = makeUserMessage(locale, userData);
 
-        console.log({ adminMessage });
-        console.log({ userMessage });
+        // console.log({ adminMessage });
+        // console.log({ userMessage });
 
         await Promise.all([
             transporter.sendMail(makeAdminMessage(adminData)),
