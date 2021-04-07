@@ -103,6 +103,17 @@
     @extend %black_button;
 }
 
+.pay_button.disabled {
+    background-color: $light-gray;
+    cursor: auto;
+    color: $lighter-gray;
+    &:hover {
+        &::after {
+            content: none;
+        }
+    }
+}
+
 .order_preview {
     position: sticky;
     top: 80px;
