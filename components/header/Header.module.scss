@@ -42,7 +42,6 @@
                     .menu_icon {
                         @extend %gray_background;
                     }
-                    // .menu_icon:nth-child(1) {}
                     .menu_icon:nth-child(2) {
                         width: 30px;
                     }
@@ -97,6 +96,9 @@
     top: 0;
     left: -100%;
     transition: 0.6s ease-in-out;
+    @media screen and (min-width:0px) and (max-width:1024px) {
+        padding: 3.5%;
+    }
     .menu_cross_wrapper {
         @extend %flex_nowrap, %flex_vert_center, %relative;
         justify-content: flex-end;
@@ -342,7 +344,7 @@
     }
 
     .menu {
-        width: calc(100% - 3%);
+        width: calc(100% - 7%);
         min-height: 100%;
     }
 

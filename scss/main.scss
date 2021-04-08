@@ -15,8 +15,13 @@
     src: url("../public/fonts/Oswald/Oswald-Light.ttf");
 }
 
+@font-face {
+    font-family: "Raleway-Light";
+    src: url("../public/fonts/Raleway/Raleway-Light.ttf");
+}
+
 *{
-    font-family: "Comfortaa";
+    font-family: "Raleway-Light";
     font-style: normal;
     margin: 0;
     padding: 0;

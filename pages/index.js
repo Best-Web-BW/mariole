@@ -93,7 +93,7 @@ export default inject("store")(observer(function Index({ store, orderID }) {
                     <a className={styles.photo_link}>
                         <p className={styles.photo_link_title}>{ t("knitwear-caps") }</p>
                         <img className={styles.desktop} src="/images/blocks/FullSizeRender.jpg" alt="" />
-                        <img className={styles.mobile} src="/images/blocks/mario_le-1684.jpg" alt="" />
+                        <img className={styles.mobile} src="/images/blocks/FullSizeRender.jpg" alt="" />
                     </a>
                 </Link>
             </div>
