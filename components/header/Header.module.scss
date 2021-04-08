@@ -9,13 +9,17 @@
     width: 100%;
     height: 50px;
     z-index: 1000;
+    -webkit-transition: 0.6s ease-in-out;
+    -o-transition: 0.6s ease-in-out;
     transition: 0.6s ease-in-out;
     .header_container {
         width: 75%;
         margin: auto;
         height: 100%;
         @extend %flex_nowrap, %flex_vert_center;
-        justify-content: space-between;
+        -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
         .icon_container {
             @extend %flex_nowrap, %flex_middle;
             gap: 30px;
@@ -27,6 +31,8 @@
                 .menu_icon {
                     height: 2px;
                     @extend %dark_background;
+                    -webkit-transition: 0.6s ease-in-out;
+                    -o-transition: 0.6s ease-in-out;
                     transition: 0.6s ease-in-out;
                 }
                 .menu_icon:nth-child(1) {
@@ -42,6 +48,7 @@
                     .menu_icon {
                         @extend %gray_background;
                     }
+                    // .menu_icon:nth-child(1) {}
                     .menu_icon:nth-child(2) {
                         width: 30px;
                     }
@@ -72,7 +79,6 @@
                 font-family: "Oswald";
                 letter-spacing: 3px;
                 @extend %main_text;
-                // @extend %light_color, %text_border_1;
                 font-size: 26px;
             }
         }
@@ -95,13 +101,17 @@
     padding: 1.5%;
     top: 0;
     left: -100%;
+    -webkit-transition: 0.6s ease-in-out;
+    -o-transition: 0.6s ease-in-out;
     transition: 0.6s ease-in-out;
     @media screen and (min-width:0px) and (max-width:1024px) {
         padding: 3.5%;
     }
     .menu_cross_wrapper {
         @extend %flex_nowrap, %flex_vert_center, %relative;
-        justify-content: flex-end;
+        -webkit-box-pack: end;
+            -ms-flex-pack: end;
+                justify-content: flex-end;
         width: 100%;
         height: 70px;
         .menu_cross {
@@ -117,7 +127,9 @@
             width: 100%;
             li {
                 @extend %flex_nowrap, %flex_vert_center;
-                justify-content: space-between;
+                -webkit-box-pack: justify;
+                    -ms-flex-pack: justify;
+                        justify-content: space-between;
                 width: 100%;
                 .menu_elem {
                     @extend %menu_link;
@@ -126,13 +138,17 @@
                 .submenu_icn {
                     @extend %cursor_pointer;
                     font-family: "Fontello";
+                    -webkit-transition: 0.6s ease-in-out;
+                    -o-transition: 0.6s ease-in-out;
                     transition: 0.6s ease-in-out;
                     &::before {
                         content: '\e809';
                     }
                 }
                 .submenu_icn.active {
-                    transform: rotate(90deg);
+                    -webkit-transform: rotate(90deg);
+                        -ms-transform: rotate(90deg);
+                            transform: rotate(90deg);
                     &::before {
                         content: '\e809';
                     }
@@ -178,6 +194,8 @@
                 padding: 0;
                 height: 0;
                 overflow: hidden;
+                -webkit-transition: 0.6s ease-in-out;
+                -o-transition: 0.6s ease-in-out;
                 transition: 0.6s ease-in-out;
                 ul {
                     li {
@@ -210,6 +228,8 @@
     background-color: orange;
     bottom: 0;
     right: 0;
+    -webkit-transition: 0.6s ease-in-out;
+    -o-transition: 0.6s ease-in-out;
     transition: 0.6s ease-in-out;
 }
 
@@ -223,6 +243,8 @@
     padding: 10px;
     position: fixed;
     top: -1000px;
+    -webkit-transition: 1s ease-in-out;
+    -o-transition: 1s ease-in-out;
     transition: 1s ease-in-out;
     .form {
         width: 80%;
@@ -242,7 +264,9 @@
             position: absolute;
             top: 50%;
             right: 10px;
-            transform: translate(-10px, -50%);
+            -webkit-transform: translate(-10px, -50%);
+                -ms-transform: translate(-10px, -50%);
+                    transform: translate(-10px, -50%);
             .submite {
                 color: $white;
                 font-family: "Fontello";
@@ -263,6 +287,8 @@
             max-height: 0px;
             border-color: transparent;
             overflow: hidden;
+            -webkit-transition: 1s ease-in-out;
+            -o-transition: 1s ease-in-out;
             transition: 1s ease-in-out;
             .results_list {
                 width: calc(100% - 20px);
@@ -285,7 +311,9 @@
                         .results_product {
                             width: 100%;
                             @extend %flex_nowrap;
-                            align-items: center;
+                            -webkit-box-align: center;
+                                -ms-flex-align: center;
+                                    align-items: center;
                             gap: 20px;
                             max-height: 110px;
                             overflow: hidden;
@@ -323,7 +351,9 @@
     cursor: pointer;
     top: 50%;
     right: -5%;
-    transform: translate(-5%, -50%);
+    -webkit-transform: translate(-5%, -50%);
+        -ms-transform: translate(-5%, -50%);
+            transform: translate(-5%, -50%);
     font-family: "Fontello";
     color: $white;
     &::before {
@@ -354,7 +384,9 @@
 
     .close {
         right: -10%;
-        transform: translate(-10%, -50%);
+        -webkit-transform: translate(-10%, -50%);
+            -ms-transform: translate(-10%, -50%);
+                transform: translate(-10%, -50%);
     }        
 
     @media screen and (min-width:768px) and (max-width:1024px) {

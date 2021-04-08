@@ -3,7 +3,9 @@
 .cookies {
     bottom: 0;
     left: 50%;
-    transform: translate(-50%, 0);
+    -webkit-transform: translate(-50%, 0);
+        -ms-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
     background-color: $white;
     border: 1px solid $light-color;
 }
@@ -11,7 +13,9 @@
 .warning {
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
     background-color: $warning;
     border: 1px solid $warning;
 }
@@ -19,7 +23,9 @@
 .success {
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
     background-color: $success;
     border: 1px solid $success;
 }
@@ -27,7 +33,9 @@
 .sure {
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
     background-color: $white;
     border: 1px solid $light-color;
 }
@@ -96,6 +104,8 @@
         right: unset;
         left: unset;
         bottom: unset;
-        transform: none;
+        -webkit-transform: none;
+            -ms-transform: none;
+                transform: none;
     }
 }

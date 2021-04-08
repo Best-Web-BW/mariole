@@ -10,6 +10,8 @@
     position: relative;
     .outofstock {
         font-size: 20px;
+        width: -webkit-max-content;
+        width: -moz-max-content;
         width: max-content;
         padding: 5px;
         position: absolute;

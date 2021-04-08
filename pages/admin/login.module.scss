@@ -13,7 +13,9 @@
     label {
         width: 100%;
         @extend %flex_nowrap, %flex_middle;
-        justify-content: space-between;
+        -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
         gap: 20px;
         margin: 20px 0;
         font-size: 20px;

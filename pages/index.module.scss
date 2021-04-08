@@ -5,6 +5,8 @@
     background-color: #e7e7e7;
     img {
         width: 75%;
+        height: -webkit-max-content;
+        height: -moz-max-content;
         height: max-content;
         @extend %animaton_scale;
     }
@@ -83,7 +85,9 @@
             top: 50%;
             left: 50%;
             font-weight: 600;
-            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                    transform: translate(-50%, -50%);
             @media screen and (min-width:0px) and (max-width:1024px) {
                 font-size: 24px;
             }
@@ -145,6 +149,8 @@
     }
 
     .product_row {
+        width: -webkit-max-content;
+        width: -moz-max-content;
         width: max-content;
         margin: auto;
         margin-top: 60px;
@@ -158,6 +164,8 @@
     }
 
     .photo_link_wrapper {
+        height: -webkit-max-content;
+        height: -moz-max-content;
         height: max-content;
     }
 }

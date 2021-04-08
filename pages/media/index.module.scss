@@ -49,11 +49,16 @@
     }
 
     .row {
-        flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
         .elem {
             width: 100%;
+            height: -webkit-max-content;
+            height: -moz-max-content;
             height: max-content;
             .elem_row_1 {
+                height: -webkit-max-content;
+                height: -moz-max-content;
                 height: max-content;
             }
         }

@@ -13,7 +13,9 @@
     @extend %link_dark, %absolute;
     top: 60%;
     left: 50%;
-    transform: translate(-50%, -60%);
+    -webkit-transform: translate(-50%, -60%);
+        -ms-transform: translate(-50%, -60%);
+            transform: translate(-50%, -60%);
     button {
         width: 200px;
         height: 40px;
@@ -83,6 +85,8 @@
     }
 
     .main_block {
+        height: -webkit-max-content;
+        height: -moz-max-content;
         height: max-content;
     }
 
