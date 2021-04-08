@@ -51,7 +51,7 @@ export default inject("store")(observer(function Index({ store, orderID }) {
         <div className={blocks.content_body}>
             <div className={cn(blocks.main_block, styles.first_block)}>
                 <img className={blocks.desktop} src="/images/blocks/FullSizeRender1.jpg" alt="" />
-                <img className={blocks.mobile} src="/images/blocks/mario_le-1817.jpg" alt="" width="100%" />
+                <img className={blocks.mobile} src="/images/blocks/mario_le-1817.jpg" alt="" />
                 <Link href="/shop">
                     <a className={blocks.absolute_link}>
                         <button>{ t("start-shopping-caps") }</button>

@@ -3,12 +3,18 @@
 .first_block {
     @extend %flex_nowrap, %flex_hor_center, %relative, %overflow_hidden;
     background-color: #e7e7e7;
+    @media screen and (min-width:0px) and (max-width:1024px) {
+        -webkit-box-align: start;
+            -ms-flex-align: start;
+                align-items: flex-start;
+    }
     img {
         width: 75%;
-        height: -webkit-max-content;
-        height: -moz-max-content;
-        height: max-content;
         @extend %animaton_scale;
+        @media screen and (min-width:0px) and (max-width:1024px) {
+            width: 100%;
+            
+        }
     }
 }
 
