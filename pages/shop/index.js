@@ -158,7 +158,7 @@ export default function Shop({ locale, enabledSearch, defaultProducts }) {
         <div className={cn(blocks.content_block, styles.shop_page)}>
             <div className={cn(styles.menu_wrapper, { [styles.opened]: mobileMenuOpened })}>
                 <div className={cn(styles.menu_cross_wrapper)}>
-                    <span className={cn(styles.menu_cross)} />
+                    <span className={cn(styles.menu_cross)} onClick={() => setMobileMenuOpened(false)} />
                 </div>
                 <div className={styles.menu_container}>
                     <ul>
