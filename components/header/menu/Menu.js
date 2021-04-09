@@ -1,14 +1,13 @@
 import { getMenuItem } from "../../MenuItemGenerator";
 import LanguageBlock from "../../LanguageBlock";
 import styles from "../Header.module.scss";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import cn from "classnames";
 
-const MenuItem = getMenuItem(styles.menu_elem);
-
 export default function Menu({ opened, close, t }) {
     const [submenuOpened, setSubmenuOpened] = useState(false);
+    const MenuItem = useMemo(() => getMenuItem(styles.menu_elem, close), []);
 
     return (
         <div className={cn(styles.menu, { [styles.opened]: opened })}>
@@ -19,7 +18,7 @@ export default function Menu({ opened, close, t }) {
                 <ul>
                     <li>
                         <Link href="/shop">
-                            <a className={styles.menu_elem}>{ t.shop["title-caps"] }</a>
+                            <a className={styles.menu_elem} onClick={close}>{ t.shop["title-caps"] }</a>
                         </Link>
                         <span
                             className={cn(styles.submenu_icn, { [styles.active]: submenuOpened })}
@@ -32,7 +31,7 @@ export default function Menu({ opened, close, t }) {
                             <MenuItem href="/shop?limited=1" title={ t.shop["limited-collection"] } />
                             <MenuItem href="/shop?category=knitwear" title={ t.shop["knitwear"] } />
                             <MenuItem href="/shop?bestseller=1" title={ t.shop["bestsellers"] } />
-                            <MenuItem href="/shop?category=jewelry" title={ t.shop["jewelry"] }/>
+                            <MenuItem href="/shop?category=jewelry" title={ t.shop["jewelry"] } />
                             <MenuItem href="/shop" title={ t.shop["view-all"] } />
                         </ul>
                     </div>
