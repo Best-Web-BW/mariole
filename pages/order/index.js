@@ -96,9 +96,21 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
         setProducts(products);
     }, [store.cart]);
 
+    const [shippingMethod, setShippingMethod] = useState("cdek");
+    const [deliveryPrice, setDeliveryPrice] = useState(CDEK_PRICE);
+    const [paymentMethod, setPaymentMethod] = useState("online");
+    const switchShippingMethod = shippingMethod => {
+        if(shippingMethod === "cdek") {
+            setDeliveryPrice(CDEK_PRICE);
+            setPaymentMethod("online");
+        } else if(shippingMethod === "courier") {
+            setDeliveryPrice(COURIER_PRICE);
+        }
+        setShippingMethod(shippingMethod);
+    }
+
     const [productsPrice, setProductsPrice] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
-    const [deliveryPrice, setDeliveryPrice] = useState(CDEK_PRICE);
     useEffect(() => {
         let productsPrice = 0;
         for(const { quantity, price } of products) productsPrice += quantity * price;
@@ -227,41 +239,55 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
                     </div>
                     <div className={styles.form_block}>
                         <p className={styles.form_block_title}>2. { t("shipping-method") }</p>
-                        <div className={cn(styles.full_width_label, styles.delivery)}>
-                            <label>
-                                <input
-                                    type="radio" name="delivery" value="cdek" required defaultChecked
-                                    onClick={e => e.target.checked && setDeliveryPrice(CDEK_PRICE)}
-                                />
-                                { t("cdek") }
-                            </label>
+                        <ShippingMethodRadio
+                            title={t("cdek")}
+                            value="cdek"
+                            {...{
+                                shippingMethod,
+                                switchShippingMethod
+                            }}
+                        >
                             <p className={styles.price}>{ t("free") }</p>
-                        </div>
-                        <div className={cn(styles.full_width_label, styles.delivery)}>
-                            <label>
-                                <input
-                                    type="radio" name="delivery" value="courier" required
-                                    onClick={e => e.target.checked && setDeliveryPrice(COURIER_PRICE)}
-                                />
-                                { t("courier") }
-                            </label>
+                        </ShippingMethodRadio>
+                        <ShippingMethodRadio
+                            title={t("courier")}
+                            value="courier"
+                            {...{
+                                shippingMethod,
+                                switchShippingMethod
+                            }}
+                        >
                             <p className={styles.price}>{ COURIER_PRICE } &#8381;</p>
-                        </div>
+                        </ShippingMethodRadio>
                     </div>
                     <div className={styles.form_block}>
                         <p className={styles.form_block_title}>3. { t("payment") }</p>
-                        <label className={cn(styles.full_width_label, styles.payment)}>
-                            <input type="radio" name="payment" value="online" required defaultChecked />
-                            &nbsp;{ t("online") }
-                        </label>
-                        <label className={cn(styles.full_width_label, styles.payment)}>
-                            <input type="radio" name="payment" value="offline_cash" required />
-                            &nbsp;{ t("cash-to-courier") }
-                        </label>
-                        <label className={cn(styles.full_width_label, styles.payment)}>
-                            <input type="radio" name="payment" value="offline_card" required />
-                            &nbsp;{ t("card-to-courier") }
-                        </label>
+                        <PaymentMethodRadio
+                            title={t("online")}
+                            value="online"
+                            {...{
+                                paymentMethod,
+                                setPaymentMethod
+                            }}
+                        />
+                        <PaymentMethodRadio
+                            enabled={shippingMethod === "courier"}
+                            title={t("cash-to-courier")}
+                            value="offline_cash"
+                            {...{
+                                paymentMethod,
+                                setPaymentMethod
+                            }}
+                        />
+                        <PaymentMethodRadio
+                            enabled={shippingMethod === "courier"}
+                            title={t("card-to-courier")}
+                            value="offline_card"
+                            {...{
+                                paymentMethod,
+                                setPaymentMethod
+                            }}
+                        />
                     </div>
                     <div className={styles.form_block}>
                         <button
@@ -303,5 +329,42 @@ function ProductCard({ image, quantity, price, name, color, colors }) {
             <div className={styles.col_2}>{ name } / { colors(color) }</div>
             <div className={styles.col_3}>{ formatPrice(quantity * price) } &#8381;</div>
         </div>
+    );
+}
+
+function ShippingMethodRadio({ children, title, value, shippingMethod, switchShippingMethod }) {
+    return (
+        <div className={cn(styles.full_width_label, styles.delivery)}>
+            <label>
+                <input
+                    onChange={e => e.target.checked && switchShippingMethod(value)}
+                    checked={shippingMethod === value}
+                    name="delivery"
+                    value={value}
+                    type="radio"
+                    required
+                />
+                { title }
+            </label>
+            { children }
+        </div>
+    );
+}
+
+function PaymentMethodRadio({ enabled = true, title, value, paymentMethod, setPaymentMethod }) {
+    if(!enabled) return null;
+
+    return (
+        <label className={cn(styles.full_width_label, styles.payment)}>
+            <input
+                onChange={e => enabled && e.target.checked && setPaymentMethod(value)}
+                checked={paymentMethod === value}
+                name="payment"
+                value={value}
+                type="radio"
+                required
+            />
+            &nbsp;{ title }
+        </label>
     );
 }
