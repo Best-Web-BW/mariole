@@ -166,6 +166,10 @@
     @extend %desktop;
 }
 
+.desktop_flex {
+    @extend %desktop_flex;
+}
+
 @media screen and (min-width:0px) and (max-width:1024px) { 
 
     .saw_before_wrapper {
