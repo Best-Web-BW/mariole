@@ -21,6 +21,7 @@ export async function getServerSideProps({ locale, query: { submitUUID } }) {
 
     return {
         props: {
+            locale,
             ...props,
             ...await serverSideTranslations(locale, [
                 "page_index",
@@ -30,7 +31,7 @@ export async function getServerSideProps({ locale, query: { submitUUID } }) {
     }
 }
 
-export default inject("store")(observer(function Index({ store, orderID }) {
+export default inject("store")(observer(function Index({ store, locale, orderID }) {
     const { t } = useTranslation("page_index");
     const { t: productCard } = useTranslation("component_product-card");
 
@@ -83,10 +84,11 @@ export default inject("store")(observer(function Index({ store, orderID }) {
                 </div>
             </div>
             <SpecialBlock
-                fetchLink="/api/products?limited=1"
-                href="/shop?limited=1"
+                fetchLink={`/api/products?locale=${locale}&limited=1`}
                 title={t("limited-collection-caps")}
-                t={t} productCard={productCard}
+                productCard={productCard}
+                href="/shop?limited=1"
+                t={t}
             />
             <div className={cn(blocks.content_block, styles.photo_link_wrapper)}>
                 <Link href="/shop?category=knitwear">
@@ -98,10 +100,11 @@ export default inject("store")(observer(function Index({ store, orderID }) {
                 </Link>
             </div>
             <SpecialBlock
-                fetchLink="/api/products?bestseller=1"
-                href="/shop?bestseller=1"
+                fetchLink={`/api/products?locale=${locale}&bestseller=1`}
                 title={t("bestsellers-caps")}
-                t={t} productCard={productCard}
+                productCard={productCard}
+                href="/shop?bestseller=1"
+                t={t}
             />
             <div className={blocks.content_block}>
                 <div className={cn(blocks.row, styles.title_row)}>
