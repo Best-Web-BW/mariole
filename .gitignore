@@ -1,9 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# public/sw.js
-# public/sw.js.map
-# public/workbox-*.js
-# public/workbox-*.js.map
+public/sw.js
+public/sw.js.map
+public/workbox-*.js
+public/workbox-*.js.map
 ssl
 package-lock.json
 /images/products/webp/*.webp
