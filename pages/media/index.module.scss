@@ -33,7 +33,11 @@
             @extend %flex_nowrap, %flex_middle;
             .read {
                 @extend %flex_nowrap, %flex_middle, %main_text;
+                width: -webkit-max-content;
+                width: -moz-max-content;
                 width: max-content;
+                height: -webkit-max-content;
+                height: -moz-max-content;
                 height: max-content;
                 margin: auto;
                 border: 1px solid #cfcfcf;
