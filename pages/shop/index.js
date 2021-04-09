@@ -145,8 +145,8 @@ export default function Shop({ locale, enabledSearch, defaultProducts }) {
             <title>{ t("title") }</title>
         </Head>
         <div className={cn(blocks.main_block, styles.first_block)}>
-            <img className={blocks.desktop} src="/images/blocks/mario_le-2077.jpg" alt="" />
-            <img className={blocks.mobile} src="/images/blocks/mario_le-1817.jpg" alt="" width="100%" />
+            <img className={blocks.desktop} src="/images/blocks/mario_le-2077.webp" alt="" />
+            <img className={blocks.mobile} src="/images/blocks/mario_le-1817.webp" alt="" width="100%" />
             <div className={blocks.page_title}>
                 <p>{ t("all-products-caps") }</p>
             </div>
