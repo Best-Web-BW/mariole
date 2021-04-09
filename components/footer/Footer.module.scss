@@ -21,14 +21,18 @@
                 position: absolute;
                 top: 30%;
                 left: 50%;
-                transform: translate(-50%, -70%);
+                -webkit-transform: translate(-50%, -70%);
+                    -ms-transform: translate(-50%, -70%);
+                        transform: translate(-50%, -70%);
             }
         }
         .changeLang_wrapper {
             position: absolute;
             bottom: 20%;
             left: 50%;
-            transform: translate(-50%, -80%);
+            -webkit-transform: translate(-50%, -80%);
+                -ms-transform: translate(-50%, -80%);
+                    transform: translate(-50%, -80%);
             p {
                 font-size: 18px;
                 text-align: center;
@@ -69,7 +73,9 @@
         @extend %flex_nowrap, %flex_middle;
         .column {
             @extend %flex_nowrap, %flex_vert_center;
-            justify-content: flex-start;
+            -webkit-box-pack: start;
+                -ms-flex-pack: start;
+                    justify-content: flex-start;
             height: calc(100% - 85px);
             width: 50%;
             padding: 70px 0 15px 0;
@@ -102,71 +108,83 @@
 
 @media screen and (min-width:0px) and (max-width:1024px) {
     .footer {
+        height: -webkit-max-content;
+        height: -moz-max-content;
         height: max-content;
-        justify-content: center;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
         .logo_block {   
             position: relative;
+            height: -webkit-max-content;
+            height: -moz-max-content;
             height: max-content;
             width: 100%;
+            display: -webkit-box;
+            display: -ms-flexbox;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
+            -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+            -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                    justify-content: center;
+            -webkit-box-align: center;
+                -ms-flex-align: center;
+                    align-items: center;
             gap: 20px;
             padding: 20px 0;
             .logo_wrapper {
+                display: -webkit-box;
+                display: -ms-flexbox;
                 display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                align-items: center;
+                -ms-flex-wrap: wrap;
+                    flex-wrap: wrap;
+                -webkit-box-pack: center;
+                    -ms-flex-pack: center;
+                        justify-content: center;
+                -webkit-box-align: center;
+                    -ms-flex-align: center;
+                        align-items: center;
                 img {
                     position: relative;
                     top: auto;
                     left: auto;
-                    transform: none;
+                    -webkit-transform: none;
+                        -ms-transform: none;
+                            transform: none;
                 }
             }
             .changeLang_wrapper {
                 position: relative;
                 top: auto;
                 left: auto;
-                transform: none;
-                // p {}
-                // .changeLang_container {
-                    // .changeLangBtn {
-                        // &:hover {}
-                    // }
-                    // .changeLangBtn.active {}
-                    // .left {}
-                    // .right {}
-                // }
-    
+                -webkit-transform: none;
+                    -ms-transform: none;
+                        transform: none;
             }
         }
         .row {
             height: 80%;
             width: 100%;
-            flex-wrap: wrap;
-            justify-content: center;
+            -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+            -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                    justify-content: center;
             .column {
                 width: 100%;
                 padding-top: 30px;
-                justify-content: center;
+                -webkit-box-pack: center;
+                    -ms-flex-pack: center;
+                        justify-content: center;
                 text-align: center;
                 border: 1px solid $light-color;
-                // ul {
-                //     li {
-                //         .menu_elem {
-                //         }
-                //     }
-                // }
             }
         }
         .copyright_block {
             .copyright_text {
                 padding: 10px;
                 text-align: center;
-                // a {}
             }
         }
     }
