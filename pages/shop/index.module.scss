@@ -8,11 +8,10 @@
     @extend %flex_nowrap, %flex_middle, %relative, %overflow_hidden;
     background-color: #e7e7e7;
     height: 400px;
+    align-items: center;
+
     img {
         width: 100%;
-        height: -webkit-max-content;
-        height: -moz-max-content;
-        height: max-content;
         @extend %animaton_scale;
     }
 }
