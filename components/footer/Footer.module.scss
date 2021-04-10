@@ -156,8 +156,8 @@
             }
             .changeLang_wrapper {
                 position: relative;
-                top: auto;
-                left: auto;
+                top: inherit;
+                left: inherit;
                 -webkit-transform: none;
                     -ms-transform: none;
                         transform: none;
