@@ -25,7 +25,12 @@ const HTTP_PORT = process.env.HTTP_PORT ?? 80;
             key: fs.readFileSync("ssl/key.pem")
         }, express).listen(HTTPS_PORT);
         http.createServer(express).listen(HTTP_PORT);
-        express.use(forceSSL);
+        
+        express.use((req, res, next) => {
+            try { forceSSL(req, res, next) }
+            catch(e) { console.error("----> forceSSL error", e, new Error().stack) }
+        })
+        // express.use(forceSSL);
         
         const dynamicFileHandler = async (req, res, next) => {
             try {
@@ -34,10 +39,23 @@ const HTTP_PORT = process.env.HTTP_PORT ?? 80;
                 res.sendFile(filePath);
             } catch(e) { next(); }
         }
-        express.use("/images/*", dynamicFileHandler);
+        express.use("/images/*", async (req, res, next) => {
+            try { await dynamicFileHandler(req, res, next) }
+            catch(e) { console.error("----> dynamic file handler error", e, new Error().stack) }
+        });
+        // express.use("/images/*", dynamicFileHandler);
         
-        express.all("/api/*", nextHandler);
-		express.get("*", nextHandler);
+        express.all("/api/*", async (req, res, next) => {
+            try { await nextHandler(req, res, next) }
+            catch(e) { console.error("----> next api error", e, new Error().stack) }
+        });
+        // express.all("/api/*", nextHandler);
+
+        express.get("*", async (req, res, next) => {
+            try { await nextHandler(req, res, next) }
+            catch(e) { console.error("----> next main error", e, new Error().stack) }
+        })
+		// express.get("*", nextHandler);
 
         console.log(`--> Process environment: '${process.env.NODE_ENV}'`);
         console.log(`--> Is app in development mode: ${dev}`);
