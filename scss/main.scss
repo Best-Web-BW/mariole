@@ -20,6 +20,17 @@
     src: url("../public/fonts/Raleway/Raleway-Light.ttf");
 }
 
+@font-face {
+    font-family: "Fontello";
+    src: url('../public/fonts/Fontello/font/fontello.eot');
+    src: 
+        url('../public/fonts/Fontello/font/fontello.eot') format('embedded-opentype'),
+        url('../public/fonts/Fontello/font/fontello.woff2') format('woff2'),
+        url('../public/fonts/Fontello/font/fontello.woff') format('woff'),
+        url('../public/fonts/Fontello/font/fontello.ttf') format('truetype'),
+        url('../public/fonts/Fontello/font/fontello.svg') format('svg');
+}
+
 *{
     font-family: "Raleway-Light";
     font-style: normal;

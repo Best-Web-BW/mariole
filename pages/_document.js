@@ -10,10 +10,10 @@ export default class MyDocument extends Document {
         return (
             <Html>
                 <Head>
-                    <link rel="stylesheet" href="/fonts/Fontello/css/fontello.css" />
+                    {/* <link rel="stylesheet" href="/fonts/Fontello/css/fontello.css" />
                     <link rel="stylesheet" href="/fonts/Fontello/css/animation.css" />
                     <link rel="stylesheet" href="/fonts/Fontello/css/fontello-codes.css" />
-                    <link rel="stylesheet" href="/fonts/Fontello/css/fontello-embedded.css" />
+                    <link rel="stylesheet" href="/fonts/Fontello/css/fontello-embedded.css" /> */}
 
                     <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-touch-icon-120x120.png" />
                     <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png" />
@@ -28,7 +28,7 @@ export default class MyDocument extends Document {
 
                     <link rel="manifest" href="/icons/manifest.json" />
                     <meta name="msapplication-config" content="/icons/browserconfig.xml" />
-                    
+                    <meta charset="utf-8" />
                     <meta name="apple-mobile-web-app-title" content="Mario'le Shop" />
                     <meta name="application-name" content="Mario'le Shop" />
                     <meta name="msapplication-TileColor" content="#ffffff" />
