@@ -56,11 +56,17 @@
     padding: 6px;
     @extend %flex_nowrap, %flex_middle, %main_text;
     border: 1px solid $lighter-gray;
+    @media screen and (min-width:0px) and (max-width:1024px) {
+        margin: 20px;
+    }
 }
 
 .title_row {
     @extend %flex_wrap, %flex_middle;
     gap: 20px;
+    @media screen and (min-width:0px) and (max-width:1024px) {
+        gap: 0;
+    }
 }
 .product_row {
     width: 100%;
