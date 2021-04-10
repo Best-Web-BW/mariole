@@ -1,10 +1,11 @@
 {
-    "name": "Mario\u2019le Shop",
-    "short_name": "Mario\u2019le",
+    "name": "Mario'le Shop",
+    "short_name": "Mario'le",
 	"start_url": "/",
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
     "display": "standalone",
+    "orientation": "portrait",
     "icons": [
         {
             "src": "/icons/android-chrome-36x36.png",

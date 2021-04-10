@@ -26,11 +26,11 @@ export default class MyDocument extends Document {
                     <meta name="msapplication-TileImage" content="/icons/mstile-144x144.png" />
                     <link rel="shortcut icon" href="/icons/favicon.ico" />
 
-                    <link rel="manifest" href="/icons/site.webmanifest" />
+                    <link rel="manifest" href="/icons/manifest.json" />
                     <meta name="msapplication-config" content="/icons/browserconfig.xml" />
                     
-                    <meta name="apple-mobile-web-app-title" content="Mario&rsquo;le Shop" />
-                    <meta name="application-name" content="Mario&rsquo;le Shop" />
+                    <meta name="apple-mobile-web-app-title" content="Mario'le Shop" />
+                    <meta name="application-name" content="Mario'le Shop" />
                     <meta name="msapplication-TileColor" content="#ffffff" />
                     <meta name="theme-color" content="#ffffff" />
                 </Head>
