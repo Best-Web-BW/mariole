@@ -30,6 +30,11 @@
     font-size: 16px;
 }
 
+.button_wrapper {
+    width: 100%;
+    @extend %flex_nowrap, %flex_middle;
+}
+
 @media screen and (min-width:0px) and (max-width:1024px) { 
 
     .page {
