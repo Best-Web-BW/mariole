@@ -6,6 +6,7 @@ public/workbox-*.js
 public/workbox-*.js.map
 ssl
 package-lock.json
+/images/products/jpg/*.jpg
 /images/products/webp/*.webp
 
 # dependencies
