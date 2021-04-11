@@ -28,7 +28,6 @@ export default class MyDocument extends Document {
 
                     <link rel="manifest" href="/icons/manifest.json" />
                     <meta name="msapplication-config" content="/icons/browserconfig.xml" />
-                    <meta charset="utf-8" />
                     <meta name="apple-mobile-web-app-title" content="Mario'le Shop" />
                     <meta name="application-name" content="Mario'le Shop" />
                     <meta name="msapplication-TileColor" content="#ffffff" />
