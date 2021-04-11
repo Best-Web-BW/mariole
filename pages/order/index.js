@@ -203,7 +203,12 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
                                 <AddressSuggestions
                                     token="7c5272e224601f8a36fd147a354c266eb2494cd9"
                                     value={dadataAddress} onChange={changeDadataAddress}
-                                    inputProps={{ name: "raw_address", required: true }}
+                                    inputProps={{ 
+                                        name: "raw_address", 
+                                        required: true,
+                                        className: styles.input
+                                    }}
+                                    
                                 />
                             </div>
                         </label>
