@@ -45,10 +45,12 @@ const Element = inject("store")(observer(({ store, product, t, productCard }) =>
     return (
         <div className={styles.favorite_elem}>
             <ProductCard data={product} t={productCard} />
-            <button
-                className={styles.delete_button}
-                onClick={() => store.removeFromFavorite(product.id)}
-            >{ t("delete") }</button>
+            <div className={styles.button_wrapper}>
+                <button
+                    className={styles.delete_button}
+                    onClick={() => store.removeFromFavorite(product.id)}
+                >{ t("delete") }</button>
+            </div>
         </div>
     );
 }));
