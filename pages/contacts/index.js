@@ -21,7 +21,7 @@ export default function Contacts() {
         <div className={cn(blocks.content_block, styles.page)}>
             <div className={styles.row}>
                 <p className={styles.title}>Наша продукция представлена в:</p>
-                <img className={styles.desktop} src="/images/blocks/150.webp" alt="" />
+                <img className={styles.desktop} src="/images/blocks/150" alt="" />
                 <div className={styles.data_wrapper}>
                     <p className={styles.data}>Центр красоты и здоровья "Белый Сад"</p>
                     <p className={styles.data}>Москва, Зубовский проезд, дом 1</p>

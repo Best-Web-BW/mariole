@@ -51,8 +51,8 @@ export default inject("store")(observer(function Index({ store, locale, orderID 
         </Head>
         <div className={blocks.content_body}>
             <div className={cn(blocks.main_block, styles.first_block)}>
-                <img className={blocks.desktop} src="/images/blocks/FullSizeRender1.webp" alt="" />
-                <img className={blocks.mobile} src="/images/blocks/mario_le-1817.webp" alt="" />
+                <img className={blocks.desktop} src="/images/blocks/FullSizeRender1" alt="" />
+                <img className={blocks.mobile} src="/images/blocks/mario_le-1817" alt="" />
                 <Link href="/shop">
                     <a className={blocks.absolute_link}>
                         <button>{ t("start-shopping-caps") }</button>
@@ -65,7 +65,7 @@ export default inject("store")(observer(function Index({ store, locale, orderID 
                         <p>{ t("about.craft") }</p>
                     </div>
                     <div className={cn(blocks.column, styles.column)}>
-                        <img src="/images/blocks/mario_le-1684.webp" alt="" />
+                        <img src="/images/blocks/mario_le-1684" alt="" />
                     </div>
                     <div className={cn(blocks.column, styles.column)}>
                         <p>
@@ -94,8 +94,8 @@ export default inject("store")(observer(function Index({ store, locale, orderID 
                 <Link href="/shop?category=knitwear">
                     <a className={styles.photo_link}>
                         <p className={styles.photo_link_title}>{ t("knitwear-caps") }</p>
-                        <img className={styles.desktop} src="/images/blocks/FullSizeRender.webp" alt="" />
-                        <img className={styles.mobile} src="/images/blocks/FullSizeRender.webp" alt="" />
+                        <img className={styles.desktop} src="/images/blocks/FullSizeRender" alt="" />
+                        <img className={styles.mobile} src="/images/blocks/FullSizeRender" alt="" />
                     </a>
                 </Link>
             </div>
@@ -113,12 +113,12 @@ export default inject("store")(observer(function Index({ store, locale, orderID 
                 <div className={cn(blocks.row, styles.press)}>
                     <Link href="#">
                         <a className={styles.press_elem}>
-                            <img src="/images/press/aeroflot.webp" alt="" />
+                            <img src="/images/press/aeroflot" alt="" />
                         </a>
                     </Link>
                     <Link href="#">
                         <a className={styles.press_elem}>
-                            <img src="/images/press/elle_decoration.webp" alt="" />
+                            <img src="/images/press/elle_decoration" alt="" />
                         </a>
                     </Link>
                 </div>

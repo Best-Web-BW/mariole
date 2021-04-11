@@ -11,7 +11,7 @@ export default function Footer({ t }) {
         <div className={styles.footer}>
             <div className={cn(styles.logo_block)}>
                 <div className={styles.logo_wrapper}>
-                    <img src="/images/blocks/logo.webp" alt="" />
+                    <img src="/images/blocks/logo" alt="" />
                 </div>
                 <div className={styles.changeLang_wrapper}>
                     <p>Choose your language</p>
