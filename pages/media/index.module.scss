@@ -13,17 +13,23 @@
     font-weight: 100;
     font-family: 'Oswald-light';
     letter-spacing: 4px;
-    margin: 30px 0
+    margin: 30px 0;
+    font-size: 26px;
 }
 
 .row {
     @extend %flex_nowrap, %flex_middle;
-    gap: 40px;
+    // gap: 40px;
     .elem {
         width: 500px;
         height: 700px;
+        margin: 20px;
+        @media screen and (min-width:0px) and (max-width:1024px) { 
+            margin: 20px 0;
+        }
         .elem_row_1 {
             height: 650px;
+            overflow: hidden;
             img {
                 width: 100%;
             }
