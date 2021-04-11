@@ -21,6 +21,7 @@
         font-size: 16px;
         background-color: transparent;
         border: 1px solid $light-color;
+        margin: 5px 0;
         &:hover, &:focus {
             border-color: black;
         }
@@ -30,7 +31,7 @@
 .form_block {
     width: 100%;
     @extend %flex_wrap, %flex_middle;
-    gap: 20px;
+    // gap: 20px;
     font-size: 20px;
     margin: 40px 0;
     label {
@@ -38,16 +39,17 @@
         -webkit-box-align: center;
             -ms-flex-align: center;
                 align-items: center;
-        gap: 20px;
+        // gap: 20px;
         position: relative;
     }
     .form_block_title {
         width: 100%;
-        gap: 5px;
+        // gap: 5px;
     }
     .full_width_label {
         width: 100%;
-        gap: 5px;
+        // gap: 5px;
+        margin: 10px 0;
         .confidantial {
             width: -webkit-max-content;
             width: -moz-max-content;
@@ -55,18 +57,21 @@
         }
     }
     .half_width_label {
-        gap: 5px;
+        // gap: 5px;
+        margin: 10px 0;
         width: calc(50% - 10px);
     }
 
     .label_1_3 {
-        gap: 5px;
-        width: calc(33.33% - 14px);
+        // gap: 5px;
+        width: calc(33.33% - 10px);
+        margin-left: 10px;
     }
 
     .label_2_3 {
-        gap: 5px;
-        width: calc(66.66% - 6px);
+        // gap: 5px;
+        width: calc(66.66% - 10px);
+        margin-right: 10px;
     }
 }
 
@@ -94,6 +99,7 @@
         width: -webkit-max-content;
         width: -moz-max-content;
         width: max-content;
+        margin-right: 10px;
     }
     .price {
         font-weight: 600;

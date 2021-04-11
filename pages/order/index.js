@@ -55,6 +55,14 @@ const select = {
     }
 }
 
+const leftLabel = {
+    marginRight: '10px'
+}
+
+const rightLabel = {
+    marginLeft: '10px'
+}
+
 export const getStaticProps = async ({ locale }) => ({
     props: {
         CDEK_PRICE: +process.env.SHIPPING_CDEK_PRICE,
@@ -179,11 +187,11 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
                             { t("email") }
                             <input type="email" name="email" autoComplete="email" required />
                         </label>
-                        <label className={styles.half_width_label}>
+                        <label className={styles.half_width_label} style={leftLabel}>
                             { t("first-name") }
                             <input type="text" name="name.first" autoComplete="given-name" required />
                         </label>
-                        <label className={styles.half_width_label}>
+                        <label className={styles.half_width_label} style={rightLabel}>
                             { t("last-name") }
                             <input type="text" name="name.last" autoComplete="family-name" required />
                         </label>
@@ -231,13 +239,15 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
                             <input type="tel" name="phone" autoComplete="tel" required />
                         </label>
                         <label className={styles.full_width_label}>
-                            <input className={styles.confidantial} type="checkbox" name="only_email" />
+                            <input className={styles.confidantial} type="checkbox" name="only_email" style={leftLabel}
+                            />
                             <p className={styles.confidantial}>{ t("only-email") }</p>
                         </label>
                         <label className={styles.full_width_label}>
                             <input
                                 className={styles.confidantial} type="checkbox"
                                 name="subscribe" defaultChecked
+                                style={leftLabel}
                             />
                             <p className={styles.confidantial}>{ t("subscribe") }</p>
                         </label>
