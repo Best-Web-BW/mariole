@@ -1,12 +1,13 @@
 import { error, methodNotAllowed, success } from "../../../utils/common/network";
 import { _get as authorize } from "../auth/authorize";
-import { cwebp, dwebp } from "webp-converter";
 import log from "../../../utils/mongo/log";
 import { promises as fs } from "fs";
 import formidable from "formidable";
 import { v4 as UUID } from "uuid";
-import sharp from "sharp";
 import path from "path";
+
+import sharp from "sharp";
+sharp.cache(false);
 
 export const config = { api: { bodyParser: false } };
 
@@ -20,8 +21,6 @@ export default async function handler(req, res) {
 const basePath = path.normalize(`${process.cwd()}/images/`);
 const getTypedPath = type => path.normalize(`${basePath}/${type}/`);
 const getTmpPath = type => path.normalize(`${getTypedPath(type)}/tmp/`);
-const getTmpWebpPath = (type, name) => path.normalize(`${getTmpPath(type)}/${name}.webp`);
-const getTmpPngPath = (type, name) => path.normalize(`${getTmpPath(type)}/${name}.png`);
 const getRawPath = (type, name) => path.normalize(`${getTmpPath(type)}/${name}`);
 const getJpgPath = (type, name) => path.normalize(`${getTypedPath(type)}/jpg/${name}.jpg`);
 const getWebpPath = (type, name) => path.normalize(`${getTypedPath(type)}/webp/${name}.webp`);
@@ -32,19 +31,12 @@ async function processImage(rawImage, type) {
     const rawPath = getRawPath(type, rawName + rawExt);
     
     const name = UUID();
-    const tmpWebpPath = getTmpWebpPath(type, name);
-    await cwebp(rawPath, tmpWebpPath, "-mt -lossless");
+    const imageResource = sharp(rawPath);
 
-    const tmpPngPath = getTmpPngPath(type, name);
-    await dwebp(tmpWebpPath, tmpPngPath, "-mt -o");
-    
-    const imageResource = sharp(tmpPngPath);
     await imageResource.toFile(getJpgPath(type, name));
     await imageResource.toFile(getWebpPath(type, name));
 
     await fs.unlink(rawPath);
-    await fs.unlink(tmpWebpPath);
-    await fs.unlink(tmpPngPath);
     return { url: getUrl(type, name), name };
 }
 
