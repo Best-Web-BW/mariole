@@ -81,6 +81,7 @@ export default inject("store")(observer(function ProductPage({ store, product, a
                                         <button className={admin.button}>Изменить товар</button>
                                     </a>
                                 </Link>
+                                <button className={admin.button}>Удалить товар</button>
                             </ForAdmin>
                         </div>
                         <div className={styles.data_row}>
