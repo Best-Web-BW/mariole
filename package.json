@@ -6,7 +6,8 @@
     "build": "next build",
     "nm": "nodemon server.js",
     "dev": "npm run nm --do_log --dev",
-    "prod": "node server.js"
+    "prod": "node server.js",
+    "update-prod": "git pull && npm run build && npm run prod"
   },
   "nodemonConfig": {
     "watch": [
