@@ -1,9 +1,12 @@
-import { methodNotAllowed } from "../../../utils/common/network";
-import { cwebp } from "webp-converter";
+import { error, methodNotAllowed, success } from "../../../utils/common/network";
+import { _get as authorize } from "../auth/authorize";
+import { cwebp, dwebp } from "webp-converter";
+import log from "../../../utils/mongo/log";
+import { promises as fs } from "fs";
 import formidable from "formidable";
 import { v4 as UUID } from "uuid";
+import sharp from "sharp";
 import path from "path";
-import fs from "fs";
 
 export const config = { api: { bodyParser: false } };
 
@@ -17,34 +20,57 @@ export default async function handler(req, res) {
 const basePath = path.normalize(`${process.cwd()}/images/`);
 const getTypedPath = type => path.normalize(`${basePath}/${type}/`);
 const getTmpPath = type => path.normalize(`${getTypedPath(type)}/tmp/`);
+const getTmpWebpPath = (type, name) => path.normalize(`${getTmpPath(type)}/${name}.webp`);
+const getTmpPngPath = (type, name) => path.normalize(`${getTmpPath(type)}/${name}.png`);
 const getRawPath = (type, name) => path.normalize(`${getTmpPath(type)}/${name}`);
-const getWebpPath = (type, name) => path.normalize(`${getTypedPath(type)}/webp/${name}`);
-const getWebpUrl = (type, name) => `/images/${type}/webp/${name}`;
+const getJpgPath = (type, name) => path.normalize(`${getTypedPath(type)}/jpg/${name}.jpg`);
+const getWebpPath = (type, name) => path.normalize(`${getTypedPath(type)}/webp/${name}.webp`);
+const getUrl = (type, name) => `/images/${type}/${name}`;
 
-export async function _post({ type, images }) {
-    try {
-        const serverImages = [];
-        for(const rawImage of images) {
-            const { name: rawName, ext: rawExt } = path.parse(rawImage.path);
-            const rawPath = getRawPath(type, rawName + rawExt);
+async function processImage(rawImage, type) {
+    const { name: rawName, ext: rawExt } = path.parse(rawImage.path);
+    const rawPath = getRawPath(type, rawName + rawExt);
     
-            const webpName = `${UUID()}.webp`;
-            const webpPath = getWebpPath(type, webpName);
-            await cwebp(rawPath, webpPath, "-quiet -mt");
-            
-            const webpUrl = getWebpUrl(type, webpName);
+    const name = UUID();
+    const tmpWebpPath = getTmpWebpPath(type, name);
+    await cwebp(rawPath, tmpWebpPath, "-mt -lossless");
 
-            fs.promises.unlink(rawPath);
-            serverImages.push({ url: webpUrl, name: webpName });
-        }
-        return { success: 1, images: serverImages };
+    const tmpPngPath = getTmpPngPath(type, name);
+    await dwebp(tmpWebpPath, tmpPngPath, "-mt -o");
+    
+    const imageResource = sharp(tmpPngPath);
+    await imageResource.toFile(getJpgPath(type, name));
+    await imageResource.toFile(getWebpPath(type, name));
+
+    await fs.unlink(rawPath);
+    await fs.unlink(tmpWebpPath);
+    await fs.unlink(tmpPngPath);
+    return { url: getUrl(type, name), name };
+}
+
+export async function _post({ uuid, accessKey, type, images }) {
+    let login;
+    try {
+        const authorization = await authorize({ uuid, accessKey });
+        if(authorization.success) login = authorization.login;
+        else return error("auth_error");
     } catch(e) {
         console.error(e);
-        return { success: 0, error: e };
+        return error("internal_error");
+    }
+
+    try {
+        const serverImages = await Promise.all(images.map(raw => processImage(raw, type)));
+        await log(login, "LOAD, images", { images: serverImages });
+        return success({ images: serverImages });
+    } catch(e) {
+        console.error(e);
+        return error("internal_error");
     }
 }
 
 function POST(req, res) {
+    const { uuid, access_key: accessKey } = req.cookies;
     const { type } = req.query;
     return new Promise(resolve => {
         formidable({
@@ -53,7 +79,13 @@ function POST(req, res) {
             multiples: true
         }).parse(req, async (_err, _fields, files) => {
             const images = files.images instanceof Array ? files.images : [files.images];
-            res.status(200).json(await _post({ type, images }));
+            const result = await _post({ uuid, accessKey, type, images })
+            if(result.success) res.status(200).json(result);
+            else switch(result.error) {
+                default:
+                    res.status(500).end(result.error);
+                    break;
+            }
             resolve();
         });
     });
