@@ -22,7 +22,7 @@
 }
 
 .menu_wrapper {
-    width: -webkit-fill-available;
+    width: 20%;
     .menu_container {
         @extend %flex_nowrap;
         position: -webkit-sticky;
@@ -81,12 +81,13 @@
 }
 
 .shop_wrapper {
+    width: 80%;
     .row {
         @extend %flex_nowrap, %flex_vert_center;
         -webkit-box-pack: start;
             -ms-flex-pack: start;
                 justify-content: flex-start;
-        gap: 20px;
+        //gap: 20px;
     }
 }
 

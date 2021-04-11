@@ -22,12 +22,13 @@
                 justify-content: space-between;
         .icon_container {
             @extend %flex_nowrap, %flex_middle;
-            gap: 30px;
+            // gap: 30px;
             .menu_icon_container {
                 width: 30px;
                 height: 26px;
                 cursor: pointer;
                 @extend %flex_wrap, %flex_vert_center;
+                margin-right: 15px;
                 .menu_icon {
                     height: 2px;
                     @extend %dark_background;
@@ -67,9 +68,19 @@
                     margin: 0 10px;
                 }
             }
+
+            .search_icon, .cart_icon {
+                margin-left: 15px;
+            }
+
+            .favorite_icon {
+                margin-right: 15px;
+            }
+
             .search_icon::before {
                 content: '\e808';
             }
+
             .favorite_icon::before {
                 content: '\e806';
             }
