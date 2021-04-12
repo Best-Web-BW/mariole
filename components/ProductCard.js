@@ -6,7 +6,7 @@ import cn from "classnames";
 export default function ProductCard({ data: { id, image, name, price, available } = {}, t }) {
 	return (
 		<div className={styles.product_card}>
-            <span className={styles.delete}/>
+            <span className={styles.delete} />
             <div className={cn(styles.outofstock, { [styles.hidden]: available })}>{ t("out_of_stock") }</div>
             <Link href="/shop/[id]" as={`/shop/${id}`}>
                 <a className={styles.content}>
