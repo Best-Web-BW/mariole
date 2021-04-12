@@ -19,14 +19,14 @@ export default function FeedbackForm({ t }) {
                 submit(serializeForm(e.target));
             }}>
                 <div className={styles.form_row}>
-                    <label className={styles.name}>
+                    <label className={styles.name} style={{marginRight:'10px'}}>
                         { t("name") }
                         <input
                             className={styles.input} type="text"
                             name="name" autoComplete="given-name" required
                         />
                     </label>
-                    <label className={styles.email}>
+                    <label className={styles.email} style={{marginLeft:'10px'}}>
                         { t("email") }
                         <input
                             className={styles.input} type="email"

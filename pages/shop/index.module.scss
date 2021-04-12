@@ -77,7 +77,7 @@
 
 .menu_elem {
     @extend %main_text;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .shop_wrapper {
@@ -125,6 +125,7 @@
         -webkit-transition: 0.6s ease-in-out;
         -o-transition: 0.6s ease-in-out;
         transition: 0.6s ease-in-out;
+        margin-right: 10px
     }
 }
 
@@ -140,7 +141,7 @@
     -webkit-box-pack: start;
         -ms-flex-pack: start;
             justify-content: flex-start;
-    gap: 20px;
+    // gap: 20px;
 }
 
 .shop_header {

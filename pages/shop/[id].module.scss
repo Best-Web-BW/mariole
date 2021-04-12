@@ -34,7 +34,7 @@
         font-family: 'fontello';
         letter-spacing: 2px;
         font-weight: 100;
-        font-size: 30px;
+        font-size: 24px;
     }
     .price {
         padding-bottom: 30px;
@@ -278,7 +278,7 @@
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
-    font-size: 21px;
+    font-size: 18px;
     -webkit-transition: 0.6s ease-in-out;
     -o-transition: 0.6s ease-in-out;
     transition: 0.6s ease-in-out;
@@ -300,7 +300,7 @@
 .saw_before_wrapper {
     .saw_before_row {
         @extend %flex_nowrap, %flex_middle;
-        gap: 20px;
+        // gap: 20px;
     }
 }
 
@@ -309,7 +309,7 @@
     h2 {
         text-align: center;
         font-weight: 100;
-        font-size: 30px;
+        font-size: 24px;
         letter-spacing: 3px;
     }
 }

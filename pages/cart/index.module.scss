@@ -3,7 +3,7 @@
 .saw_before_wrapper {
     .saw_before_row {
         @extend %flex_nowrap, %flex_middle;
-        gap: 20px;
+        // gap: 20px;
     }
 }
 
@@ -13,7 +13,7 @@
     h2 {
         text-align: center;
         font-weight: 100;
-        font-size: 30px;
+        font-size: 24px;
         letter-spacing: 3px;
     }
 }
