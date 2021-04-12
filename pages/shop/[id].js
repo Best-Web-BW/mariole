@@ -6,6 +6,7 @@ import { _get as getProduct } from "../api/products/[id]";
 import { useCallback, useEffect, useState } from "react";
 import FeedbackForm from "../../components/FeedbackForm";
 import formatPrice from "../../utils/common/formatPrice";
+import removeProduct from "../../utils/products/remove";
 import admin from "../../scss/adminButtons.module.scss";
 import RecentBlock from "../../components/RecentBlock";
 import blocks from "../../scss/blocks.module.scss";
@@ -14,6 +15,7 @@ import { useTranslation } from "next-i18next";
 import { inject, observer } from "mobx-react";
 import cycle from "../../utils/math/cycle";
 import styles from "./[id].module.scss";
+import Router from "next/router";
 import Link from "next/link";
 import Head from "next/head";
 import cn from "classnames";
@@ -57,6 +59,11 @@ export default inject("store")(observer(function ProductPage({ store, product, a
 
     useEffect(() => store.addToRecent(product.id), [product.id]);
 
+    const remove = async () => {
+        const response = await removeProduct(product.id);
+        if(response.status === 200) Router.push("/shop");
+    }
+
     return (<>
         <Head>
             <title>{ product.locale.name }</title>
@@ -81,7 +88,10 @@ export default inject("store")(observer(function ProductPage({ store, product, a
                                         <button className={admin.button}>Изменить товар</button>
                                     </a>
                                 </Link>
-                                <button className={admin.button}>Удалить товар</button>
+                                <button 
+                                    className={admin.button}
+                                    onClick={remove}
+                                >Удалить товар</button>
                             </ForAdmin>
                         </div>
                         <div className={styles.data_row}>
