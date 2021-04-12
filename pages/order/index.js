@@ -124,22 +124,15 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
     const [city, setCity] = useState("");
     const [postalCode, setPostalCode] = useState("");
     const changeDadataAddress = useCallback(address => {
-        const { country, city, postal_code, region_with_type, street_with_type, house } = address.data;
-        const houseAddress = `${street_with_type}, ${house}`;
-
-        address.value = `${houseAddress}`;
+        setOrderAddress(`${address.data.country}, ${address.unrestricted_value}`);
+        setPostalCode(address.data.postal_code);
+        setCity(address.data.city);
         setDadataAddress(address);
-
-        setOrderAddress(`${country}, ${region_with_type}, ${city}, ${postal_code}, ${houseAddress}`);
-        setCity(city);
-        setPostalCode(postal_code);
     }, []);
 
     const transformFormData = useCallback(formData => {
         formData = { ...formData };
-        if(!formData.address.length) {
-            formData.address = `${country.label}, ${city}, ${postalCode}, ${formData.raw_address}`;
-        }
+        formData.address = `${country.label}, ${city}, ${postalCode}, ${formData.raw_address}`;
         formData.cart = JSON.parse(formData.cart);
         delete formData.city;
         delete formData.postal_code;
@@ -150,6 +143,7 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
 
     const submitOrder = useCallback(async form => {
         const data = transformFormData(serializeForm(form));
+        return console.log({ data });
         const response = await fetch(`/api/orders/make?locale=${locale}`, {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=utf-8" },
