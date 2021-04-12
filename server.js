@@ -32,18 +32,35 @@ const HTTP_PORT = process.env.HTTP_PORT ?? 80;
         })
         // express.use(forceSSL);
         
-        const dynamicFileHandler = async (req, res, next) => {
+        const handleImage = async (req, res, next) => {
             try {
-                const filePath = path.join(process.cwd() + decodeURIComponent(req.baseUrl));
-                await fs.promises.access(filePath);
-                res.sendFile(filePath);
+                const parsedUrl = req.baseUrl.split("/").slice(1); // split and remove first empty
+                const parsedPath = parsedUrl.slice(0, -1); // get only path
+                const filename = parsedUrl.slice(-1)[0]; // get only file name
+                
+                const extension = req.headers.accept.includes("image/webp") ? "webp" : "jpg";
+                const relativePath = path.join(...[...parsedPath, extension, `${filename}.${extension}`]);
+                const fullDynamicPath = path.join(process.cwd(), relativePath);
+                const fullStaticPath = path.join(process.cwd(), "public", relativePath);
+
+                try {
+                    await fs.promises.access(fullDynamicPath);
+                    return res.sendFile(fullDynamicPath);
+                } catch(e) {}
+
+                try {
+                    await fs.promises.access(fullStaticPath);
+                    return res.sendFile(fullStaticPath);
+                } catch(e) {}
+
+                throw new Error();
             } catch(e) { next(); }
         }
         express.use("/images/*", async (req, res, next) => {
-            try { await dynamicFileHandler(req, res, next) }
-            catch(e) { console.error("----> dynamic file handler error", e, new Error().stack) }
+            try { await handleImage(req, res, next) }
+            catch(e) { console.error("----> image handler error", e, new Error().stack) }
         });
-        // express.use("/images/*", dynamicFileHandler);
+        // express.use("/images/*", handleImage);
         
         express.all("/api/*", async (req, res, next) => {
             try { await nextHandler(req, res, next) }

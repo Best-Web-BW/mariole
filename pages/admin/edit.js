@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import blocks from "../../scss/blocks.module.scss";
 import styles from "./edit.module.scss";
 import Select from "react-select";
+import Router from "next/router";
 import cn from "classnames";
 
 const select = {
@@ -183,7 +184,7 @@ export default function Edit({ product, parents }) {
             headers: { "Content-Type": "application/json;charset=utf-8" },
             method, body: JSON.stringify(formData)
         });
-        console.log({ response });
+        if(response.status === 200) Router.push("/shop");
     };
 
     const resetSelects = () => {

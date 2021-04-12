@@ -20,8 +20,8 @@ export default function Media() {
         <div className={cn(blocks.content_block, styles.page)}>
             <h2 className={styles.page_title}>О НАС ПИШУТ</h2>
             <div className={styles.row}>
-                <ContentBlock image="/images/press/page_1.webp" link="#" />
-                <ContentBlock image="/images/press/_file5afd3e200b21b.webp" link="#" />
+                <ContentBlock image="/images/press/page_1" link="#" />
+                <ContentBlock image="/images/press/_file5afd3e200b21b" link="#" />
             </div>
         </div>
     </>);
