@@ -12,10 +12,16 @@ function cut({ images: [image], locales, ...product }, locale) {
     return { image, name: locales[locale].name, ...product };
 }
 
-function createQuery({ ids, category, subcategory, limited, bestseller, sizes, search }) {
+const THREE_MONTHS_AS_MS = 1000 * 60 * 60 * 24 * 30 * 3;
+function getThreeMonthsAgoISOString() {
+    return new Date(new Date().getTime() - THREE_MONTHS_AS_MS).toISOString();
+}
+
+function createQuery({ ids, category, subcategory, fresh, limited, bestseller, sizes, search }) {
     const result = {};
     if(        ids && ids instanceof Array           ) result.id = { $in: ids };
     if(      sizes && sizes instanceof Array         ) result.sizes = { $elemMatch: { $in: sizes } };
+    if(      fresh && typeof fresh === "boolean"     ) result.cdate = { $gte: getThreeMonthsAgoISOString() }
     if(    limited && typeof limited === "boolean"   ) result.limited = true;
     if( bestseller && typeof bestseller === "boolean") result.bestseller = true;
     if(   category && typeof category === "string"   ) result.category = category;
@@ -53,16 +59,20 @@ export async function _get({ locale = "ru", max = 0, ...params }) {
     return success({ products: matchedProducts });
 }
 
-async function GET(req, res) {
-    const { locale, category, subcategory } = req.query;
-    const        max = +req.query.max;
-    const    limited = req.query.limited === "1";
-    const bestseller = req.query.bestseller === "1";
-    const        ids = req.query.ids?.split(",").map(id => id ? +id : undefined);
-    const      sizes = req.query.sizes?.split(",");
-    const     search = decodeURIComponent(req.query.search ?? "");
+async function GET({ query }, res) {
+    const { locale, category, subcategory } = query;
+    const params = {
+        locale, category, subcategory,
+               max: +query.max,
+             fresh: query.fresh === "1",
+           limited: query.limited === "1",
+        bestseller: query.bestseller === "1",
+               ids: query.ids?.split(",").map(id => id ? +id : undefined),
+             sizes: query.sizes?.split(","),
+            search: decodeURIComponent(query.search ?? "")
+    }
 
-    const result = await _get({ locale, ids, max, category, subcategory, limited, bestseller, sizes, search });
+    const result = await _get(params);
     if(result.success) res.status(200).json(result.products);
     else switch(result.error) {
         default:
