@@ -84,7 +84,7 @@ export default inject("store")(observer(function Index({ store, locale, orderID 
                 </div>
             </div>
             <SpecialBlock
-                fetchLink={`/api/products?locale=${locale}&limited=1`}
+                fetchLink={`/api/products?locale=${locale}&limited=1&max=4`}
                 title={t("limited-collection-caps")}
                 productCard={productCard}
                 href="/shop?limited=1"
@@ -100,7 +100,7 @@ export default inject("store")(observer(function Index({ store, locale, orderID 
                 </Link>
             </div>
             <SpecialBlock
-                fetchLink={`/api/products?locale=${locale}&bestseller=1`}
+                fetchLink={`/api/products?locale=${locale}&bestseller=1&max=4`}
                 title={t("bestsellers-caps")}
                 productCard={productCard}
                 href="/shop?bestseller=1"
