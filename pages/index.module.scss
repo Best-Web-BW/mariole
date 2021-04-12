@@ -122,14 +122,28 @@
 
 .press {
     width: 100%;
-    gap: 30px;
+    // gap: 30px;
     @extend %flex_nowrap, %flex_middle;
     margin: 60px 0 30px 0;
+    @media screen and (min-width:0px) and (max-width:1024px) {
+        flex-wrap: wrap;
+        margin: 20px 0 30px 0;
+    }
     .press_elem {
         width: 320px;
         height: 90px;
+        margin: 15px 0;
+        @media screen and (min-width:0px) and (max-width:1024px) { 
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+        }
         img {
             width: 100%;
+            @media screen and (min-width:0px) and (max-width:1024px) {
+                width: 60%;
+            }
         }
     }
 }
