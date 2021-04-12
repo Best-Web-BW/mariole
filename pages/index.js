@@ -77,7 +77,7 @@ export default inject("store")(observer(function Index({ store, locale, orderID 
                             <br />
                             { t("about.properties") }
                             <br />
-                            <br />⠀
+                            <br />
                             { t("about.traditions") }
                         </p>
                     </div>
