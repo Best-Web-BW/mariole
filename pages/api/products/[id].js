@@ -255,7 +255,7 @@ export async function _delete({ uuid, accessKey, id }) {
         if(!product) return error("no_product");
 
         await products.deleteOne({ _id: product._id });
-        await log(login, "DELETE, product", data);
+        await log(login, "DELETE, product", product);
     } catch(e) {
         console.error(e);
         return error("db_error");
