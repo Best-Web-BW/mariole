@@ -29,7 +29,7 @@ function createQuery({ ids, category, subcategory, limited, bestseller, sizes, s
     return result;
 }
 
-export async function _get({ locale = "ru", ...params }) {
+export async function _get({ locale = "ru", max = 0, ...params }) {
     let matchedProducts;
     try {
         const { db } = await connect();
@@ -37,7 +37,7 @@ export async function _get({ locale = "ru", ...params }) {
         
         const query = createQuery(params);
         const projection = { _id: 0, id: 1, price: 1, images: 1, locales: 1, available: 1, color: 1 };
-        matchedProducts = await products.find(query, { projection }).toArray();
+        matchedProducts = await products.find(query, { projection }).limit(max).toArray();
     } catch(e) {
         console.error(e);
         return error("db_error");
@@ -55,13 +55,14 @@ export async function _get({ locale = "ru", ...params }) {
 
 async function GET(req, res) {
     const { locale, category, subcategory } = req.query;
+    const        max = +req.query.max;
     const    limited = req.query.limited === "1";
     const bestseller = req.query.bestseller === "1";
     const        ids = req.query.ids?.split(",").map(id => id ? +id : undefined);
     const      sizes = req.query.sizes?.split(",");
     const     search = decodeURIComponent(req.query.search ?? "");
 
-    const result = await _get({ locale, ids, category, subcategory, limited, bestseller, sizes, search });
+    const result = await _get({ locale, ids, max, category, subcategory, limited, bestseller, sizes, search });
     if(result.success) res.status(200).json(result.products);
     else switch(result.error) {
         default:
