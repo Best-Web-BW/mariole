@@ -160,12 +160,18 @@ const QuantitySelector = inject("store")(observer(({ store, quantity, id }) => (
     <div className={styles.col_3}>
         <div className={styles.choose_quantity}>
             <div className={styles.choose_quantity_wrapper}>
-                <button className={cn(styles.choose_quantity_button, styles.mobile)}>-</button>
+                <button
+                    className={cn(styles.choose_quantity_button, styles.mobile)}
+                    onClick={() => store.setCartQuantity(id, Math.max(quantity - 1, 1))}
+                >-</button>
                 <input
                     type="number" name="quantity" min={1} value={quantity}
                     onChange={evt => store.setCartQuantity(id, Math.max(+evt.target.value, 1))}
                 />
-                <button className={cn(styles.choose_quantity_button, styles.mobile)}>+</button>
+                <button
+                    className={cn(styles.choose_quantity_button, styles.mobile)}
+                    onClick={() => store.setCartQuantity(id, quantity + 1)}
+                >+</button>
             </div>
         </div>
     </div>
