@@ -4,6 +4,7 @@ import styles from "./Header.module.scss";
 import Search from "./search/Search";
 import Menu from "./menu/Menu";
 import cn from "classnames";
+import admin from "../../scss/adminButtons.module.scss";
 
 export default function Header({ t }) {
     const [sticky, setSticky] = useState(false);
@@ -18,6 +19,7 @@ export default function Header({ t }) {
 
     return (
         <div className={cn(styles.header, { [styles.sticky]: sticky })}>
+            <button className={admin.exit}>Выход</button>
             <Controls
                 openMenu={() => setMenuOpened(true)}
                 toggleSearch={() => setSearchOpened(prev => !prev)}

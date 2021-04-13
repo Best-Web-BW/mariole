@@ -46,7 +46,11 @@
                 width: 40%;
                 @extend %black_button;
                 height: 40px;
-                font-size: 18px;
+                font-size: 120%;
+                @media screen and (min-width:0px) and (max-width:1024px) {  
+                    font-size: 100%;
+                    width: 60%;
+                }
             }
         }
     }
