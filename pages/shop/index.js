@@ -235,7 +235,7 @@ export default function Shop({ locale, enabledSearch, defaultProducts }) {
             <img className={blocks.desktop} src="/images/blocks/mario_le-2077" alt="" />
             <img className={blocks.mobile} src="/images/blocks/mario_le-1817" alt="" width="100%" />
             <div className={blocks.page_title}>
-                <p className={styles.shop_tittle}>{ getTitle(filter, t) }</p>
+                <p className={styles.shop_title}>{ getTitle(filter, t) }</p>
             </div>
         </div>
         <Search
