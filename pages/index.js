@@ -111,16 +111,13 @@ export default inject("store")(observer(function Index({ store, locale, orderID 
                     <h2 className={blocks.block_title}>{ t("they-write-caps") }</h2>
                 </div>
                 <div className={cn(blocks.row, styles.press)}>
-                    <Link href="#">
-                        <a className={styles.press_elem} target="_blank">
-                            <img src="/images/press/aeroflot" alt="" />
-                        </a>
-                    </Link>
-                    <Link href="https://www.elledecoration.ru/heroes/design/novye-imena-luchshie-tekstilnye-mastera-rossii-i-belarusi-id6858881/">
-                        <a className={styles.press_elem} target="_blank">
-                            <img src="/images/press/elle_decoration" alt="" />
-                        </a>
-                    </Link>
+                    <img src="/images/press/aeroflot" alt="" />
+                    <a
+                        className={styles.press_elem} target="_blank"
+                        href="https://www.elledecoration.ru/heroes/design/novye-imena-luchshie-tekstilnye-mastera-rossii-i-belarusi-id6858881/"
+                    >
+                        <img src="/images/press/elle_decoration" alt="" />
+                    </a>
                 </div>
             </div>
         </div>
