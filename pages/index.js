@@ -112,12 +112,12 @@ export default inject("store")(observer(function Index({ store, locale, orderID 
                 </div>
                 <div className={cn(blocks.row, styles.press)}>
                     <Link href="#">
-                        <a className={styles.press_elem}>
+                        <a className={styles.press_elem} target="_blank">
                             <img src="/images/press/aeroflot" alt="" />
                         </a>
                     </Link>
-                    <Link href="#">
-                        <a className={styles.press_elem}>
+                    <Link href="https://www.elledecoration.ru/heroes/design/novye-imena-luchshie-tekstilnye-mastera-rossii-i-belarusi-id6858881/">
+                        <a className={styles.press_elem} target="_blank">
                             <img src="/images/press/elle_decoration" alt="" />
                         </a>
                     </Link>
