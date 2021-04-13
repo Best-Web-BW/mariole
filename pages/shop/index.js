@@ -16,45 +16,63 @@ import Link from "next/link";
 import Head from "next/head";
 import cn from "classnames";
 
-const sortingOptions = [
-    { value: "price_0-1", label: "Цена по возрастанию" },
-    { value: "price_1-0", label: "Цена по убыванию" },
-    { value: "alphabet_A-B", label: "От А до Я" },
-    { value: "alphabet_B-A", label: "От Я до А" },
-    { value: "time_new", label: "Сначала новое" },
-    { value: "time_old", label: "Сначала старое" }
-]
-
-const selectTheme = theme => ({
-    ...theme, borderRadius: 0,
-    colors: { ...theme.colors, primary: "black", neutral0: "transparent" }
-});
-
-const selectStyles = {
-    container: () => ({
-        width: "100%",
-        fontSize: "16px"
-    }),
-    menu: () => ({
-        backgroundColor: "whitesmoke",
-        position: "absolute",
-        width: "calc(100% - 2px)",
-        zIndex: "1000",
-        border: "1px solid black"
-    }),
-    option: (styles, { isDisabled, isFocused, isSelected }) => {
-        return {
-            ...styles,
-            color: "#333333",
-            backgroundColor: isDisabled ? null : (isSelected ? "#b4b4b4" : (isFocused ? "#cfcfcf" : null)),
+const select = {
+    theme: theme => ({
+        ...theme,
+        borderRadius: 0,
+        colors: {
+            ...theme.colors,
+            primary: "black",
+            neutral0: "transparent"
         }
-    }
+    }),
+    styles: {
+        container: () => ({
+            fontSize: "16px",
+            width: "100%"
+        }),
+        menu: () => ({
+            backgroundColor: "whitesmoke",
+            width: "calc(100% - 2px)",
+            border: "1px solid black",
+            position: "absolute",
+            zIndex: "1000"
+        }),
+        option: (styles, { isDisabled, isFocused, isSelected }) => {
+            return {
+                ...styles,
+                color: "#333333",
+                backgroundColor: (
+                    isDisabled
+                    ? null
+                    : (
+                        isSelected
+                        ? "#b4b4b4"
+                        : (
+                            isFocused
+                            ? "#cfcfcf"
+                            : null
+                        )
+                    )
+                )
+            }
+        }
+    },
+    sorting: [
+        { value: "price_0-1", label: "Цена по возрастанию" },
+        { value: "price_1-0", label: "Цена по убыванию" },
+        { value: "alphabet_A-B", label: "От А до Я" },
+        { value: "alphabet_B-A", label: "От Я до А" },
+        { value: "time_new", label: "Сначала новое" },
+        { value: "time_old", label: "Сначала старое" }
+    ]
 }
 
-function parseQuery({ category, subcategory, limited, bestseller, sizes, search }) {
+function parseQuery({ category, subcategory, fresh, limited, bestseller, sizes, search }) {
     return {
         category: uri.decode.string(category),
         subcategory: uri.decode.string(subcategory),
+        fresh: uri.decode.boolean(fresh),
         limited: uri.decode.boolean(limited),
         bestseller: uri.decode.boolean(bestseller),
         sizes: uri.decode.array(sizes),
@@ -92,6 +110,14 @@ export async function getServerSideProps({ locale, query }) {
     };
 }
 
+function getTitle({ category, fresh, limited, bestseller }, t) {
+    if(category) return t(`category.${category}`);
+    else if(fresh) return t("new");
+    else if(limited) return t("limited-collection");
+    else if(bestseller) return t("bestsellers");
+    else return t("all-products");
+}
+
 export default function Shop({ locale, enabledSearch, defaultProducts }) {
     const { t } = useTranslation("page_shop");
     const { t: productCard } = useTranslation("component_product-card");
@@ -121,17 +147,42 @@ export default function Shop({ locale, enabledSearch, defaultProducts }) {
         category: name => {
             updateQuery([
                 ["category", filter.category !== name ? uri.encode.string(name) : undefined],
-                ["subcategory", undefined]
+                ["subcategory", undefined],
+                ["fresh", false],
+                ["limited", false],
+                ["bestseller", false]
             ]);
         },
         subcategory: (categoryName, name) => {
             updateQuery([
                 ["category", categoryName],
-                ["subcategory", filter.subcategory !== name ? uri.encode.string(name) : undefined]
+                ["subcategory", filter.subcategory !== name ? uri.encode.string(name) : undefined],
+                ["fresh", false],
+                ["limited", false],
+                ["bestseller", false]
             ]);
         },
-        limited: state => updateQuery([["limited", uri.encode.boolean(state)]]),
-        bestseller: state => updateQuery([["bestseller", uri.encode.boolean(state)]]),
+        fresh: state => updateQuery([
+            ["category", undefined],
+            ["subcategory", undefined],
+            ["fresh", uri.encode.boolean(state)],
+            ["limited", false],
+            ["bestseller", false]
+        ]),
+        limited: state => updateQuery([
+            ["category", undefined],
+            ["subcategory", undefined],
+            ["fresh", false],
+            ["limited", uri.encode.boolean(state)],
+            ["bestseller", false]
+        ]),
+        bestseller: state => updateQuery([
+            ["category", undefined],
+            ["subcategory", undefined],
+            ["fresh", false],
+            ["limited", false],
+            ["bestseller", uri.encode.boolean(state)]
+        ]),
         size: size => {
             const newState = !filter.sizes.includes(size);
             const sizes = filter.sizes.filter(entry => entry !== size);
@@ -148,7 +199,7 @@ export default function Shop({ locale, enabledSearch, defaultProducts }) {
             <img className={blocks.desktop} src="/images/blocks/mario_le-2077" alt="" />
             <img className={blocks.mobile} src="/images/blocks/mario_le-1817" alt="" width="100%" />
             <div className={blocks.page_title}>
-                <p>{ t(filter.category ? `category.${filter.category}` : "all-products-caps") }</p>
+                <p>{ getTitle(filter, t) }</p>
             </div>
         </div>
         <Search
@@ -190,9 +241,9 @@ export default function Shop({ locale, enabledSearch, defaultProducts }) {
                     <div className={styles.select_wrapper}>
                         <Select
                             instanceId="sorting_select"
-                            styles={selectStyles}
-                            theme={selectTheme}
-                            options={sortingOptions}
+                            options={select.sorting}
+                            styles={select.styles}
+                            theme={select.theme}
                         />
                     </div>
                 </div>
@@ -267,9 +318,21 @@ function CategoryMenu({ toggle, filter, t }) {
                             ].map(id => [id, t(`subcategory.${id}`)])
                         }
                     />
-                    <LimitedFilter toggle={toggle.limited} active={filter.limited} t={t} />
-                    <BestsellerFilter toggle={toggle.bestseller} active={filter.bestseller} t={t} />
-                    {/* <NewFilter /> */}
+                    <SpecialFilter
+                        title={t("limited-collection")}
+                        toggle={toggle.limited}
+                        active={filter.limited}
+                    />
+                    <SpecialFilter
+                        title={t("bestsellers")}
+                        toggle={toggle.bestseller}
+                        active={filter.bestseller}
+                    />
+                    <SpecialFilter
+                        title={t("new")}
+                        toggle={toggle.fresh}
+                        active={filter.fresh}
+                    />
                 </ul>
             </div>
         </li>
@@ -308,26 +371,10 @@ function SubcategoryFilter({ toggle, name, title }) {
     );
 }
 
-function LimitedFilter({ toggle, active, t }) {
+function SpecialFilter({ title, toggle, active }) {
     return (
         <li onClick={() => toggle(!active)}>
-            <span className={styles.menu_elem}>{ t("limited-collection") }</span>
-        </li>
-    );
-}
-
-function BestsellerFilter({ toggle, active, t }) {
-    return (
-        <li onClick={() => toggle(!active)}>
-            <span className={styles.menu_elem}>{ t("bestsellers") }</span>
-        </li>
-    );
-}
-
-function NewFilter({ toggle, active, t }) {
-    return (
-        <li onClick={() => toggle(!active)}>
-            <span className={styles.menu_elem}>{ t("new") }</span>
+            <span className={styles.menu_elem}>{ title }</span>
         </li>
     );
 }
