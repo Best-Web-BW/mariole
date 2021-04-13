@@ -65,7 +65,7 @@ export default inject("store")(observer(function Index({ store, locale, orderID 
                         <p>{ t("about.craft") }</p>
                     </div>
                     <div className={cn(blocks.column, styles.column)}>
-                        <img src="/images/blocks/mario_le-1684" alt="" />
+                        <img src="/images/blocks/IMG_9323" alt="" />
                     </div>
                     <div className={cn(blocks.column, styles.column)}>
                         <p>
