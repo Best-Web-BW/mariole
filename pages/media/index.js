@@ -18,16 +18,16 @@ export default function Media() {
             <title>{ t("title") }</title>
         </Head>
         <div className={cn(blocks.content_block, styles.page)}>
-            <h2 className={styles.page_title}>О НАС ПИШУТ</h2>
+            <h2 className={styles.page_title}>{ t("media-caps") }</h2>
             <div className={styles.row}>
-                <ContentBlock image="/images/press/page_1" link="#" />
-                <ContentBlock image="/images/press/_file5afd3e200b21b" link="#" />
+                <ContentBlock image="/images/press/page_1" link="#" t={t} />
+                <ContentBlock image="/images/press/_file5afd3e200b21b" link="#" t={t} />
             </div>
         </div>
     </>);
 }
 
-function ContentBlock({ image, link }) {
+function ContentBlock({ image, link, t }) {
     return (
         <div className={styles.elem}>
             <div className={styles.elem_row_1}>
@@ -35,7 +35,7 @@ function ContentBlock({ image, link }) {
             </div>
             <div className={styles.elem_row_2}>
                 <Link href={link}>
-                    <a className={styles.read}>Читать в источнике</a>
+                    <a className={styles.read}>{ t("source") }</a>
                 </Link>
             </div>
         </div>
