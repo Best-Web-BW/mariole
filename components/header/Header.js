@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import Controls from "./controls/Controls";
 import styles from "./Header.module.scss";
 import Search from "./search/Search";
+import Logout from "./logout/Logout";
+import ForAdmin from "../ForAdmin";
 import Menu from "./menu/Menu";
 import cn from "classnames";
-import admin from "../../scss/adminButtons.module.scss";
 
 export default function Header({ t }) {
     const [sticky, setSticky] = useState(false);
@@ -19,7 +20,9 @@ export default function Header({ t }) {
 
     return (
         <div className={cn(styles.header, { [styles.sticky]: sticky })}>
-            <button className={admin.exit}>Выход</button>
+            <ForAdmin>
+                <Logout />
+            </ForAdmin>
             <Controls
                 openMenu={() => setMenuOpened(true)}
                 toggleSearch={() => setSearchOpened(prev => !prev)}
