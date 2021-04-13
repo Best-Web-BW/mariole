@@ -27,7 +27,7 @@ export default function Menu({ opened, close, t }) {
                     </li>
                     <div className={cn(styles.submenu, { [styles.active]: submenuOpened })}>
                         <ul>
-                            <MenuItem href="/shop" title={t.shop["new"]} />
+                            <MenuItem href="/shop?fresh=1" title={t.shop["new"]} />
                             <MenuItem href="/shop?limited=1" title={ t.shop["limited-collection"] } />
                             <MenuItem href="/shop?category=knitwear" title={ t.shop["knitwear"] } />
                             <MenuItem href="/shop?bestseller=1" title={ t.shop["bestsellers"] } />
