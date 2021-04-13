@@ -23,5 +23,11 @@
     "limited-collection": "Limited collection",
     "bestsellers": "Bestsellers",
     "size-caps": "SIZE",
-    "new": "New"
+    "new": "New",
+    "sorting.price_0-1": "Price in ascending order",
+    "sorting.price_1-0": "Price in descending order",
+    "sorting.alphabet_A-B": "From A to Z",
+    "sorting.alphabet_B-A": "From Z to A",
+    "sorting.time_new": "New first",
+    "sorting.time_old": "Old first"
 }
