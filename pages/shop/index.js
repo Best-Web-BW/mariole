@@ -269,6 +269,7 @@ function CategoryMenu({ toggle, filter, t }) {
                     />
                     <LimitedFilter toggle={toggle.limited} active={filter.limited} t={t} />
                     <BestsellerFilter toggle={toggle.bestseller} active={filter.bestseller} t={t} />
+                    {/* <NewFilter /> */}
                 </ul>
             </div>
         </li>
@@ -319,6 +320,14 @@ function BestsellerFilter({ toggle, active, t }) {
     return (
         <li onClick={() => toggle(!active)}>
             <span className={styles.menu_elem}>{ t("bestsellers") }</span>
+        </li>
+    );
+}
+
+function NewFilter({ toggle, active, t }) {
+    return (
+        <li onClick={() => toggle(!active)}>
+            <span className={styles.menu_elem}>{ t("new") }</span>
         </li>
     );
 }

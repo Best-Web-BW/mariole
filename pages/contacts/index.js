@@ -20,7 +20,7 @@ export default function Contacts() {
         </Head>
         <div className={cn(blocks.content_block, styles.page)}>
             <div className={styles.row}>
-                <p className={styles.title}>Наша продукция представлена в:</p>
+                <p className={styles.title}>Наша продукция представлена:</p>
                 <img className={styles.desktop} src="/images/blocks/150" alt="" />
                 <div className={styles.data_wrapper}>
                     <p className={styles.data}>Центр красоты и здоровья "Белый Сад"</p>
@@ -65,6 +65,26 @@ export default function Contacts() {
             </div>
             <div className={styles.row}>
                 <p className={styles.title}>Наши реквизиты:</p>
+                <div className={styles.bank_details_wrapper}>
+                    <p className={styles.bank_details_title}>Юридический адрес организации</p>
+                    <p className={styles.bank_details_data}>109380, Россия, Москва, Ул.Головачёва, 3, 3, 110</p>
+                    <p className={styles.bank_details_title}>ИНН</p>
+                    <p className={styles.bank_details_data}>7721 38315755</p>
+                    <p className={styles.bank_details_title}>ОГРН</p>
+                    <p className={styles.bank_details_data}>316774600504150</p>
+                    <p className={styles.bank_details_title}>Расчетный счет</p>
+                    <p className={styles.bank_details_data}>40802 810 9000 0004 5919</p>
+                    <p className={styles.bank_details_title}>Наименование банка</p>
+                    <p className={styles.bank_details_data}>АО "Тинькофф Банк"</p>
+                    <p className={styles.bank_details_title}>Юридический адрес банка</p>
+                    <p className={styles.bank_details_data}>Москва, 123060, 1-й Волоколамский проезд, д.10, стр. 1</p>
+                    <p className={styles.bank_details_title}>Корр счет банка</p>
+                    <p className={styles.bank_details_data}>30101 810 1452 5000 0974</p>
+                    <p className={styles.bank_details_title}>ИНН банка</p>
+                    <p className={styles.bank_details_data}>7710 140679</p>
+                    <p className={styles.bank_details_title}>БИК банка</p>
+                    <p className={styles.bank_details_data}>044525974</p>
+                </div>
             </div>
         </div>
     </>);
