@@ -23,5 +23,11 @@
     "limited-collection": "Лимитированная коллекция",
     "bestsellers": "Бестселлеры",
     "size-caps": "РАЗМЕР",
-    "new": "Новое"
+    "new": "Новое",
+    "sorting.price_0-1": "Цена по возрастанию",
+    "sorting.price_1-0": "Цена по убыванию",
+    "sorting.alphabet_A-B": "От А до Я",
+    "sorting.alphabet_B-A": "От Я до А",
+    "sorting.time_new": "Сначала новое",
+    "sorting.time_old": "Сначала старое"
 }

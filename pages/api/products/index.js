@@ -42,7 +42,7 @@ export async function _get({ locale = "ru", max = 0, ...params }) {
         const products = db.collection("products");
         
         const query = createQuery(params);
-        const projection = { _id: 0, id: 1, price: 1, images: 1, locales: 1, available: 1, color: 1 };
+        const projection = { _id: 0, id: 1, price: 1, images: 1, locales: 1, available: 1, color: 1, cdate: 1 };
         matchedProducts = await products.find(query, { projection }).limit(max).toArray();
     } catch(e) {
         console.error(e);

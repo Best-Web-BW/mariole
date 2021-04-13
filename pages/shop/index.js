@@ -59,12 +59,36 @@ const select = {
         }
     },
     sorting: [
-        { value: "price_0-1", label: "Цена по возрастанию" },
-        { value: "price_1-0", label: "Цена по убыванию" },
-        { value: "alphabet_A-B", label: "От А до Я" },
-        { value: "alphabet_B-A", label: "От Я до А" },
-        { value: "time_new", label: "Сначала новое" },
-        { value: "time_old", label: "Сначала старое" }
+        {
+            value: "price_0-1",
+            label: "Цена по возрастанию",
+            sort: (p1, p2) => p1.price - p2.price
+        },
+        {
+            value: "price_1-0",
+            label: "Цена по убыванию",
+            sort: (p1, p2) => p2.price - p1.price
+        },
+        {
+            value: "alphabet_A-B",
+            label: "От А до Я",
+            sort: (p1, p2) => p1.name > p2.name ? 1 : (p1.name < p2.name ? -1 : 0)
+        },
+        {
+            value: "alphabet_B-A",
+            label: "От Я до А",
+            sort: (p1, p2) => p1.name < p2.name ? 1 : (p1.name > p2.name ? -1 : 0)
+        },
+        {
+            value: "time_new",
+            label: "Сначала новое",
+            sort: (p1, p2) => p1.cdate > p2.cdate ? -1 : (p1.cdate < p2.cdate ? 1 : 0)
+        },
+        {
+            value: "time_old",
+            label: "Сначала старое",
+            sort: (p1, p2) => p1.cdate < p2.cdate ? -1 : (p1.cdate > p2.cdate ? 1 : 0)
+        }
     ]
 }
 
@@ -122,9 +146,14 @@ export default function Shop({ locale, enabledSearch, defaultProducts }) {
     const { t } = useTranslation("page_shop");
     const { t: productCard } = useTranslation("component_product-card");
 
+    useEffect(() => {
+        select.sorting = select.sorting.map(entry => ({ ...entry, label: t(`sorting.${entry.value}`) }));
+    }, []);
+    
     const [mobileMenuOpened, setMobileMenuOpened] = useState(false);
-
+    
     const [products, setProducts] = useState(defaultProducts);
+
     const router = useRouter();
     const [filter, setFilter] = useState(parseQuery(router.query));
     const [search, setSearch] = useState(filter.search);
@@ -134,6 +163,13 @@ export default function Shop({ locale, enabledSearch, defaultProducts }) {
         const response = await fetch(`/api/products?locale=${locale}&${joinQuery(filter)}`);
         setProducts(await response.json());
     }, [filter]);
+
+    const [selectedSorting, setSelectedSorting] = useState();
+    useEffect(() => {
+        if(selectedSorting && products) {
+            setProducts([...products.sort(selectedSorting.sort)]);
+        }
+    }, [selectedSorting]);
     
     useEffect(() => setFilter(parseQuery(router.query)), [router.query]);
 
@@ -240,6 +276,8 @@ export default function Shop({ locale, enabledSearch, defaultProducts }) {
                     </ForAdmin>
                     <div className={styles.select_wrapper}>
                         <Select
+                            selectedSorting={selectedSorting}
+                            onChange={setSelectedSorting}
                             instanceId="sorting_select"
                             options={select.sorting}
                             styles={select.styles}
