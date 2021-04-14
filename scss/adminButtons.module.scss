@@ -11,6 +11,9 @@
     padding: 10px 20px;
     border: 1px solid $light-color;
     font-size: 16px;
-    top: 20px;
-    right: 20px
+    top: 50px;
+    right: 0;
+    @media screen and (min-width:0px) and (max-width:1024px) {
+        right: 0;
+    }
 }
