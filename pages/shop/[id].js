@@ -22,7 +22,7 @@ import cn from "classnames";
 
 const existingSizes = ["XS", "S", "M", "L"];
 
-export async function getServerSideProps({ locale, params: { id } }) {
+export async function getServerSideProps({ locale, query: { id } }) {
     const result = await getProduct({ locale, id: +id });
     if(result.success) return {
         props: {
