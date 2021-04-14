@@ -284,7 +284,7 @@ function getMainData({ category, fresh, limited, bestseller }, t) {
         titleID = `category.${category}`;
     } else if(fresh) {
         image = "fresh";
-        titleID = "new"
+        titleID = "new";
     } else if(limited) {
         image = "limited";
         titleID = "limited-collection";
@@ -313,13 +313,15 @@ function MainBlock({ filter, t }) {
         const { desktopImage, mobileImage, title } = getMainData(filter, t);
         console.log({ desktopImage, mobileImage, title });
 
+        setDesktopImage(desktopImage);
+        setMobileImage(mobileImage);
         setTitle(title);
     }, [filter]);
 
     return (
         <div className={cn(blocks.main_block, styles.first_block)}>
-            <img className={blocks.desktop} src="/images/blocks/mario_le-2077" alt="" />
-            <img className={blocks.mobile} src="/images/blocks/mario_le-1817" alt="" width="100%" />
+            <img className={blocks.desktop} src={desktopImage} alt="" />
+            <img className={blocks.mobile} src={mobileImage} alt="" width="100%" />
             <div className={blocks.page_title}>
                 <p className={styles.shop_title}>{ title }</p>
             </div>
