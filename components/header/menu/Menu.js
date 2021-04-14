@@ -31,6 +31,7 @@ export default function Menu({ opened, close, t }) {
                             <MenuItem href="/shop?limited=1" title={ t.shop["limited-collection"] } />
                             <MenuItem href="/shop?category=knitwear" title={ t.shop["knitwear"] } />
                             <MenuItem href="/shop?bestseller=1" title={ t.shop["bestsellers"] } />
+                            <MenuItem href="/shop?category=accessories" title={ t.shop["accessories"] } />
                             <MenuItem href="/shop?category=jewelry" title={ t.shop["jewelry"] } />
                             <MenuItem href="/shop" title={ t.shop["view-all"] } />
                         </ul>
