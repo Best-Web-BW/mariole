@@ -134,14 +134,6 @@ export async function getServerSideProps({ locale, query }) {
     };
 }
 
-function getTitle({ category, fresh, limited, bestseller }, t) {
-    if(category) return t(`category.${category}`);
-    else if(fresh) return t("new");
-    else if(limited) return t("limited-collection");
-    else if(bestseller) return t("bestsellers");
-    else return t("all-products");
-}
-
 export default function Shop({ locale, enabledSearch, defaultProducts }) {
     const { t } = useTranslation("page_shop");
     const { t: productCard } = useTranslation("component_product-card");
@@ -231,13 +223,7 @@ export default function Shop({ locale, enabledSearch, defaultProducts }) {
         <Head>
             <title>{ t("title") }</title>
         </Head>
-        <div className={cn(blocks.main_block, styles.first_block)}>
-            <img className={blocks.desktop} src="/images/blocks/mario_le-2077" alt="" />
-            <img className={blocks.mobile} src="/images/blocks/mario_le-1817" alt="" width="100%" />
-            <div className={blocks.page_title}>
-                <p className={styles.shop_title}>{ getTitle(filter, t) }</p>
-            </div>
-        </div>
+        <MainBlock filter={filter} t={t} />
         <Search
             enabled={enabledSearch} submit={() => toggle.search(search)}
             text={search} setText={setSearch} t={t}
@@ -289,6 +275,58 @@ export default function Shop({ locale, enabledSearch, defaultProducts }) {
             </div>
         </div>
     </>);
+}
+
+function getMainData({ category, fresh, limited, bestseller }, t) {
+    let image, titleID;
+    if(category) {
+        image = `category_${category}`;
+        titleID = `category.${category}`;
+    } else if(fresh) {
+        image = "fresh";
+        titleID = "new";
+    } else if(limited) {
+        image = "limited";
+        titleID = "limited-collection";
+    } else if(bestseller) {
+        image = "bestseller";
+        titleID = "bestsellers";
+    } else {
+        image = "all";
+        titleID = "all-products"
+    }
+
+    image = `/images/shop/${image}`;
+    return {
+        desktopImage: image,
+        mobileImage: `${image}_m`,
+        title: t(titleID)
+    };
+}
+
+function MainBlock({ filter, t }) {
+    const [desktopImage, setDesktopImage] = useState("");
+    const [mobileImage, setMobileImage] = useState("");
+    const [title, setTitle] = useState("");
+
+    useEffect(() => {
+        const { desktopImage, mobileImage, title } = getMainData(filter, t);
+        console.log({ desktopImage, mobileImage, title });
+
+        setDesktopImage(desktopImage);
+        setMobileImage(mobileImage);
+        setTitle(title);
+    }, [filter]);
+
+    return (
+        <div className={cn(blocks.main_block, styles.first_block)}>
+            <img className={blocks.desktop} src={desktopImage} alt="" />
+            <img className={blocks.mobile} src={mobileImage} alt="" width="100%" />
+            <div className={blocks.page_title}>
+                <p className={styles.shop_title}>{ title }</p>
+            </div>
+        </div>
+    );
 }
 
 function Search({ enabled, text, setText, submit, t }) {
