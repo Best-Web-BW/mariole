@@ -20,7 +20,7 @@ export function Cookie({ opened, close }) {
                 <p>
                     { t.rules }{" "}
                     <Link href="/privacy-policy">
-                        <a>{ t["privacy-policy"] }</a>
+                        <a><b>{ t["privacy-policy"] }</b></a>
                     </Link>
                     . { t.more }
                 </p>
