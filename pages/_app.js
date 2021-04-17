@@ -1,11 +1,12 @@
+import { Cookie as CookieModal } from "../components/modals/Modals";
 import { content_body } from "../scss/blocks.module.scss";
 import runAutoRefresh from "../utils/auth/runAutoRefresh";
+import { useCallback, useEffect, useState } from "react";
 import { appWithTranslation } from "next-i18next";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import { Provider } from "mobx-react";
 import { useStore } from "../store";
-import { useEffect } from "react";
 import Head from "next/head";
 import "../scss/main.scss";
 
@@ -21,6 +22,13 @@ export default appWithTranslation(function MyApp({ Component, pageProps, router:
     useEffect(() => store.initClientStore(), []);
     useEffect(() => runAutoRefresh(store), []);
 
+    const [cookieModal, setCookieModal] = useState(false);
+    useEffect(() => !localStorage.getItem("seen_cookie") && setCookieModal(true), []);
+    const closeCookieModal = useCallback(() => {
+        localStorage.setItem("seen_cookie", 1);
+        setCookieModal(false);
+    }, []);
+    
 	return (<>
         <Head>
             <meta charSet="UTF-8" />
@@ -40,5 +48,6 @@ export default appWithTranslation(function MyApp({ Component, pageProps, router:
                 <Footer t={common[locale].footer} />
             </footer>
         </Provider>
+        <CookieModal opened={cookieModal} close={closeCookieModal} />
 	</>);
 });

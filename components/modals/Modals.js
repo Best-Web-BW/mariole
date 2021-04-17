@@ -1,27 +1,36 @@
-import { content_block } from "../scss/blocks.module.scss";
-import modals from "./modals.module.scss";
+import modals from "./Modals.module.scss";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import cn from "classnames";
 
-export default function CookiesModal() {
+import modalsEn from "../../public/locales/en/common_modals.json";
+import modalsRu from "../../public/locales/ru/common_modals.json";
+const locales = { en: modalsEn, ru: modalsRu };
+
+export function Cookie({ opened, close }) {
+    const { locale } = useRouter();
+    const t = locales[locale].cookie;
+
     return (
-        <div className={cn(modals.wrapper, modals.cookies)}>
+        <div className={cn(modals.wrapper, { [modals.cookies]: opened })}>
             <div className={modals.content}>
-                <span className={modals.close}/>
-                <p>Наш сайт, как и большинство других, использует cookies-файлы для быстроты и удобства работы с ним.</p>
-                <p>Некоторые типы используемых cookies-файлов необходимы, чтобы вы могли осуществлять просмотр содержимого данного 
-                    веб-сайта и использовать ряд его функций. Мы используем cookies-файлы функционального типа, которые сохраняют информацию о 
-                    ваших действиях в процессе использования сайта, чтобы мы могли подстроить его работу под предпочтения пользователей. 
-                    Такая информация обезличивается и не используется в других целях.
+                <span className={modals.close} onClick={close} />
+                <p>{ t.title }</p>
+                <p>{ t.about }</p>
+                <p>
+                    { t.rules }{" "}
+                    <Link href="/privacy-policy">
+                        <a>{ t["privacy-policy"] }</a>
+                    </Link>
+                    . { t.more }
                 </p>
-                <p>Условия использования cookies-файлов — часть <Link href="/privacy-policy"><a>Политики обработки персональных данных</a></Link>. 
-                    Там можно найти больше информации о том, как мы защищаем данные посетителей сайта.</p>
-                    <button className={modals.ok_button}>Ок</button>
+                <button className={modals.ok_button} onClick={close}>{ t.ok }</button>
             </div>
         </div>
-    )
+    );
 }
 
-export default function WarningModal() {
+export function Warning() {
     return (
         <div className={cn(modals.wrapper, modals.warning)}>
             <div className={modals.content}>
@@ -35,7 +44,7 @@ export default function WarningModal() {
     )
 }
 
-export default function SuccessModal() {
+export function Success() {
     return (
         <div className={cn(modals.wrapper, modals.success)}>
             <div className={modals.content}>
@@ -47,7 +56,7 @@ export default function SuccessModal() {
     )
 }
 
-export default function SureModal() {
+export function Sure() {
     return (
         <div className={cn(modals.wrapper, modals.sure)}>
             <div className={modals.content}>
