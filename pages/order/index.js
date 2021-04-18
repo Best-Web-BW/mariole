@@ -239,7 +239,7 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
                             />
                             <p className={styles.confidantial}>{ t("only-email") }</p>
                         </label>
-                        <label className={styles.full_width_label}>
+                        <label className={styles.full_width_label} style={{flexWrap:"nowrap"}}>
                             <input
                                 className={styles.confidantial}
                                 type="checkbox"
