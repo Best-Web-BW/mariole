@@ -143,7 +143,6 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
 
     const submitOrder = useCallback(async form => {
         const data = transformFormData(serializeForm(form));
-        return console.log({ data });
         const response = await fetch(`/api/orders/make?locale=${locale}`, {
             method: "POST",
             headers: { "Content-Type": "application/json;charset=utf-8" },
