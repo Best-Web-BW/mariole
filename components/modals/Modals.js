@@ -12,7 +12,7 @@ export function Cookie({ opened, close }) {
     const t = locales[locale].cookie;
 
     return (
-        <div className={cn(modals.wrapper, { [modals.cookies]: opened })}>
+        <div className={cn(modals.wrapper, modals.cookies, { [modals.closed]: !opened })}>
             <div className={modals.content}>
                 <span className={modals.close} onClick={close} />
                 <p>{ t.title }</p>
@@ -20,7 +20,9 @@ export function Cookie({ opened, close }) {
                 <p>
                     { t.rules }{" "}
                     <Link href="/privacy-policy">
-                        <a><b>{ t["privacy-policy"] }</b></a>
+                        <a>
+                            <b>{ t["privacy-policy"] }</b>
+                        </a>
                     </Link>
                     . { t.more }
                 </p>
