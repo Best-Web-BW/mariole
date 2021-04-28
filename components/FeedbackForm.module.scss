@@ -6,11 +6,9 @@
         width: calc(100% - 20px);
         padding: 10px;
         @extend %flex_wrap;
-        // gap: 20px;
         .form_row {
             width: 100%;
             @extend %flex_nowrap, %flex_middle;
-            // gap: 20px;
             label {
                 font-size: 12px;
                 font-weight: 100;
