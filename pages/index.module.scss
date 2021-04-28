@@ -3,6 +3,9 @@
 .first_block {
     @extend %flex_nowrap, %flex_hor_center, %relative, %overflow_hidden;
     background-color: #e7e7e7;
+    -webkit-box-align: center;
+           -ms-flex-align: center;
+               align-items: center;
     @media screen and (min-width:0px) and (max-width:1024px) {
         -webkit-box-align: start;
             -ms-flex-align: start;
