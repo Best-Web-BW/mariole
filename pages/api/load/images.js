@@ -52,7 +52,8 @@ export async function _post({ uuid, accessKey, type, images }) {
     }
 
     try {
-        const serverImages = await Promise.all(images.map(raw => processImage(raw, type)));
+		let serverImages = [];
+		for(const raw of images) serverImages.push(await processImage(raw, type));
         await log(login, "LOAD, images", { images: serverImages });
         return success({ images: serverImages });
     } catch(e) {
