@@ -21,6 +21,22 @@ export default appWithTranslation(function MyApp({ Component, pageProps, router:
     const store = useStore(pageProps.initialState);
     useEffect(() => store.initClientStore(), []);
     useEffect(() => runAutoRefresh(store), []);
+    useEffect(async () => {
+        const response = await fetch(`/api/products/exists?ids=${store.favorite.join(",")}`);
+        if(response.status === 204) store.resetFavorite();
+        else if(response.status === 206) {
+            const notFound = await response.json();
+            for(const id of notFound) store.removeFromFavorite(id);
+        }
+    }, []);
+    useEffect(async () => {
+        const response = await fetch(`/api/products/exists?ids=${store.cart.map(({ id }) => id).join(",")}`);
+        if(response.status === 204) store.resetCart();
+        else if(response.status === 206) {
+            const notFound = await response.json();
+            for(const id of notFound) store.removeFromCart(id);
+        }
+    }, []);
 
     const [cookieModal, setCookieModal] = useState(false);
     useEffect(() => !localStorage.getItem("seen_cookie") && setCookieModal(true), []);
