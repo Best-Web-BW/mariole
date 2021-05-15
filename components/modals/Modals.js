@@ -40,6 +40,7 @@ export function Warning() {
                 <p>Что-то пошло не так, попробуйте еще раз.</p>
                 <p>Неверный логин или пароль</p>
                 <p>Заполните поле {поле}</p>
+                <p>Произошла ошибка оплаты, попробуйте еще раз.</p>
                 <button className={modals.ok_button}>Ок</button>
             </div>
         </div>
@@ -52,6 +53,11 @@ export function Success() {
             <div className={modals.content}>
                 <span className={modals.close}/>
                 <p>Товар успешно добавлен/изменен</p>
+                <p>Заявка успешно оформлена! 
+                    <br/>
+                    Мы свяжемся с Вами в ближайшее время.
+                </p>
+                <p>Заказ успешно оформлен!</p>
                 <button className={modals.ok_button}>Ок</button>
             </div>
         </div>
