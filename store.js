@@ -20,6 +20,7 @@ class Store {
     addToFavorite = id => this.setFavorite([...this.filterFavorite(id), id]);
     removeFromFavorite = id => this.setFavorite(this.filterFavorite(id));
     toggleFavorite = id => this.favorite.includes(id) ? this.removeFromFavorite(id) : this.addToFavorite(id);
+    resetFavorite = () => this.setFavorite([]);
 
     @observable cart = [];
     @action setCart = cart => {
