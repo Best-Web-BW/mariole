@@ -33,6 +33,8 @@
         margin-bottom: 60px;
         a {
             @extend %main_text;
+            border: 1px solid $lighter-gray;
+            padding: 5px 10px;
         }
     }
 }
@@ -45,6 +47,11 @@
     height: 40px;
     width: 100%;
     border-bottom: 1px solid $light-color;
+    @media screen and (min-width:0px) and (max-width:1400px) {
+        @media screen and (min-width:1025px) and (max-width:1400px) {
+            font-size: 60%;
+        }
+    }
     .col_2 {
         width: 10%;
         text-align: center;
@@ -103,8 +110,13 @@
             border: 1px solid $light-color;
             padding: 5px;
             background-color: transparent;
-            @media screen and (min-width:0px) and (max-width:1024px) {
-                margin: 10px 0;
+            @media screen and (min-width:0px) and (max-width:1400px) {
+                @media screen and (min-width:0px) and (max-width:1024px) {
+                    margin: 10px 0;
+                }
+                @media screen and (min-width:1025px) and (max-width:1400px) {
+                    font-size: 90%;
+                }
             }
         }
     }

@@ -40,9 +40,7 @@ export default function Menu({ opened, close, t }) {
                     <MenuItem href="/media" title={ t["media-caps"] } />
                     <MenuItem href="/contacts" title={ t["contacts-caps"] } />
                     <li>
-                        <Link href="#">
-                            <a className={styles.social_link} />
-                        </Link>
+                        <a href="https://www.instagram.com/mario__le" target="_blank" className={styles.social_link} />
                     </li>
                     <LanguageBlock styles={styles} />
                 </ul>

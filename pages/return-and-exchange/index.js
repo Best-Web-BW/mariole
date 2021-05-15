@@ -40,7 +40,6 @@ export default function ReturnAndExchange() {
                 <p>{ t("block1.p9") }</p>
             </ExpansibleBlock>
             <ExpansibleBlock title={t("block2.title")}>
-                <p className={styles.title}>{ t("block2.p1") }</p>
                 <p>{ t("block2.p2") }</p>
                 <p>{ t("block2.p3") }</p>
                 <p>{ t("block2.p4") }</p>
