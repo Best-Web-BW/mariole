@@ -11,6 +11,8 @@ class Store {
         makeObservable(this);
     }
 
+    @observable ready = false;
+
     @observable favorite = [];
     @action setFavorite = favorite => {
         localStorage.setItem("favorite", JSON.stringify(favorite));
@@ -62,6 +64,7 @@ class Store {
     }
 
     @action initStore = ({ favorite, cart, recent, admin }) => runInAction(() => {
+        this.ready = true;
         this.favorite = favorite ? JSON.parse(favorite) : [];
         this.cart = cart ? JSON.parse(cart) : [];
         this.recent = recent ? JSON.parse(recent) : [];
