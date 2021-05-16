@@ -14,7 +14,7 @@ export default inject("store")(observer(function RecentBlock({ store, styles, t,
         setProducts(json);
     }, [store.ready, store.recent]);
 
-    return !products.length ? null : (<>
+    return !!products.length && (<>
         <div className={styles.saw_before_title}>
             <h2>{ t("saw_before") }</h2>
         </div>
