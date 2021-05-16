@@ -32,7 +32,8 @@ export default inject("store")(observer(function Cart({ store, locale }) {
     const [products, setProducts] = useState([]);
     const [fetched, setFetched] = useState(false);
     useEffect(async () => {
-        console.log({ length: store.cart.length });
+        if(!store.ready) return;
+
         const ids = store.cart.map(({ id }) => id);
         const response = await fetch(`/api/products/cart?locale=${locale}&ids=${ids.toString()}`);
         const json = await response.json();
@@ -46,12 +47,11 @@ export default inject("store")(observer(function Cart({ store, locale }) {
             });
             return products;
         }, []);
-        // console.log(products);
 
         setSubmittable(products.every(({ available }) => available) && !!products.length);
         setProducts(products);
         setFetched(true);
-    }, [store.cart.length]);
+    }, [store.ready, store.cart.length]);
     useEffect(() => {
         if(fetched) {
             const remainingProducts = products.filter(({ id, size }) => store.cart.find(({ uid }) => uid === `${id}-${size}`));
