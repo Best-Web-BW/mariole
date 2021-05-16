@@ -106,14 +106,14 @@ const userStyles = {
 
 // const userStyles = {};
 
-const toUserCartEntry = ({ image, quantity, name, color, price }) => (`
+const toUserCartEntry = ({ image, quantity, name, color, size, price }) => (`
     <div style="${userStyles.row}">
         <div style="${userStyles.wrapper}">
             <div style="${userStyles.image}">
                 <img src="${image}" alt="" width="100%" />
                 <div style="${userStyles.quantity}">${quantity}</div>
             </div>
-            <div style="${userStyles.name}">${name} / ${color}</div>
+            <div style="${userStyles.name}">${name} / ${color} / ${ size }</div>
             <div style="${userStyles.price}">${formatPrice(quantity * price)} &#8381;</div>
         </div>
     </div>
@@ -150,18 +150,19 @@ const { PROTOCOL, DOMAIN } = process.env;
 async function toFullCart(locale, cart) {
     const result = [];
     const { products } = await getCartProducts({ locale, ids: cart.map(({ id }) => id) });
-    for(const product of products) {
-        if(!product.available) return;
 
-        const cartEntry = cart.find(({ id }) => id === product.id);
+    for(const product of cart) {
+        const cartEntry = products.find(({ id }) => id === product.id);
+        if(!cartEntry.available) return;
+
         result.push({
-            href: `https://localhost/shop/${product.id}`,
-            image: `${PROTOCOL}://${DOMAIN}${product.image}`,
-            name: product.name,
-            color: product.color,
-            size: cartEntry.size,
-            quantity: cartEntry.quantity,
-            price: product.price
+            href: `${PROTOCOL}://${DOMAIN}/shop/${cartEntry.id}`,
+            image: `${PROTOCOL}://${DOMAIN}${cartEntry.image}`,
+            name: cartEntry.name,
+            color: cartEntry.color,
+            price: cartEntry.price,
+            quantity: product.quantity,
+            size: product.size
         });
     }
     return result;

@@ -86,11 +86,16 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
         const response = await fetch(`/api/products/cart?locale=${locale}&ids=${ids.toString()}`);
         const json = await response.json();
 
-        const products = json.reduce((products, product) => {
-            const cartProduct = store.cart.find(({ id }) => id === product.id);
-            if(cartProduct) products.push({ ...product, quantity: cartProduct.quantity });
+        const products = store.cart.reduce((products, product) => {
+            const jsonProduct = json.find(({ id }) => id === product.id);
+            if(jsonProduct) products.push({
+                ...jsonProduct,
+                quantity: product.quantity,
+                size: product.size
+            });
             return products;
         }, []);
+        console.log(products);
 
         setSubmittable(products.every(({ available }) => available) && !!products.length);
         setProducts(products);
@@ -207,7 +212,6 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
                                         required: true,
                                         className: styles.input
                                     }}
-                                    
                                 />
                             </div>
                         </label>
@@ -311,7 +315,7 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
             </div>
             <div className={styles.column}>
                 <div className={styles.order_preview}>
-                    { products.map(product => <ProductCard key={product.id} {...product} colors={colors} />) }
+                    { products.map(product => <ProductCard key={`${product.id}-${product.size}`} {...product} colors={colors} />) }
                     <div className={styles.data_row}>
                         <p>{ t("subtotal") }</p>
                         <p>{ formatPrice(productsPrice) } &#8381;</p>
@@ -331,14 +335,20 @@ export default inject("store")(observer(function Order({ store, locale, CDEK_PRI
     </>);
 }));
 
-function ProductCard({ image, quantity, price, name, color, colors }) {
+function ProductCard({ image, quantity, price, name, color, colors, size }) {
     return (
         <div className={styles.product_row}>
             <div className={styles.col_1}>
                 <img src={image} alt="" width="100%" />
                 <div className={styles.quantity}>{ quantity }</div>
             </div>
-            <div className={styles.col_2}>{ name } / { colors(color) }</div>
+            <div className={styles.col_2}>
+                { name }
+                <br />
+                { colors(color) }
+                <br />
+                { size }
+            </div>
             <div className={styles.col_3}>{ formatPrice(quantity * price) } &#8381;</div>
         </div>
     );

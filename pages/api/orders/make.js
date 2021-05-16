@@ -9,21 +9,23 @@ export default async function handler(req, res) {
     }
 }
 
+const { PROTOCOL, DOMAIN } = process.env;
 async function toFullCart(cart) {
     const result = [];
     const { products } = await getCartProducts({ ids: cart.map(({ id }) => id) });
-    for(const product of products) {
-        if(!product.available) return;
 
-        const cartEntry = cart.find(({ id }) => id === product.id);
+    for(const product of cart) {
+        const cartEntry = products.find(({ id }) => id === product.id);
+        if(!cartEntry.available) return;
+
         result.push({
-            href: `https://localhost/shop/${product.id}`,
-            image: product.image,
-            name: product.name,
-            color: product.color,
-            size: cartEntry.size,
-            quantity: cartEntry.quantity,
-            price: product.price
+            href: `${PROTOCOL}://${DOMAIN}/shop/${cartEntry.id}`,
+            quantity: product.quantity,
+            size: product.size,
+            name: cartEntry.name,
+            image: cartEntry.image,
+            color: cartEntry.color,
+            price: cartEntry.price,
         });
     }
     return result;
@@ -36,6 +38,8 @@ function getShippingPrice(shippingType) {
 }
 
 function calcTotalPrice(cart, shippingPrice) {
+    console.log(111111);
+    console.log(cart);
     const cartPrice = cart.reduce((sum, { quantity, price }) => sum += quantity * price, 0);
     return cartPrice + shippingPrice;
 }
@@ -81,6 +85,7 @@ async function transformData({
 
     const shippingPrice = getShippingPrice(delivery);
     const totalPrice = calcTotalPrice(fullCart, shippingPrice);
+    console.log({ totalPrice });
     return {
         name: {
             first: firstName,

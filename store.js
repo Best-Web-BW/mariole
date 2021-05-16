@@ -11,6 +11,8 @@ class Store {
         makeObservable(this);
     }
 
+    @observable ready = false;
+
     @observable favorite = [];
     @action setFavorite = favorite => {
         localStorage.setItem("favorite", JSON.stringify(favorite));
@@ -27,11 +29,19 @@ class Store {
         localStorage.setItem("cart", JSON.stringify(cart));
         this.cart = cart;
     };
-    filterCart = id => this.cart.filter(entry => entry.id !== id);
-    addToCart = (id, size, quantity) => this.setCart([...this.filterCart(id), { id, size, quantity }]);
-    removeFromCart = id => this.setCart(this.filterCart(id));
-    setCartQuantity = (id, quantity) => {
-        this.setCart(this.cart.map(entry => entry.id === id ? { ...entry, quantity } : entry));
+    filterCartID = id => this.cart.filter(entry => entry.id !== id);
+    filterCartUID = uid => this.cart.filter(entry => entry.uid !== uid);
+    addToCart = (id, size, quantity) => {
+        const uid = `${id}-${size}`;
+        this.setCart([...this.filterCartUID(uid), { uid, id, size, quantity }]);
+    };
+    removeFromCart = (id, size) => {
+        if(!size) this.setCart(this.filterCartID(id));
+        else this.setCart(this.filterCartUID(`${id}-${size}`));
+    };
+    setCartQuantity = (id, size, quantity) => {
+        const uid = `${id}-${size}`;
+        this.setCart(this.cart.map(entry => entry.uid === uid ? { ...entry, quantity } : entry));
     };
     resetCart = () => this.setCart([]);
 
@@ -54,6 +64,7 @@ class Store {
     }
 
     @action initStore = ({ favorite, cart, recent, admin }) => runInAction(() => {
+        this.ready = true;
         this.favorite = favorite ? JSON.parse(favorite) : [];
         this.cart = cart ? JSON.parse(cart) : [];
         this.recent = recent ? JSON.parse(recent) : [];

@@ -32,16 +32,18 @@ export default inject("store")(observer(function Cart({ store, locale }) {
     const [products, setProducts] = useState([]);
     const [fetched, setFetched] = useState(false);
     useEffect(async () => {
+        if(!store.ready) return;
+
         const ids = store.cart.map(({ id }) => id);
         const response = await fetch(`/api/products/cart?locale=${locale}&ids=${ids.toString()}`);
         const json = await response.json();
 
-        const products = json.reduce((products, product) => {
-            const cartProduct = store.cart.find(({ id }) => id === product.id);
-            if(cartProduct) products.push({
-                ...product,
-                quantity: cartProduct.quantity,
-                size: cartProduct.size
+        const products = store.cart.reduce((products, product) => {
+            const jsonProduct = json.find(({ id }) => id === product.id);
+            if(jsonProduct) products.push({
+                ...jsonProduct,
+                quantity: product.quantity,
+                size: product.size
             });
             return products;
         }, []);
@@ -49,17 +51,17 @@ export default inject("store")(observer(function Cart({ store, locale }) {
         setSubmittable(products.every(({ available }) => available) && !!products.length);
         setProducts(products);
         setFetched(true);
-    }, [store.cart.length]);
+    }, [store.ready, store.cart.length]);
     useEffect(() => {
         if(fetched) {
-            const remainingProducts = products.filter(product => store.cart.find(({ id }) => id === product.id));
+            const remainingProducts = products.filter(({ id, size }) => store.cart.find(({ uid }) => uid === `${id}-${size}`));
             setProducts(remainingProducts);
         }
     }, [store.cart.length]);
     useEffect(() => {
         if(fetched) {
             const updatedProducts = products.reduce((updatedProducts, product) => {
-                const cartProduct = store.cart.find(({ id }) => product.id === id);
+                const cartProduct = store.cart.find(({ uid }) => uid === `${product.id}-${product.size}`);
                 if(cartProduct) updatedProducts.push({ ...product, quantity: cartProduct.quantity });
                 return updatedProducts;
             }, []);
@@ -91,7 +93,7 @@ export default inject("store")(observer(function Cart({ store, locale }) {
                             <p className={styles.col_3}>{ t("quantity") }</p>
                             <p className={styles.col_4}>{ t("total") }</p>
                         </div>
-                        { products.map(product => <ProductEntry key={product.id} {...product} colors={colors} t={t} />) }
+                        { products.map(product => <ProductEntry key={`${product.id}-${product.size}`} {...product} colors={colors} t={t} />) }
                         <div className={styles.ammount_row}>
                             <p className={styles.col_1}>{ t("subtotal-caps") }</p>
                             <p className={styles.col_2}>{ formatPrice(totalPrice) } &#8381;</p>
@@ -137,40 +139,49 @@ const ProductEntry = ({ id, image, name, color, size, quantity, price, colors, t
                 <a>{ name } / { colors(color) }</a>
             </Link>
             <p className={styles.size}>{ size }</p>
-            <DeleteButton id={id} t={t} />
+            <DeleteButton {...{ id, size, t }} />
         </div>
         <div className={styles.col_2}>
             <p>{ formatPrice(price) } &#8381;</p>
         </div>
-        <QuantitySelector quantity={quantity} id={id} />
+        <QuantitySelector {...{ id, size, quantity }} />
         <div className={styles.col_4}>
             <p>{ formatPrice(price * quantity) } &#8381;</p>
         </div>
     </div>
 );
 
-const DeleteButton = inject("store")(observer(({ store, id, t }) => (
+const DeleteButton = inject("store")(observer(({ store, id, size, t }) => (
     <button
         className={styles.delete_button}
-        onClick={() => store.removeFromCart(id)}
+        onClick={() => store.removeFromCart(id, size)}
     >{ t("delete") }</button>
 )));
 
-const QuantitySelector = inject("store")(observer(({ store, quantity, id }) => (
+const QuantitySelector = inject("store")(observer(({ store, id, size, quantity }) => (
     <div className={styles.col_3}>
         <div className={styles.choose_quantity}>
             <div className={styles.choose_quantity_wrapper}>
                 <button
                     className={cn(styles.choose_quantity_button, styles.mobile)}
-                    onClick={() => store.setCartQuantity(id, Math.max(quantity - 1, 1))}
+                    onClick={() => {
+                        console.log({ id, size, quantity, newQuantity: Math.max(quantity - 1, 1) })
+                        store.setCartQuantity(id, size, Math.max(quantity - 1, 1))
+                    }}
                 >-</button>
                 <input
                     type="number" name="quantity" min={1} value={quantity}
-                    onChange={evt => store.setCartQuantity(id, Math.max(+evt.target.value, 1))}
+                    onChange={evt => {
+                        console.log({ id, size, quantity, newQuantity: Math.max(+evt.target.value, 1) })
+                        store.setCartQuantity(id, size, Math.max(+evt.target.value, 1))
+                    }}
                 />
                 <button
                     className={cn(styles.choose_quantity_button, styles.mobile)}
-                    onClick={() => store.setCartQuantity(id, quantity + 1)}
+                    onClick={() => {
+                        console.log({ id, size, quantity, newQuantity: quantity + 1 });
+                        store.setCartQuantity(id, size, quantity + 1)
+                    }}
                 >+</button>
             </div>
         </div>

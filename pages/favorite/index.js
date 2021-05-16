@@ -18,10 +18,12 @@ export default inject("store")(observer(function Favorite({ locale, store }) {
     
     const [products, setProducts] = useState([]);
     useEffect(async () => {
+        if(!store.ready) return;
+
         const response = await fetch(`/api/products/cart?locale=${locale}&ids=${store.favorite.toString()}`);
         const json = await response.json();
         setProducts(json);
-    }, [store.favorite]);
+    }, [store.ready, store.favorite]);
 
     return (<>
         <Head>
